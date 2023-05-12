@@ -3,41 +3,98 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.14.1",
-    "@testing-library/react": "^13.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "@types/jest": "^27.0.1",
-    "@types/node": "^16.7.13",
-    "@types/react": "^18.0.0",
-    "@types/react-dom": "^18.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "react-scripts": "5.0.1",
-    "typescript": "^4.4.2",
-    "web-vitals": "^2.1.0"
+    "@craco/craco": "7.0.0",
+    "@emotion/react": "11.10.0",
+    "@emotion/styled": "11.10.0",
+    "@mui/icons-material": "5.11.0",
+    "@mui/material": "5.11.0",
+    "@types/jest": "29.4.0",
+    "@types/node": "18.11.9",
+    "@types/react": "17.0.39",
+    "@types/react-dom": "17.0.11",
+    "express": "4.18.1",
+    "express-ws": "5.0.2",
+    "loglevel": "1.8.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "react-json-pretty": "2.2.0",
+    "react-router-dom": "5.3.0",
+    "react-scripts": "5.0.0",
+    "single-spa-react": "4.6.1",
+    "typescript": "4.9.3",
+    "web-vitals": "^2.1.0",
+    "ws": "8.13.0"
+  },
+  "resolutions": {
+    "@types/react": "17.0.39",
+    "@typescript-eslint/eslint-plugin": "5.49.0",
+    "@typescript-eslint/parser": "5.49.0"
+  },
+  "lint-staged": {
+    "src/**/*.{tsx,js,jsx,json}": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ],
+    "cypress/**/*.{tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
   },
   "scripts": {
+    "lint:js": "eslint --ext=tsx --ext=js --ext=jsx --fix ./src",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --env=jsdom --coverage --watchAll=false",
+    "test:watch": "react-scripts test --env=jsdom --watch",
+    "serve:build": "npm run build & serve -l 5001 build",
+    "serve:backend": "node server/server.js",
+    "analyze": "npm run build & source-map-explorer build/main.*",
+    "postinstall": "husky install",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{tsx,js,jsx}",
+      "!src/index.tsx",
+      "!src/serviceWorker.ts",
+      "!src/setupTests.js",
+      "!src/testbed/**/*"
     ]
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^13.0.0",
+    "@testing-library/user-event": "^13.2.1",
+    "@types/react-router-dom": "5.3.3",
+    "@typescript-eslint/eslint-plugin": "5.49.0",
+    "@typescript-eslint/parser": "5.49.0",
+    "eslint": "8.32.0",
+    "eslint-config-prettier": "8.6.0",
+    "eslint-config-react-app": "7.0.0",
+    "eslint-plugin-cypress": "2.12.1",
+    "eslint-plugin-prettier": "4.2.1",
+    "husky": "8.0.1",
+    "lint-staged": "13.1.0",
+    "prettier": "2.8.0",
+    "serve": "14.2.0"
   }
 }
