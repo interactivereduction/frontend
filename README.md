@@ -1,4 +1,6 @@
-# Getting Started with Create React App
+# Repo for the Interactive Reduction Frontend
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
