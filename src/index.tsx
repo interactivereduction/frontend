@@ -10,7 +10,7 @@ import { createWebsocketClient } from './websocket';
 
 if (process.env.NODE_ENV === `development`) {
   ReactDOM.render(
-    <TestBedComponent pluginName="Demo Plugin">
+    <TestBedComponent pluginName="Interactive Reduction">
       <App />
     </TestBedComponent>,
     document.getElementById('frontend')
