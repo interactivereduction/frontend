@@ -1,87 +1,232 @@
 import * as React from 'react';
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardActions from '@mui/material/CardActions';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
+import { Link as RouterLink } from 'react-router-dom';
+import {
+  Box,
+  Button,
+  Card,
+  CardActions,
+  CardContent,
+  IconButton,
+  Link,
+  List,
+  ListItem,
+  TableCell,
+  TableHead,
+  TableRow,
+  TableSortLabel,
+  Typography,
+} from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Box from '@mui/material/Box';
 import { styled } from '@mui/system';
 
-import { instruments } from './InstrumentData'; // import the instruments data
+import { instruments, InstrumentData } from './InstrumentData'; // Import the instruments data
 
-const ExpandableCard = styled(Card)({
-  backgroundColor: 'darkblue',
+type Order = 'asc' | 'desc';
+
+const ExpandableCard = styled(Card)(({ theme }) => ({
+  backgroundColor: '#23428d',
   color: 'white',
-  width: '100%', // full width
-});
+  width: '100%',
+  boxShadow: `0px 0px 2px 4px #1b3fec`,
+}));
+
+function compare<Key extends keyof InstrumentData>(
+  a: InstrumentData,
+  b: InstrumentData,
+  orderBy: Key
+): number {
+  if ((b[orderBy] as string) < (a[orderBy] as string)) {
+    return -1;
+  }
+  if ((b[orderBy] as string) > (a[orderBy] as string)) {
+    return 1;
+  }
+  return 0;
+}
+
+function getComparator<Key extends keyof InstrumentData>(
+  order: Order,
+  orderBy: Key
+): (a: InstrumentData, b: InstrumentData) => number {
+  return order === 'asc'
+    ? (a, b) => compare<Key>(a, b, orderBy)
+    : (a, b) => -compare<Key>(a, b, orderBy);
+}
+
+function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
+  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+  return stabilizedThis.map((el) => el[0]);
+}
 
 const Instrument: React.FC = () => {
   const [expandedId, setExpandedId] = React.useState<number | null>(null);
+  const [order, setOrder] = React.useState<Order>('asc');
+  const [orderBy, setOrderBy] = React.useState<keyof InstrumentData>('name');
 
   const handleExpandClick = (id: number): void => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  const handleSortRequest = (property: keyof InstrumentData): void => {
+    const isAsc = orderBy === property && order === 'asc';
+    setOrder(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+  };
+
   return (
     <>
-      {instruments.map((instrument) => (
-        <Box key={instrument.id} sx={{ marginBottom: 1 }}>
-          <ExpandableCard>
-            <CardContent
+      <TableHead>
+        <TableRow>
+          <TableCell sx={{ width: '71%' }}>
+            <TableSortLabel
               sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                padding: '24px 16px',
-                height: '60px',
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
               }}
+              active={orderBy === 'name'}
+              direction={orderBy === 'name' ? order : 'asc'}
+              onClick={() => handleSortRequest('name')}
             >
-              <Box
-                sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+              Name
+            </TableSortLabel>
+          </TableCell>
+
+          <TableCell>
+            <TableSortLabel
+              sx={{
+                fontSize: '1.2rem',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+              }}
+              active={orderBy === 'type'}
+              direction={orderBy === 'type' ? order : 'asc'}
+              onClick={() => handleSortRequest('type')}
+            >
+              Type
+            </TableSortLabel>
+          </TableCell>
+        </TableRow>
+      </TableHead>
+      {stableSort(instruments, getComparator(order, orderBy)).map(
+        (instrument) => (
+          <Box key={instrument.id} sx={{ marginBottom: 2 }}>
+            <ExpandableCard>
+              <CardContent
+                sx={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '24px 16px',
+                  height: '60px',
+                }}
               >
-                <Typography
-                  variant="h6"
+                <Box
+                  sx={{ display: 'flex', alignItems: 'center', width: '100%' }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: 'bold',
+                      textTransform: 'uppercase',
+                      marginRight: '20px',
+                      width: '15%',
+                    }}
+                  >
+                    {instrument.name}
+                  </Typography>
+                  <Typography variant="body1">{instrument.type}</Typography>
+                </Box>
+                <CardActions disableSpacing>
+                  <IconButton
+                    onClick={() => handleExpandClick(instrument.id)}
+                    aria-expanded={expandedId === instrument.id}
+                    aria-label="show more"
+                    sx={{ color: 'white' }}
+                  >
+                    <ExpandMoreIcon
+                      style={{
+                        transform:
+                          expandedId === instrument.id
+                            ? 'rotate(180deg)'
+                            : 'rotate(0)',
+                        fontSize: '2rem',
+                      }}
+                    />
+                  </IconButton>
+                </CardActions>
+              </CardContent>
+              {expandedId === instrument.id && (
+                <CardContent
                   sx={{
-                    fontWeight: 'bold',
-                    textTransform: 'uppercase',
-                    marginRight: '20px',
-                    width: '15%',
+                    padding: '6px 16px',
+                    display: 'flex',
+                    alignItems: 'flex-start',
                   }}
                 >
-                  {instrument.name}
-                </Typography>
-                <Typography variant="body1">{instrument.type}</Typography>
-              </Box>
-              <CardActions disableSpacing>
-                <IconButton
-                  onClick={() => handleExpandClick(instrument.id)}
-                  aria-expanded={expandedId === instrument.id}
-                  aria-label="show more"
-                  sx={{ color: 'white' }}
-                >
-                  <ExpandMoreIcon
-                    style={{
-                      transform:
-                        expandedId === instrument.id
-                          ? 'rotate(180deg)'
-                          : 'rotate(0)',
-                      fontSize: '2rem',
+                  <Box
+                    sx={{
+                      display: 'flex',
+                      flexDirection: 'column',
+                      marginRight: 2,
                     }}
-                  />
-                </IconButton>
-              </CardActions>
-            </CardContent>
-            {expandedId === instrument.id && (
-              <CardContent sx={{ padding: '6px 16px' }}>
-                <Typography variant="body2">
-                  {instrument.description}
-                </Typography>
-              </CardContent>
-            )}
-          </ExpandableCard>
-        </Box>
-      ))}
+                  >
+                    <Button
+                      variant="contained"
+                      component={RouterLink}
+                      to="/live-reduction"
+                      sx={{ marginBottom: 1, fontWeight: 'bold' }}
+                    >
+                      Live Reduction
+                    </Button>
+                    <Button
+                      variant="contained"
+                      component={RouterLink}
+                      to="/reduction-history"
+                      sx={{ fontWeight: 'bold' }}
+                    >
+                      Reduction History
+                    </Button>
+                  </Box>
+                  <Box sx={{ flex: '1.8', marginRight: 6 }}>
+                    <Typography
+                      variant="body2"
+                      paragraph
+                      sx={{ textAlign: 'justify' }}
+                    >
+                      {instrument.description}
+                    </Typography>
+                    <Link
+                      href={instrument.infoPage}
+                      target="_blank"
+                      rel="noopener"
+                      underline="always"
+                      sx={{ color: 'lightblue' }}
+                    >
+                      More Information
+                    </Link>
+                  </Box>
+                  <Box sx={{ flex: '1' }}>
+                    <Typography variant="body2">Scientists:</Typography>
+                    <List>
+                      {instrument.scientists.map((scientist, index) => (
+                        <ListItem key={index} sx={{ padding: '0' }}>
+                          <Typography variant="body2">{scientist}</Typography>
+                        </ListItem>
+                      ))}
+                    </List>
+                  </Box>
+                </CardContent>
+              )}
+            </ExpandableCard>
+          </Box>
+        )
+      )}
     </>
   );
 };
