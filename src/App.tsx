@@ -1,19 +1,29 @@
-import React from 'react';
-import { CssBaseline } from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { FC } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
+
+import theme from './theme';
 import Instrument from './Instrument';
+import LiveReduction from './LiveReduction';
+import ReductionHistory from './ReductionHistory';
 
-const theme = createTheme();
-
-const App: React.FC = (): JSX.Element => {
-  return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <div style={{ margin: 0, padding: 0, width: '91vw' }}>
-        <Instrument />
-      </div>
-    </ThemeProvider>
-  );
-};
+const App: FC = () => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Router basename="/ir">
+      <Switch>
+        <Route exact path="/">
+          <Instrument />
+        </Route>
+        <Route path="/live-reduction">
+          <LiveReduction />
+        </Route>
+        <Route path="/reduction-history">
+          <ReductionHistory />
+        </Route>
+      </Switch>
+    </Router>
+  </ThemeProvider>
+);
 
 export default App;
