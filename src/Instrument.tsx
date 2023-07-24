@@ -19,17 +19,22 @@ import {
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { styled } from '@mui/system';
 
-import { instruments, InstrumentData } from './InstrumentData'; // Import the instruments data
+import { instruments, InstrumentData } from './InstrumentData'; // Import the instrument data
 
+// Order type
 type Order = 'asc' | 'desc';
 
-const ExpandableCard = styled(Card)(({ theme }) => ({
-  backgroundColor: '#23428d',
-  color: 'white',
-  width: '100%',
-  boxShadow: `0px 0px 2px 4px #1b3fec`,
-}));
+// Styling for the expandable card
+const ExpandableCard = styled(Card)<{ expanded: boolean }>(
+  ({ theme, expanded }) => ({
+    backgroundColor: expanded ? '#12285c' : '#23428d',
+    color: 'white',
+    width: '100%',
+    // boxShadow: `0px 0px 2px 4px ${expanded ? '#1b3fec' : '#23428d'}`,
+  })
+);
 
+// Function to compare two objects based on the orderBy key
 function compare<Key extends keyof InstrumentData>(
   a: InstrumentData,
   b: InstrumentData,
@@ -44,6 +49,7 @@ function compare<Key extends keyof InstrumentData>(
   return 0;
 }
 
+// Function to get the comparator based on the order
 function getComparator<Key extends keyof InstrumentData>(
   order: Order,
   orderBy: Key
@@ -53,6 +59,7 @@ function getComparator<Key extends keyof InstrumentData>(
     : (a, b) => -compare<Key>(a, b, orderBy);
 }
 
+// Function to perform a stable sort on the array
 function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
   const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
   stabilizedThis.sort((a, b) => {
@@ -63,15 +70,19 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
   return stabilizedThis.map((el) => el[0]);
 }
 
+// Instrument component
 const Instrument: React.FC = () => {
+  // Setting up state
   const [expandedId, setExpandedId] = React.useState<number | null>(null);
   const [order, setOrder] = React.useState<Order>('asc');
   const [orderBy, setOrderBy] = React.useState<keyof InstrumentData>('name');
 
+  // Handler for the expandable card click
   const handleExpandClick = (id: number): void => {
     setExpandedId(expandedId === id ? null : id);
   };
 
+  // Handler for the sort request
   const handleSortRequest = (property: keyof InstrumentData): void => {
     const isAsc = orderBy === property && order === 'asc';
     setOrder(isAsc ? 'desc' : 'asc');
@@ -115,8 +126,8 @@ const Instrument: React.FC = () => {
       </TableHead>
       {stableSort(instruments, getComparator(order, orderBy)).map(
         (instrument) => (
-          <Box key={instrument.id} sx={{ marginBottom: 2 }}>
-            <ExpandableCard>
+          <Box key={instrument.id} sx={{ marginBottom: 1 }}>
+            <ExpandableCard expanded={expandedId === instrument.id}>
               <CardContent
                 sx={{
                   display: 'flex',
