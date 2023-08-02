@@ -58,7 +58,8 @@
     "serve:backend": "node server/server.js",
     "analyze": "yarn build && source-map-explorer build/main.*",
     "postinstall": "husky install",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "cypress:open": "cypress open"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -82,14 +83,18 @@
     ]
   },
   "devDependencies": {
+    "@cypress/react": "^7.0.3",
+    "@cypress/webpack-dev-server": "^3.5.1",
     "@types/react-router-dom": "5.3.3",
     "@typescript-eslint/eslint-plugin": "5.49.0",
     "@typescript-eslint/parser": "5.49.0",
+    "cypress": "^12.17.2",
     "eslint": "8.32.0",
     "eslint-config-prettier": "8.6.0",
     "eslint-config-react-app": "7.0.0",
     "eslint-plugin-cypress": "2.12.1",
     "eslint-plugin-prettier": "4.2.1",
+    "html-webpack-plugin": "^5.5.3",
     "husky": "8.0.1",
     "lint-staged": "13.1.0",
     "prettier": "2.8.0",
