@@ -3,7 +3,6 @@ import React from 'react';
 import './index.css';
 import App from './App';
 import singleSpaReact from 'single-spa-react';
-import TestBedComponent from './testbed/testbed.component';
 import * as log from 'loglevel';
 import { createRoute } from './routes';
 import { createWebsocketClient } from './websocket';
@@ -11,12 +10,7 @@ import { createWebsocketClient } from './websocket';
 if (process.env.NODE_ENV === `development`) {
   const el = document.getElementById('demo_plugin');
   if (el) {
-    ReactDOM.render(
-      <TestBedComponent pluginName="Demo Plugin">
-        <App />
-      </TestBedComponent>,
-      document.getElementById('demo_plugin')
-    );
+    ReactDOM.render(<App />, document.getElementById('demo_plugin'));
   }
   log.setDefaultLevel(log.levels.DEBUG);
 } else {
