@@ -16,8 +16,8 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { instruments, InstrumentData } from './InstrumentData'; // Importing the instruments data
-import { ExpandableCard, WideTableCell, styles } from './Instrument.styles';
+import { instruments, InstrumentData } from './InstrumentData'; // Import the instruments data
+import { ExpandableCard, styles } from './Instrument.styles';
 
 type Order = 'asc' | 'desc';
 
@@ -56,7 +56,7 @@ function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
 
 const Instrument: React.FC = () => {
   const [expandedId, setExpandedId] = React.useState<number | null>(null);
-  const [order, setOrder] = React.useState<Order>('asc');
+  const [order, setOrder] = React.useState<Order>('desc');
   const [orderBy, setOrderBy] = React.useState<keyof InstrumentData>('name');
 
   const handleExpandClick = (id: number): void => {
@@ -73,7 +73,7 @@ const Instrument: React.FC = () => {
     <>
       <TableHead>
         <TableRow>
-          <WideTableCell>
+          <TableCell>
             <TableSortLabel
               data-cy="sort-button"
               style={styles.tableSortLabel}
@@ -83,8 +83,7 @@ const Instrument: React.FC = () => {
             >
               Name
             </TableSortLabel>
-          </WideTableCell>
-
+          </TableCell>
           <TableCell>
             <TableSortLabel
               style={styles.tableSortLabel}
@@ -100,7 +99,10 @@ const Instrument: React.FC = () => {
       {stableSort(instruments, getComparator(order, orderBy)).map(
         (instrument) => (
           <Box key={instrument.id} sx={{ marginBottom: 1 }}>
-            <ExpandableCard expanded={expandedId === instrument.id}>
+            <ExpandableCard
+              expanded={expandedId === instrument.id}
+              elevation={4}
+            >
               <CardContent style={styles.cardContent}>
                 <Box style={styles.box}>
                   <Typography variant="h6" style={styles.instrumentName}>

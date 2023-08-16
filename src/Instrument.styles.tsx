@@ -1,18 +1,13 @@
 import { CSSProperties } from 'react';
-import { Card, TableCell } from '@mui/material';
+import { Card } from '@mui/material';
 import { styled } from '@mui/system';
 
 export const ExpandableCard = styled(Card)<{ expanded: boolean }>(
-  ({ theme, expanded }) => ({
+  ({ expanded }) => ({
     backgroundColor: expanded ? '#12285c' : '#23428d',
     color: 'white',
-    width: '100%',
   })
 );
-
-export const WideTableCell = styled(TableCell)({
-  width: '71%',
-});
 
 export const styles: Record<string, CSSProperties> = {
   tableSortLabel: {
@@ -33,9 +28,9 @@ export const styles: Record<string, CSSProperties> = {
     width: '100%',
   },
   instrumentName: {
+    fontSize: '1.2rem',
     fontWeight: 'bold',
     textTransform: 'uppercase',
-    marginRight: '17px',
     width: '15%',
   },
   expandMoreIcon: {
@@ -51,6 +46,7 @@ export const styles: Record<string, CSSProperties> = {
     padding: '6px 16px',
     display: 'flex',
     alignItems: 'flex-start',
+    paddingBottom: '24px',
   },
   buttonBox: {
     display: 'flex',
