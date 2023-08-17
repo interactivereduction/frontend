@@ -6,6 +6,7 @@ export const ExpandableCard = styled(Card)<{ expanded: boolean }>(
   ({ expanded }) => ({
     backgroundColor: expanded ? '#12285c' : '#23428d',
     color: 'white',
+    margin: '8px',
   })
 );
 
