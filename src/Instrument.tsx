@@ -130,7 +130,7 @@ const Instrument: React.FC = () => {
                     <Button
                       variant="contained"
                       component={RouterLink}
-                      to="/live-reduction"
+                      to={`/${instrument.name.toLowerCase()}/live_reduction`}
                       style={styles.button}
                     >
                       Live Reduction
@@ -138,7 +138,7 @@ const Instrument: React.FC = () => {
                     <Button
                       variant="contained"
                       component={RouterLink}
-                      to="/reduction-history"
+                      to={`/${instrument.name.toLowerCase()}/reduction_history`}
                       style={styles.secondButton}
                     >
                       Reduction History
