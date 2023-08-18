@@ -1,25 +1,29 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from 'react';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { ThemeProvider, CssBaseline } from '@mui/material';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import theme from './theme';
+import Instrument from './Instrument';
+import LiveReduction from './LiveReduction';
+import ReductionHistory from './ReductionHistory';
+
+const App: FC = () => (
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <Router basename="/ir">
+      <Switch>
+        <Route exact path="/">
+          <Instrument />
+        </Route>
+        <Route path="/live-reduction">
+          <LiveReduction />
+        </Route>
+        <Route path="/reduction-history">
+          <ReductionHistory />
+        </Route>
+      </Switch>
+    </Router>
+  </ThemeProvider>
+);
+
 export default App;
