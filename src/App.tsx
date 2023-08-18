@@ -8,22 +8,19 @@ import LiveReduction from './LiveReduction';
 import ReductionHistory from './ReductionHistory';
 
 const App: FC = () => (
-  <ThemeProvider theme={theme}>
-    <CssBaseline />
-    <Router basename="/ir">
-      <Switch>
-        <Route exact path="/">
-          <Instrument />
-        </Route>
-        <Route path="/live-reduction">
-          <LiveReduction />
-        </Route>
-        <Route path="/reduction-history">
-          <ReductionHistory />
-        </Route>
-      </Switch>
-    </Router>
-  </ThemeProvider>
+  <Router basename="/ir">
+    <Switch>
+      <Route exact path="/">
+        <Instrument />
+      </Route>
+      <Route path="/live-reduction">
+        <LiveReduction />
+      </Route>
+      <Route path="/reduction-history">
+        <ReductionHistory />
+      </Route>
+    </Switch>
+  </Router>
 );
 
 export default App;
