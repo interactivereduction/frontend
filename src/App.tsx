@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { ThemeProvider, CssBaseline } from '@mui/material';
 
-import theme from './theme';
 import Instrument from './Instrument';
 import LiveReduction from './LiveReduction';
 import ReductionHistory from './ReductionHistory';
