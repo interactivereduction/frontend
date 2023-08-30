@@ -20,8 +20,8 @@ export const styles: Record<string, CSSProperties> = {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    padding: '24px 16px',
-    height: '60px',
+    padding: '12px 16px',
+    height: '36px',
   },
   box: {
     display: 'flex',
