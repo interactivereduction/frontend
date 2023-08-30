@@ -11,10 +11,10 @@ const App: FC = () => (
       <Route exact path="/">
         <Instrument />
       </Route>
-      <Route path="/live-reduction">
+      <Route path="/:instrumentName/live_reduction">
         <LiveReduction />
       </Route>
-      <Route path="/reduction-history">
+      <Route path="/:instrumentName/reduction_history">
         <ReductionHistory />
       </Route>
     </Switch>
