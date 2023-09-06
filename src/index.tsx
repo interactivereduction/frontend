@@ -56,7 +56,15 @@ const reactLifecycles = singleSpaReact({
 });
 
 // Route registration events being fired back to the parent
-createRoute('Reductions', 'Instruments', '/ir', 10, 'Data help text');
+createRoute('Reductions', 'Home', '/ir', 1, 'Data help text');
+createRoute(
+  'Reductions',
+  'Instruments',
+  '/ir/instruments',
+  2,
+  'Data help text'
+);
+createRoute('Reductions', 'History', '/ir/history', 3, 'Data help text');
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
