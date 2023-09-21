@@ -12,11 +12,12 @@ export const styles: Record<string, CSSProperties> = {
     // height: '30vh',
   },
   title: {
+    marginTop: '20px',
     fontSize: '3rem',
     fontWeight: '300',
-    color: 'white',
   },
   boxes: {
+    marginTop: '40px',
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -30,6 +31,8 @@ export const styles: Record<string, CSSProperties> = {
     borderRadius: '5px',
   },
   boxHeading: {
+    marginTop: '10px',
+    marginBottom: '10px',
     color: 'white',
     textAlign: 'left',
     maxWidth: '50%',
@@ -45,17 +48,16 @@ export const styles: Record<string, CSSProperties> = {
     marginTop: '20px',
     display: 'block',
     fontWeight: 'bold',
-    textDecoration: 'none',
   },
   secondRow: {
     display: 'flex',
     width: '81.25%',
     justifyContent: 'space-between',
-    marginBottom: '40px', // adjusted margin here
+    marginBottom: '40px',
     alignItems: 'stretch',
   },
   search: {
-    marginTop: '20px',
+    marginTop: '15px',
     backgroundColor: 'blue',
     borderRadius: '50%',
     width: '40px',
