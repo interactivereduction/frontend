@@ -23,7 +23,7 @@ const HomePage: FC = () => {
       </Typography>
       <div style={styles.boxes}>
         <div style={styles.largeBox}>
-          <Typography variant="h4" style={styles.boxHeading}>
+          <Typography variant="h4" component="h1" style={styles.boxHeading}>
             Reduce and perform basic analysis remotely from a clean web
             interface
           </Typography>
@@ -50,7 +50,7 @@ const HomePage: FC = () => {
             <div style={styles.search}>
               <SearchIcon style={{ color: 'white' }} />
             </div>
-            <Typography variant="h5" style={styles.boxHeading}>
+            <Typography variant="h5" component="h2" style={styles.boxHeading}>
               Live reduction
             </Typography>
             <Typography variant="body1" style={styles.smallBoxText}>
@@ -72,7 +72,7 @@ const HomePage: FC = () => {
             <div style={styles.search}>
               <SearchIcon style={{ color: 'white' }} />
             </div>
-            <Typography variant="h5" style={styles.boxHeading}>
+            <Typography variant="h5" component="h2" style={styles.boxHeading}>
               Histrorical reductions
             </Typography>
             <Typography variant="body1" style={styles.smallBoxText}>
@@ -92,7 +92,7 @@ const HomePage: FC = () => {
               backgroundColor: 'darkblue',
             }}
           >
-            <Typography variant="h5" style={styles.boxHeading}>
+            <Typography variant="h5" component="h2" style={styles.boxHeading}>
               ISIS Neutron and Muon Source
             </Typography>
             <Typography variant="body1" style={styles.smallBoxText}>

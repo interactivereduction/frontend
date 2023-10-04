@@ -8,7 +8,11 @@ const ReductionHistory: React.FC = () => {
   const { instrumentName } = useParams<{ instrumentName: string }>();
   return (
     <div>
-      <Typography variant="h3" style={{ color: theme.palette.text.primary }}>
+      <Typography
+        variant="h3"
+        component="h1"
+        style={{ color: theme.palette.text.primary }}
+      >
         {instrumentName
           ? `${instrumentName.toUpperCase()} Reduction History Page`
           : 'Reduction History Page'}

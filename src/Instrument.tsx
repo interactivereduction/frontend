@@ -104,8 +104,12 @@ const Instrument: React.FC = () => {
               elevation={4}
             >
               <CardContent style={styles.cardContent}>
-                <Box style={styles.box}>
-                  <Typography variant="h6" style={styles.instrumentName}>
+                <Box>
+                  <Typography
+                    variant="h6"
+                    component="h1"
+                    style={styles.instrumentName}
+                  >
                     {instrument.name}
                   </Typography>
                   <Typography variant="body1">{instrument.type}</Typography>
