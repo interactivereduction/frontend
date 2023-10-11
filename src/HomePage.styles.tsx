@@ -9,7 +9,6 @@ export const styles: Record<string, CSSProperties> = {
     backgroundImage: `url(${backdrop})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
-    // height: '30vh',
   },
   title: {
     marginTop: '20px',
