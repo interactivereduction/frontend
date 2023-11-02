@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
 import Instrument from './Instrument';
+import History from './History';
 import LiveReduction from './LiveReduction';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
@@ -16,6 +17,9 @@ const App: FC = () => (
         </Route>
         <Route path="/instruments">
           <Instrument />
+        </Route>
+        <Route path="/history">
+          <History />
         </Route>
         <Route path="/:instrumentName/live_reduction">
           <LiveReduction />
