@@ -11,7 +11,7 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-import DownloadIcon from '@mui/icons-material/GetApp';
+// import DownloadIcon from '@mui/icons-material/GetApp';
 import { Trans, useTranslation } from 'react-i18next';
 import BackgroundImage from './images/background.jpg';
 import GreenSwirl1Image from './images/green-swirl1.png';
@@ -82,12 +82,14 @@ const avatarIconStyles = {
 const PaperHeading = styled(Typography)(({ theme }) => ({
   fontWeight: 'bold',
   fontSize: '24px',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color: (theme as any).colours?.homePage?.heading,
   marginBottom: theme.spacing(2),
 }));
 
 const PaperDescription = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color: (theme as any).colours?.contrastGrey,
   marginBottom: theme.spacing(2),
 }));
@@ -101,6 +103,7 @@ const BluePaperHeading = styled(Typography)(({ theme }) => ({
 
 const BluePaperDescription = styled(Typography)(({ theme }) => ({
   textAlign: 'left',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   color: (theme as any).colours?.homePage?.blueDescription,
   marginBottom: theme.spacing(2),
 }));
@@ -121,7 +124,8 @@ const BrowseDecal = styled('div', {
     backgroundImage:
       theme.palette.mode === 'light'
         ? `url(${decal2Image})`
-        : (theme as any).colours?.type === 'default'
+        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (theme as any).colours?.type === 'default'
         ? `url(${decal2DarkImage})`
         : `url(${decal2DarkHCImage})`,
     backgroundRepeat: 'no-repeat',
@@ -133,11 +137,13 @@ const BrowseDecal = styled('div', {
 
 const LightBlueButton = styled(Button)(({ theme }) => ({
   color: '#FFFFFF',
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   backgroundColor: (theme as any).colours?.homePage?.blueButton,
   '&:hover': {
-    // Check if null to avoid error when loading
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     backgroundColor: (theme as any).colours?.homePage?.blueButton
-      ? alpha((theme as any).colours?.homePage?.blueButton, 0.8)
+      ? // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        alpha((theme as any).colours?.homePage?.blueButton, 0.8)
       : '#FFFFFF',
   },
 }));
@@ -217,6 +223,7 @@ const HomePage = (): React.ReactElement => {
                   sx={(theme) => ({
                     fontWeight: 'bold',
                     fontSize: '32px',
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
                     color: (theme as any).colours?.homePage?.heading,
                     marginBottom: theme.spacing(2),
                   })}
