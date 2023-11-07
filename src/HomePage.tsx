@@ -11,7 +11,6 @@ import {
   useMediaQuery,
 } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
-// import DownloadIcon from '@mui/icons-material/GetApp';
 import { Trans, useTranslation } from 'react-i18next';
 import BackgroundImage from './images/background.jpg';
 import GreenSwirl1Image from './images/green-swirl1.png';
