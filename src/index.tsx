@@ -56,7 +56,21 @@ const reactLifecycles = singleSpaReact({
 });
 
 // Route registration events being fired back to the parent
-createRoute('Reductions', 'Instruments', '/ir', 10, 'Data help text');
+createRoute(
+  'Reductions', // what section of the menu you want the link to be in
+  'Home page', // text of the link
+  '/ir', // route the link should link to
+  1, // how high up in the section should your link be - ascending order
+  'Data help text' // (optional) help text renders a tooltip in the site tour for this link
+);
+createRoute(
+  'Reductions',
+  'Instruments',
+  '/ir/instruments',
+  2,
+  'Data help text'
+);
+createRoute('Reductions', 'History', '/ir/history', 3, 'Data help text');
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
