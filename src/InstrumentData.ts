@@ -73,15 +73,6 @@ export const instruments: InstrumentData[] = [
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/Engin-X.aspx',
     scientists: ['Saurabh Kabra', 'Joe Kelleher', 'Tung Lik Lee'],
   },
-  // {
-  //   id: 10,
-  //   name: 'EVS',
-  //   description:
-  //     'The original eVS instrument operated at the ISIS pulsed source since the year 1985, and pioneered the inelastic neutron scattering at the eV energy in the last decades.',
-  //   type: 'Spectrometer',
-  //   infoPage: 'https://www.isis.stfc.ac.uk/Pages/VESUVIO.aspx',
-  //   scientists: ['Dr Adam Jones', 'Dr Marcel Davis', 'Dr Louise Smith'],
-  // },
   {
     id: 8,
     name: 'GEM',
@@ -174,7 +165,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Christain Balz', 'Victorian Garcia Sakai', 'Ross Steward'],
   },
   {
-    id: 16,
+    id: 17,
     name: 'LOQ',
     description:
       'LOQ is a relatively simple instrument, consisting of an 11-metre evacuated beamline down which neutrons fly towards the sample. After being scattered by the sample, they hit a fixed two-dimensional detector 4 metres away, which can detect the positions and times of arrival of the neutrons. The resulting pattern is analysed to provide information on the nanostructure of the sample.',
@@ -183,7 +174,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Stephen King'],
   },
   {
-    id: 17,
+    id: 18,
     name: 'MAPS',
     description:
       'MAPS has been in operation since 2000. It was the first chopper spectrometer to employ a large array of position sensitive detectors, and the first to be designed solely for the purpose of measuring excitations in single crystals.',
@@ -197,7 +188,7 @@ export const instruments: InstrumentData[] = [
     ],
   },
   {
-    id: 18,
+    id: 19,
     name: 'MARI',
     description:
       'MARI is a chopper spectrometer with continuous detector bank coverage ranging from 3° to 134° degrees.',
@@ -206,7 +197,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Mohamed Aouane', 'Duc Le'],
   },
   {
-    id: 19,
+    id: 20,
     name: 'MERLIN',
     description:
       'Merlin is a high count rate, medium energy resolution, direct geometry chopper spectrometer.',
@@ -215,7 +206,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Devashibhai Adroja', 'David Voneshen'],
   },
   {
-    id: 20,
+    id: 21,
     name: 'MUSR',
     description:
       'The MuSR spectrometer is a general purpose instrument. However, the emphasis of the experimental work conducted is investigating magnetism and superconductivity.',
@@ -224,7 +215,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Peter Baker'],
   },
   {
-    id: 21,
+    id: 22,
     name: 'NIMROD',
     description:
       'NIMROD is a total scattering instrument designed to access length scales ranging from the interatomic (< 1 Å) through to the mesoscopic (>300 Å).',
@@ -233,7 +224,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Tom Headen', 'Tristan Youngs'],
   },
   {
-    id: 22,
+    id: 23,
     name: 'OFFSPEC',
     description:
       'Offspec is an advanced reflectometer giving access to nanometre length scales parallel and perpendicular to interfaces. It uses the technique of neutron spin-echo to encode the path that neutrons take through the instrument.',
@@ -242,7 +233,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Stephen Hall'],
   },
   {
-    id: 23,
+    id: 24,
     name: 'OSIRIS',
     description:
       'OSIRIS is a spectrometer optimised for very low energy studies and long wavelength diffraction. These studies can provide information on relatively slow motions in materials such as diffusion in liquids and the movement of protons in batteries.',
@@ -256,7 +247,7 @@ export const instruments: InstrumentData[] = [
     ],
   },
   {
-    id: 24,
+    id: 25,
     name: 'PEARL',
     description:
       'The application of pressure can induce dramatic changes in the physical properties of materials. The PEARL diffractometer is optimised for studies of the structural changes that occur under high pressure.',
@@ -265,7 +256,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Craig Bull', 'Nick Funnell', 'Christopher Ridley'],
   },
   {
-    id: 25,
+    id: 26,
     name: 'POLARIS',
     description:
       'Larmor is a flexible instrument that has been optimised for the development of new neutron scattering techniques which use the Larmor precession of neutrons to encode energy or direction.',
@@ -274,7 +265,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Paul Henry', 'Ron Smith', 'Gabriel Perez'],
   },
   {
-    id: 26,
+    id: 27,
     name: 'POLREF',
     description:
       'POLREF is a general purpose polarised neutron reflectometer designed for the study of magnetic and non-magnetic buried interfaces and surfaces.',
@@ -283,7 +274,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Andrew Caruana', 'Christy Kinane'],
   },
   {
-    id: 27,
+    id: 28,
     name: 'SANDALS',
     description:
       'SANDALS is a diffractometer especially built for investigating the structure of liquids and amorphous materials.',
@@ -292,7 +283,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Oliver Alderman', 'Terri-Louise Hughes', 'Daniel Bowron'],
   },
   {
-    id: 28,
+    id: 29,
     name: 'SANSS2D',
     description:
       'Sans2d can be used to examine size, shape, internal structure and spatial arrangement in nanomaterials, ‘soft matter’, and colloidal systems, including those of biological origin, on length scales of between* 0.25-300 nm.',
@@ -301,7 +292,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Sarah Rogers', 'Najet Mahmoudi', 'Leide Cavalcanti'],
   },
   {
-    id: 29,
+    id: 30,
     name: 'SURF',
     description:
       'SURF is the newer of the two Neutron Reflectometers (NR) at ISIS. Compared to its sister instrument CRISP, SURF is optimised for higher flux. With horizontal sample geometry it is therefore ideally suited for the study of liquid surfaces.',
@@ -310,7 +301,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Mario Campana', 'Arwel Hughes'],
   },
   {
-    id: 30,
+    id: 31,
     name: 'SXD',
     description:
       'SXD, the Single Crystal Diffractometer, uses the time-of-flight Laue technique to access large 3-D volumes of reciprocal space in a single measurement. This makes SXD especially powerful in applications involving surveys of reciprocal space, such as phase transitions and incommensurate structures, and also in applications where sample orientation may be restricted.',
@@ -319,7 +310,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Silvia Capelli', 'Matthias Gutmann'],
   },
   {
-    id: 31,
+    id: 32,
     name: 'TOSCA',
     description:
       'TOSCA is an indirect geometry spectrometer optimised for the study of molecular vibrations in the solid state.',
@@ -328,7 +319,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Jeff Armstrong', 'Svemir Rudic', 'Stewart Parker'],
   },
   {
-    id: 32,
+    id: 33,
     name: 'VESUVIO',
     description:
       'Vesuvio is a unique neutron spectrometer, which uses the high intensity of neutrons in the eV energy range (epi-thermal neutrons) to mass-separate the spectra into a collection of nuclear momentum distributions.',
@@ -337,7 +328,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Matthew Krzystyniak', 'Andrew Seel'],
   },
   {
-    id: 33,
+    id: 34,
     name: 'WISH',
     description:
       'WISH is a long-wavelength diffractometer primarily designed for powder diffraction at long d-spacing in magnetic and large unit-cell systems. The instrument is also suitable for measuring single-crystals. ​',
@@ -346,7 +337,7 @@ export const instruments: InstrumentData[] = [
     scientists: ['Dmitry Khalyavin', 'Fabio Orlandi', 'Pascal Manuel'],
   },
   {
-    id: 34,
+    id: 35,
     name: 'ZOOM',
     description:
       'Zoom is a flexible, high count rate small-angle scattering instrument. This instruments complements Loq, SANS2D and Larmor, with the main focus in biological systems and magnetic materials.',
