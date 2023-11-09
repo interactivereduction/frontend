@@ -177,7 +177,7 @@ export const instruments: InstrumentData[] = [
     id: 16,
     name: 'LOQ',
     description:
-      'Larmor is a flexible instrument that has been optimised for the development of new neutron scattering techniques which use the Larmor precession of neutrons to encode energy or direction.',
+      'LOQ is a relatively simple instrument, consisting of an 11-metre evacuated beamline down which neutrons fly towards the sample. After being scattered by the sample, they hit a fixed two-dimensional detector 4 metres away, which can detect the positions and times of arrival of the neutrons. The resulting pattern is analysed to provide information on the nanostructure of the sample.',
     type: 'Small angle scattering',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/LOQ.aspx',
     scientists: ['Stephen King'],
@@ -296,7 +296,7 @@ export const instruments: InstrumentData[] = [
     name: 'SANSS2D',
     description:
       'Sans2d can be used to examine size, shape, internal structure and spatial arrangement in nanomaterials, ‘soft matter’, and colloidal systems, including those of biological origin, on length scales of between* 0.25-300 nm.',
-    type: 'Neutron spectroscopy',
+    type: 'Small angle scattering',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/SANSS2D.aspx',
     scientists: ['Sarah Rogers', 'Najet Mahmoudi', 'Leide Cavalcanti'],
   },
@@ -350,7 +350,7 @@ export const instruments: InstrumentData[] = [
     name: 'ZOOM',
     description:
       'Zoom is a flexible, high count rate small-angle scattering instrument. This instruments complements Loq, SANS2D and Larmor, with the main focus in biological systems and magnetic materials.',
-    type: 'Neutron spectroscopy',
+    type: 'Small angle scattering',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/ZOOM.aspx',
     scientists: ['Diego Alba Venero', 'James Doutch'],
   },
