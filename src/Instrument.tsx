@@ -70,7 +70,7 @@ const Instrument: React.FC = () => {
   };
 
   return (
-    <>
+    <Box sx={{ paddingBottom: '2rem' }}>
       <TableHead>
         <TableRow>
           <TableCell>
@@ -187,7 +187,7 @@ const Instrument: React.FC = () => {
           </Box>
         )
       )}
-    </>
+    </Box>
   );
 };
 
