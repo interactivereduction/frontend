@@ -170,11 +170,13 @@ const Instrument: React.FC = () => {
                     </Link>
                   </Box>
                   <Box style={styles.scientistBox}>
-                    <Typography variant="body2">Scientists</Typography>
+                    <Typography variant="body2">Scientists:</Typography>
                     <List>
                       {instrument.scientists.map((scientist) => (
                         <ListItem key={scientist} style={styles.listItem}>
-                          <Typography variant="body2">{scientist}</Typography>
+                          <Typography variant="body2">
+                            Dr. {scientist}
+                          </Typography>
                         </ListItem>
                       ))}
                     </List>
