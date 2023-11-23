@@ -284,11 +284,11 @@ export const instruments: InstrumentData[] = [
   },
   {
     id: 29,
-    name: 'SANSS2D',
+    name: 'SANS2D',
     description:
       'Sans2d can be used to examine size, shape, internal structure and spatial arrangement in nanomaterials, ‘soft matter’, and colloidal systems, including those of biological origin, on length scales of between* 0.25-300 nm.',
     type: 'Small angle scattering',
-    infoPage: 'https://www.isis.stfc.ac.uk/Pages/SANSS2D.aspx',
+    infoPage: 'https://www.isis.stfc.ac.uk/Pages/SANS2D.aspx',
     scientists: ['Sarah Rogers', 'Najet Mahmoudi', 'Leide Cavalcanti'],
   },
   {
