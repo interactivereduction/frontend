@@ -61,21 +61,25 @@ createRoute(
   'Home page', // text of the link
   '/ir', // route the link should link to
   1, // how high up in the section should your link be - ascending order
-  'Data help text' // (optional) help text renders a tooltip in the site tour for this link
+  'Data help text', // help text renders a tooltip in the site tour for this link
+  true // whether the link should be visible to unauthenticated users
 );
 createRoute(
   'Reductions',
   'Instruments',
   '/ir/instruments',
   2,
-  'Data help text'
+  'Data help text',
+  true
 );
+
 createRoute(
   'Reductions',
   'Reduction history',
   '/ir/reduction-history',
   3,
-  'Data help text'
+  'Data help text',
+  true
 );
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
