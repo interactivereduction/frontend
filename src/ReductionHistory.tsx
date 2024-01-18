@@ -19,7 +19,7 @@ import {
   SelectChangeEvent,
   Box,
 } from '@mui/material';
-import { instruments } from './InstrumentData'; // Adjust the import path as needed
+import { instruments } from './InstrumentData';
 
 interface Run {
   experiment_number: number;
@@ -33,10 +33,8 @@ interface Reduction {
   runs: Run[];
 }
 
-// Define the expected structure of your reduction response
 interface ReductionResponse {
   id: number;
-  // other properties that the response might have
 }
 
 const ReductionHistory: React.FC = () => {
@@ -118,8 +116,6 @@ const ReductionHistory: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      {' '}
-      {/* Added padding to the container div */}
       <Box
         display="flex"
         alignItems="center"
@@ -135,8 +131,6 @@ const ReductionHistory: React.FC = () => {
         </Typography>
 
         <FormControl style={{ width: '200px', marginLeft: '20px' }}>
-          {' '}
-          {/* Added margin to the left of the FormControl */}
           <InputLabel id="instrument-select-label">Instrument</InputLabel>
           <Select
             labelId="instrument-select-label"
