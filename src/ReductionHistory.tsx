@@ -38,6 +38,7 @@ interface ReductionResponse {
 }
 
 const ReductionHistory: React.FC = () => {
+  const irApiUrl = process.env.REACT_APP_IR_REST_API_URL;
   const theme = useTheme();
   const history = useHistory();
   const { instrumentName } = useParams<{ instrumentName: string }>();
@@ -54,14 +55,14 @@ const ReductionHistory: React.FC = () => {
   const fetchTotalCount = useCallback(async (): Promise<void> => {
     try {
       const response = await fetch(
-        `http://localhost:8000/instrument/${selectedInstrument}/reductions/count`
+        `${irApiUrl}/instrument/${selectedInstrument}/reductions/count`
       );
       const data = await response.json();
       setTotalPages(Math.ceil(data.count / limit));
     } catch (error) {
       console.error('Error fetching total count:', error);
     }
-  }, [selectedInstrument]);
+  }, [selectedInstrument, irApiUrl]);
 
   const fetchReductions = useCallback(async (): Promise<void> => {
     try {
@@ -71,15 +72,13 @@ const ReductionHistory: React.FC = () => {
         query += `&order_by=${orderBy}&order_direction=${orderDirection}`;
       }
       const response = await fetch(
-        `http://localhost:8000/instrument/${selectedInstrument}/reductions?${query}`
+        `${irApiUrl}/instrument/${selectedInstrument}/reductions?${query}`
       );
       const data = await response.json();
 
       const reductionDetails = await Promise.all(
         data.map(async (reduction: ReductionResponse) => {
-          const res = await fetch(
-            `http://localhost:8000/reduction/${reduction.id}`
-          );
+          const res = await fetch(`${irApiUrl}/reduction/${reduction.id}`);
           return res.json();
         })
       );
@@ -88,7 +87,7 @@ const ReductionHistory: React.FC = () => {
     } catch (error) {
       console.error('Error fetching reductions:', error);
     }
-  }, [selectedInstrument, currentPage, orderBy, orderDirection]);
+  }, [selectedInstrument, currentPage, orderBy, orderDirection, irApiUrl]);
 
   useEffect(() => {
     fetchTotalCount();
@@ -108,7 +107,7 @@ const ReductionHistory: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const handleInstrumentChange = (event: SelectChangeEvent<string>): void => {
+  const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
     history.push(`/reduction-history/${newInstrument}`);
