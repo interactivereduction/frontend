@@ -325,7 +325,7 @@ const HomePage = (): React.ReactElement => {
                     color="primary"
                     variant="contained"
                     component={Link}
-                    to={t('history')}
+                    to={t('reduction-history')}
                     data-testid="browse-button"
                   >
                     {t('Browse reductions')}
