@@ -16,7 +16,7 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
-import { instruments, InstrumentData } from './InstrumentData'; // Import the instruments data
+import { instruments, InstrumentData } from './InstrumentData';
 import { ExpandableCard, styles } from './Instrument.styles';
 
 type Order = 'asc' | 'desc';
@@ -70,7 +70,7 @@ const Instrument: React.FC = () => {
   };
 
   return (
-    <>
+    <Box sx={{ paddingBottom: '2rem' }}>
       <TableHead>
         <TableRow>
           <TableCell>
@@ -98,7 +98,11 @@ const Instrument: React.FC = () => {
       </TableHead>
       {stableSort(instruments, getComparator(order, orderBy)).map(
         (instrument) => (
-          <Box key={instrument.id} sx={{ marginBottom: 1 }}>
+          <Box
+            key={instrument.id}
+            sx={{ marginBottom: 1 }}
+            onClick={() => handleExpandClick(instrument.id)}
+          >
             <ExpandableCard
               expanded={expandedId === instrument.id}
               elevation={4}
@@ -115,7 +119,6 @@ const Instrument: React.FC = () => {
                   <Typography variant="body1">{instrument.type}</Typography>
                 </Box>
                 <IconButton
-                  onClick={() => handleExpandClick(instrument.id)}
                   aria-expanded={expandedId === instrument.id}
                   aria-label="show more"
                 >
@@ -167,11 +170,13 @@ const Instrument: React.FC = () => {
                     </Link>
                   </Box>
                   <Box style={styles.scientistBox}>
-                    <Typography variant="body2">Scientists</Typography>
+                    <Typography variant="body2">Scientists:</Typography>
                     <List>
                       {instrument.scientists.map((scientist) => (
                         <ListItem key={scientist} style={styles.listItem}>
-                          <Typography variant="body2">{scientist}</Typography>
+                          <Typography variant="body2">
+                            Dr. {scientist}
+                          </Typography>
                         </ListItem>
                       ))}
                     </List>
@@ -182,7 +187,7 @@ const Instrument: React.FC = () => {
           </Box>
         )
       )}
-    </>
+    </Box>
   );
 };
 
