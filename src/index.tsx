@@ -70,7 +70,13 @@ createRoute(
   2,
   'Data help text'
 );
-createRoute('Reductions', 'History', '/ir/history', 3, 'Data help text');
+createRoute(
+  'Reductions',
+  'Reduction history',
+  '/ir/reduction-history',
+  3,
+  'Data help text'
+);
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
