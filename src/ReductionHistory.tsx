@@ -18,6 +18,7 @@ import {
   InputLabel,
   SelectChangeEvent,
   Box,
+  styled,
 } from '@mui/material';
 import { instruments } from './InstrumentData';
 
@@ -26,15 +27,7 @@ interface Run {
   filename: string;
   run_start: string;
   run_end: string;
-}
-
-interface Reduction {
-  reduction_state: string;
-  runs: Run[];
-}
-
-interface ReductionResponse {
-  id: number;
+  title: string;
 }
 
 const ReductionHistory: React.FC = () => {
@@ -42,57 +35,58 @@ const ReductionHistory: React.FC = () => {
   const theme = useTheme();
   const history = useHistory();
   const { instrumentName } = useParams<{ instrumentName: string }>();
-  const [reductions, setReductions] = useState<Reduction[]>([]);
+  const [runs, setRuns] = useState<Run[]>([]);
   const [selectedInstrument, setSelectedInstrument] = useState<string>(
     instrumentName || instruments[0].name
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
-  const [orderBy, setOrderBy] = useState<string>('');
+  const [orderBy, setOrderBy] = useState<string>('run_start');
   const limit = 20;
+
+  useEffect(() => {
+    if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
+      setSelectedInstrument(instrumentName);
+    } else {
+      // Fallback to the first instrument if the parameter is not valid
+      setSelectedInstrument(instruments[0].name);
+      history.replace(`/reduction-history/${instruments[0].name}`);
+    }
+  }, [instrumentName, history]);
 
   const fetchTotalCount = useCallback(async (): Promise<void> => {
     try {
       const response = await fetch(
-        `${irApiUrl}/instrument/${selectedInstrument}/reductions/count`
+        `${irApiUrl}/instrument/${selectedInstrument}/runs/count`
       );
       const data = await response.json();
       setTotalPages(Math.ceil(data.count / limit));
     } catch (error) {
-      console.error('Error fetching total count:', error);
+      console.error('Error fetching run count:', error);
     }
   }, [selectedInstrument, irApiUrl]);
 
-  const fetchReductions = useCallback(async (): Promise<void> => {
+  const fetchRuns = useCallback(async (): Promise<void> => {
     try {
       const offset = (currentPage - 1) * limit;
-      let query = `limit=${limit}&offset=${offset}`;
-      if (orderBy) {
-        query += `&order_by=${orderBy}&order_direction=${orderDirection}`;
-      }
+      const query = `limit=${limit}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}`;
       const response = await fetch(
-        `${irApiUrl}/instrument/${selectedInstrument}/reductions?${query}`
+        `${irApiUrl}/instrument/${selectedInstrument}/runs?${query}`
       );
       const data = await response.json();
+      console.log(data);
 
-      const reductionDetails = await Promise.all(
-        data.map(async (reduction: ReductionResponse) => {
-          const res = await fetch(`${irApiUrl}/reduction/${reduction.id}`);
-          return res.json();
-        })
-      );
-
-      setReductions(reductionDetails);
+      setRuns(data);
     } catch (error) {
-      console.error('Error fetching reductions:', error);
+      console.error('Error fetching runs:', error);
     }
   }, [selectedInstrument, currentPage, orderBy, orderDirection, irApiUrl]);
 
   useEffect(() => {
     fetchTotalCount();
-    fetchReductions();
-  }, [fetchTotalCount, fetchReductions]);
+    fetchRuns();
+  }, [fetchTotalCount, fetchRuns]);
 
   const handleSort = (property: string): void => {
     const isAsc = orderBy === property && orderDirection === 'asc';
@@ -110,8 +104,27 @@ const ReductionHistory: React.FC = () => {
   const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
+    setCurrentPage(1); // Reset to page 1 when the instrument changes
     history.push(`/reduction-history/${newInstrument}`);
+    fetchTotalCount();
+    fetchRuns();
   };
+
+  const columnStyles = {
+    numberColumn: { width: '15%' },
+    titleColumn: { width: '40%' },
+    dateColumn: { width: '20%' },
+    outputColumn: { width: '25%' },
+  };
+
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+    '&:nth-of-type(even)': {
+      backgroundColor: 'white',
+    },
+  }));
 
   return (
     <div style={{ padding: '20px' }}>
@@ -145,42 +158,60 @@ const ReductionHistory: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
+
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>RB Number</TableCell>
-              <TableCell>
+              <TableCell style={columnStyles.numberColumn}>
                 <TableSortLabel
-                  active={orderBy === 'reduction_state'}
+                  active={orderBy === 'experiment_number'}
                   direction={
-                    orderBy === 'reduction_state' ? orderDirection : 'asc'
+                    orderBy === 'experiment_number' ? orderDirection : 'asc'
                   }
-                  onClick={() => handleSort('reduction_state')}
+                  onClick={() => handleSort('experiment_number')}
                 >
-                  Reduction State
+                  RB Number
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Run Start</TableCell>
-              <TableCell>Run End</TableCell>
-              <TableCell>Run Output</TableCell>
+              <TableCell style={columnStyles.titleColumn}>Title</TableCell>
+              <TableCell style={columnStyles.dateColumn}>
+                <TableSortLabel
+                  active={orderBy === 'run_start'}
+                  direction={orderBy === 'run_start' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('run_start')}
+                >
+                  Run Start
+                </TableSortLabel>
+              </TableCell>
+              <TableCell style={columnStyles.dateColumn}>
+                <TableSortLabel
+                  active={orderBy === 'run_end'}
+                  direction={orderBy === 'run_end' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('run_end')}
+                >
+                  Run End
+                </TableSortLabel>
+              </TableCell>
+              <TableCell style={columnStyles.outputColumn}>
+                Run Output
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {reductions.map((reduction, reductionIndex) =>
-              reduction.runs.map((run, runIndex) => (
-                <TableRow key={`${reductionIndex}-${runIndex}`}>
-                  <TableCell>{run.experiment_number}</TableCell>
-                  <TableCell>{reduction.reduction_state}</TableCell>
-                  <TableCell>{run.run_start}</TableCell>
-                  <TableCell>{run.run_end}</TableCell>
-                  <TableCell>{run.filename}</TableCell>
-                </TableRow>
-              ))
-            )}
+            {runs.map((run, index) => (
+              <StyledTableRow key={index}>
+                <TableCell>{run.experiment_number}</TableCell>
+                <TableCell>{run.title}</TableCell>
+                <TableCell>{run.run_start}</TableCell>
+                <TableCell>{run.run_end}</TableCell>
+                <TableCell>{run.filename}</TableCell>
+              </StyledTableRow>
+            ))}
           </TableBody>
         </Table>
       </TableContainer>
+
       {totalPages > 1 && (
         <Pagination
           count={totalPages}
