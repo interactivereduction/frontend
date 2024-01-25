@@ -17,7 +17,7 @@ const App: FC = () => (
         <Route path="/instruments">
           <Instrument />
         </Route>
-        <Route path="/reduction-history">
+        <Route path="/reduction-history/ALF">
           <ReductionHistory />
         </Route>
         <Route path="/live-reduction/:instrumentName">
