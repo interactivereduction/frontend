@@ -75,7 +75,7 @@ createRoute(
 createRoute(
   'Reductions',
   'Reduction history',
-  '/ir/reduction-history',
+  '/ir/reduction-history/ALF',
   3,
   'Data help text'
 );
