@@ -115,7 +115,10 @@ const ReductionHistory: React.FC = () => {
       backgroundColor: theme.palette.action.hover,
     },
     '&:nth-of-type(even)': {
-      backgroundColor: 'white',
+      backgroundColor:
+        theme.palette.mode === 'dark'
+          ? theme.palette.background.default
+          : 'white',
     },
   }));
 
