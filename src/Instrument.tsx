@@ -137,7 +137,7 @@ const Instrument: React.FC = () => {
                     <Button
                       variant="contained"
                       component={RouterLink}
-                      to={`/live_reduction/${instrument.name.toUpperCase()}`}
+                      to={`/live-reduction/${instrument.name.toUpperCase()}`}
                       style={styles.button}
                     >
                       Live Reduction
