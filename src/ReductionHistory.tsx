@@ -110,13 +110,6 @@ const ReductionHistory: React.FC = () => {
     fetchRuns();
   };
 
-  const columnStyles = {
-    numberColumn: { width: '15%' },
-    titleColumn: { width: '40%' },
-    dateColumn: { width: '20%' },
-    outputColumn: { width: '25%' },
-  };
-
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
       backgroundColor: theme.palette.action.hover,
@@ -125,6 +118,10 @@ const ReductionHistory: React.FC = () => {
       backgroundColor: 'white',
     },
   }));
+
+  const formatDateTime = (dateTimeStr: string): string => {
+    return dateTimeStr.replace('T', '\n');
+  };
 
   return (
     <div style={{ padding: '20px' }}>
@@ -163,7 +160,7 @@ const ReductionHistory: React.FC = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell style={columnStyles.numberColumn}>
+              <TableCell>
                 <TableSortLabel
                   active={orderBy === 'experiment_number'}
                   direction={
@@ -171,11 +168,15 @@ const ReductionHistory: React.FC = () => {
                   }
                   onClick={() => handleSort('experiment_number')}
                 >
-                  RB Number
+                  Experiment Number
                 </TableSortLabel>
               </TableCell>
-              <TableCell style={columnStyles.titleColumn}>Title</TableCell>
-              <TableCell style={columnStyles.dateColumn}>
+              <TableCell>Reduction Input</TableCell>
+              <TableCell>Reduction Status</TableCell>
+              <TableCell>Reduction Start</TableCell>
+              <TableCell>Reduction End</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>
                 <TableSortLabel
                   active={orderBy === 'run_start'}
                   direction={orderBy === 'run_start' ? orderDirection : 'asc'}
@@ -184,7 +185,7 @@ const ReductionHistory: React.FC = () => {
                   Run Start
                 </TableSortLabel>
               </TableCell>
-              <TableCell style={columnStyles.dateColumn}>
+              <TableCell>
                 <TableSortLabel
                   active={orderBy === 'run_end'}
                   direction={orderBy === 'run_end' ? orderDirection : 'asc'}
@@ -193,19 +194,21 @@ const ReductionHistory: React.FC = () => {
                   Run End
                 </TableSortLabel>
               </TableCell>
-              <TableCell style={columnStyles.outputColumn}>
-                Run Output
-              </TableCell>
+              <TableCell>Reduction Outputs</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {runs.map((run, index) => (
               <StyledTableRow key={index}>
                 <TableCell>{run.experiment_number}</TableCell>
-                <TableCell>{run.title}</TableCell>
-                <TableCell>{run.run_start}</TableCell>
-                <TableCell>{run.run_end}</TableCell>
                 <TableCell>{run.filename}</TableCell>
+                <TableCell>[PLACEHOLDER]</TableCell>
+                <TableCell>[PLACEHOLDER]</TableCell>
+                <TableCell>[PLACEHOLDER]</TableCell>
+                <TableCell>{run.title}</TableCell>
+                <TableCell>{formatDateTime(run.run_end)}</TableCell>
+                <TableCell>{formatDateTime(run.run_end)}</TableCell>
+                <TableCell>[PLACEHOLDER]</TableCell>
               </StyledTableRow>
             ))}
           </TableBody>
