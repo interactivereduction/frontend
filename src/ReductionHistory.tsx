@@ -209,7 +209,7 @@ const ReductionHistory: React.FC = () => {
                 <TableCell>[PLACEHOLDER]</TableCell>
                 <TableCell>[PLACEHOLDER]</TableCell>
                 <TableCell>{run.title}</TableCell>
-                <TableCell>{formatDateTime(run.run_end)}</TableCell>
+                <TableCell>{formatDateTime(run.run_start)}</TableCell>
                 <TableCell>{formatDateTime(run.run_end)}</TableCell>
                 <TableCell>[PLACEHOLDER]</TableCell>
               </StyledTableRow>
