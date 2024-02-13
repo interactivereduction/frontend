@@ -41,7 +41,7 @@ const ReductionHistory: React.FC = () => {
   );
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('asc');
+  const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<string>('run_start');
   const limit = 20;
 
