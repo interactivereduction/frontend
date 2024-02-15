@@ -1,0 +1,29 @@
+name: Cypress Tests
+
+on: [push, pull_request]
+
+jobs:
+  cypress-run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '14' # Adjust the Node.js version as needed
+        cache: 'yarn'
+
+    - name: Install Dependencies
+      run: yarn install
+
+    - name: Run Cypress Tests
+      uses: cypress-io/github-action@v2
+      with:
+        start: yarn start # Command to start your server, adjust as necessary
+        wait-on: 'http://localhost:3000' # Adjust the URL as necessary
+        wait-on-timeout: 300 # Seconds to wait for your server to start
+        # Optional: Specify a custom command to run tests if not using the default (`yarn cypress run`)
+        # command: yarn run my-custom-cypress-command
