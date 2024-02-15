@@ -29,5 +29,5 @@ describe('HomePage Component Tests', () => {
   //     .should("have.css", "background-color", "rgb(25, 118, 210)") // Asserts the default color
   //     .realHover() // Simulates a real hover event over the button
   //     .should('have.css', 'background-color', "rgb(21, 101, 192)"); // Asserts the hover color
-  });
+  // });
 });
