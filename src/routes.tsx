@@ -1,4 +1,4 @@
-import logoLight from './images/ir-white-text-logo.svg';
+import logoLight from './images/ir-light-text-logo.svg';
 
 export function createRoute(
   section: string,
