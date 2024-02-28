@@ -176,10 +176,42 @@ const ReductionHistory: React.FC = () => {
                 </TableSortLabel>
               </TableCell>
               <TableCell>Reduction Input</TableCell>
-              <TableCell>Reduction Status</TableCell>
-              <TableCell>Reduction Start</TableCell>
-              <TableCell>Reduction End</TableCell>
-              <TableCell>Title</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_state'}
+                  direction={orderBy === 'reduction_state' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_state')}
+                >
+                  Reduction Status
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_start'}
+                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_start')}
+                >
+                  Reduction Start
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_start'}
+                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_start')}
+                >
+                  Reduction End
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_start'}
+                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_start')}
+                >
+                  Title
+                </TableSortLabel>
+              </TableCell>
               <TableCell>
                 <TableSortLabel
                   active={orderBy === 'run_start'}
