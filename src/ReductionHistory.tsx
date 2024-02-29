@@ -35,7 +35,7 @@ interface Reduction {
   reduction_end: string;
   reduction_state: string;
   reduction_status_message: string;
-  reduction_inputs: Record<string, any>;
+  reduction_inputs: Record<string, string>;
   reduction_outputs: string;
   runs: Run[];
 }
