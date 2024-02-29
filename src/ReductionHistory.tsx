@@ -79,9 +79,6 @@ const ReductionHistory: React.FC = () => {
       const query = `limit=${limit}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}&include_runs=true`;
       const response = await fetch(`${irApiUrl}/instrument/${selectedInstrument}/reductions?${query}`);
       const data = await response.json();
-      console.log(data);
-      console.log('data:', data);
-
       setReductions(data);
     } catch (error) {
       console.error('Error fetching runs:', error);
