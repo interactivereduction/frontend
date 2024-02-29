@@ -21,11 +21,7 @@ import { ExpandableCard, styles } from './Instrument.styles';
 
 type Order = 'asc' | 'desc';
 
-function compare<Key extends keyof InstrumentData>(
-  a: InstrumentData,
-  b: InstrumentData,
-  orderBy: Key
-): number {
+function compare<Key extends keyof InstrumentData>(a: InstrumentData, b: InstrumentData, orderBy: Key): number {
   if ((b[orderBy] as string) < (a[orderBy] as string)) {
     return -1;
   }
@@ -39,9 +35,7 @@ function getComparator<Key extends keyof InstrumentData>(
   order: Order,
   orderBy: Key
 ): (a: InstrumentData, b: InstrumentData) => number {
-  return order === 'asc'
-    ? (a, b) => compare<Key>(a, b, orderBy)
-    : (a, b) => -compare<Key>(a, b, orderBy);
+  return order === 'asc' ? (a, b) => compare<Key>(a, b, orderBy) : (a, b) => -compare<Key>(a, b, orderBy);
 }
 
 function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
@@ -96,97 +90,71 @@ const Instrument: React.FC = () => {
           </TableCell>
         </TableRow>
       </TableHead>
-      {stableSort(instruments, getComparator(order, orderBy)).map(
-        (instrument) => (
-          <Box
-            key={instrument.id}
-            sx={{ marginBottom: 1 }}
-            onClick={() => handleExpandClick(instrument.id)}
-          >
-            <ExpandableCard
-              expanded={expandedId === instrument.id}
-              elevation={4}
-            >
-              <CardContent style={styles.cardContent}>
-                <Box>
-                  <Typography
-                    variant="h6"
-                    component="h1"
-                    style={styles.instrumentName}
+      {stableSort(instruments, getComparator(order, orderBy)).map((instrument) => (
+        <Box key={instrument.id} sx={{ marginBottom: 1 }} onClick={() => handleExpandClick(instrument.id)}>
+          <ExpandableCard expanded={expandedId === instrument.id} elevation={4}>
+            <CardContent style={styles.cardContent}>
+              <Box>
+                <Typography variant="h6" component="h1" style={styles.instrumentName}>
+                  {instrument.name}
+                </Typography>
+                <Typography variant="body1">{instrument.type}</Typography>
+              </Box>
+              <IconButton aria-expanded={expandedId === instrument.id} aria-label="show more">
+                <ExpandMoreIcon
+                  style={expandedId === instrument.id ? styles.expandMoreIconExpanded : styles.expandMoreIcon}
+                />
+              </IconButton>
+            </CardContent>
+            {expandedId === instrument.id && (
+              <CardContent style={styles.cardContentExpanded}>
+                <Box style={styles.buttonBox}>
+                  <Button
+                    variant="contained"
+                    component={RouterLink}
+                    to={`/live-reduction/${instrument.name.toUpperCase()}`}
+                    style={styles.button}
                   >
-                    {instrument.name}
-                  </Typography>
-                  <Typography variant="body1">{instrument.type}</Typography>
+                    Live Reduction
+                  </Button>
+                  <Button
+                    variant="contained"
+                    component={RouterLink}
+                    to={`/reduction-history/${instrument.name.toUpperCase()}`}
+                    style={styles.secondButton}
+                  >
+                    Reduction History
+                  </Button>
                 </Box>
-                <IconButton
-                  aria-expanded={expandedId === instrument.id}
-                  aria-label="show more"
-                >
-                  <ExpandMoreIcon
-                    style={
-                      expandedId === instrument.id
-                        ? styles.expandMoreIconExpanded
-                        : styles.expandMoreIcon
-                    }
-                  />
-                </IconButton>
+                <Box style={styles.infoBox}>
+                  <Typography variant="body2" paragraph style={styles.description}>
+                    {instrument.description}
+                  </Typography>
+                  <Link
+                    href={instrument.infoPage}
+                    target="_blank"
+                    rel="noopener"
+                    underline="always"
+                    style={styles.infoLink}
+                  >
+                    More Information
+                  </Link>
+                </Box>
+                <Box style={styles.scientistBox}>
+                  <Typography variant="body2">Scientists:</Typography>
+                  <List>
+                    {instrument.scientists.map((scientist) => (
+                      <ListItem key={scientist} style={styles.listItem}>
+                        <Typography variant="body2">Dr. {scientist}</Typography>
+                      </ListItem>
+                    ))}
+                  </List>
+                </Box>
               </CardContent>
-              {expandedId === instrument.id && (
-                <CardContent style={styles.cardContentExpanded}>
-                  <Box style={styles.buttonBox}>
-                    <Button
-                      variant="contained"
-                      component={RouterLink}
-                      to={`/${instrument.name.toLowerCase()}/live_reduction`}
-                      style={styles.button}
-                    >
-                      Live Reduction
-                    </Button>
-                    <Button
-                      variant="contained"
-                      component={RouterLink}
-                      to={`/${instrument.name.toLowerCase()}/reduction_history`}
-                      style={styles.secondButton}
-                    >
-                      Reduction History
-                    </Button>
-                  </Box>
-                  <Box style={styles.infoBox}>
-                    <Typography
-                      variant="body2"
-                      paragraph
-                      style={styles.description}
-                    >
-                      {instrument.description}
-                    </Typography>
-                    <Link
-                      href={instrument.infoPage}
-                      target="_blank"
-                      rel="noopener"
-                      underline="always"
-                      style={styles.infoLink}
-                    >
-                      More Information
-                    </Link>
-                  </Box>
-                  <Box style={styles.scientistBox}>
-                    <Typography variant="body2">Scientists:</Typography>
-                    <List>
-                      {instrument.scientists.map((scientist) => (
-                        <ListItem key={scientist} style={styles.listItem}>
-                          <Typography variant="body2">
-                            Dr. {scientist}
-                          </Typography>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                </CardContent>
-              )}
-            </ExpandableCard>
-          </Box>
-        )
-      )}
+            )}
+          </ExpandableCard>
+        </Box>
+      ))}
     </Box>
   );
 };

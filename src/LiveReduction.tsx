@@ -8,14 +8,8 @@ const LiveReduction: React.FC = () => {
   const { instrumentName } = useParams<{ instrumentName: string }>();
   return (
     <div>
-      <Typography
-        variant="h3"
-        component="h1"
-        style={{ color: theme.palette.text.primary }}
-      >
-        {instrumentName
-          ? `${instrumentName.toUpperCase()} Live Reduction Page`
-          : 'Live Reduction Page'}
+      <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
+        {instrumentName ? `${instrumentName.toUpperCase()} Live Reduction Page` : 'Live Reduction Page'}
       </Typography>
       <Typography variant="body1" style={{ color: theme.palette.text.primary }}>
         This is the live reduction page. Content will be added soon.

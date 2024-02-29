@@ -2,13 +2,11 @@ import { CSSProperties } from 'react';
 import { Card } from '@mui/material';
 import { styled } from '@mui/system';
 
-export const ExpandableCard = styled(Card)<{ expanded: boolean }>(
-  ({ expanded }) => ({
-    backgroundColor: expanded ? '#12285c' : '#23428d',
-    color: 'white',
-    margin: '8px',
-  })
-);
+export const ExpandableCard = styled(Card)<{ expanded: boolean }>(({ expanded }) => ({
+  backgroundColor: expanded ? '#12285c' : '#23428d',
+  color: 'white',
+  margin: '8px',
+}));
 
 export const styles: Record<string, CSSProperties> = {
   tableSortLabel: {

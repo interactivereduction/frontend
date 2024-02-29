@@ -1,15 +1,6 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
-import {
-  Grid,
-  Box,
-  Paper,
-  Button,
-  Avatar,
-  alpha,
-  styled,
-  useMediaQuery,
-} from '@mui/material';
+import { Grid, Box, Paper, Button, Avatar, alpha, styled, useMediaQuery } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import { Trans, useTranslation } from 'react-i18next';
 import BackgroundImage from './images/background.jpg';
@@ -114,25 +105,20 @@ interface BrowseDecalProps {
 }
 
 const BrowseDecal = styled('div', {
-  shouldForwardProp: (prop) =>
-    prop !== 'decal2Image' &&
-    prop !== 'decal2DarkImage' &&
-    prop !== 'decal2DarkHCImage',
-})<BrowseDecalProps>(
-  ({ theme, decal2Image, decal2DarkImage, decal2DarkHCImage }) => ({
-    backgroundImage:
-      theme.palette.mode === 'light'
-        ? `url(${decal2Image})`
-        : // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (theme as any).colours?.type === 'default'
-        ? `url(${decal2DarkImage})`
-        : `url(${decal2DarkHCImage})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundPosition: 'top left',
-    backgroundSize: 'auto 100%',
-    height: '100%',
-  })
-);
+  shouldForwardProp: (prop) => prop !== 'decal2Image' && prop !== 'decal2DarkImage' && prop !== 'decal2DarkHCImage',
+})<BrowseDecalProps>(({ theme, decal2Image, decal2DarkImage, decal2DarkHCImage }) => ({
+  backgroundImage:
+    theme.palette.mode === 'light'
+      ? `url(${decal2Image})`
+      : // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (theme as any).colours?.type === 'default'
+      ? `url(${decal2DarkImage})`
+      : `url(${decal2DarkHCImage})`,
+  backgroundRepeat: 'no-repeat',
+  backgroundPosition: 'top left',
+  backgroundSize: 'auto 100%',
+  height: '100%',
+}));
 
 const LightBlueButton = styled(Button)(({ theme }) => ({
   color: '#FFFFFF',
@@ -179,26 +165,12 @@ const HomePage = (): React.ReactElement => {
               transform: 'translate(-50%)',
             }}
           >
-            <Typography
-              variant="h2"
-              sx={
-                isViewportMdOrLager
-                  ? backgroundTitleStyles
-                  : backgroundTitleStylesMobile
-              }
-            >
+            <Typography variant="h2" sx={isViewportMdOrLager ? backgroundTitleStyles : backgroundTitleStylesMobile}>
               <Trans i18nKey="home-page.title_line1">
                 <strong>Data reduction</strong> and <strong>processing</strong>
               </Trans>
             </Typography>
-            <Typography
-              variant="h2"
-              sx={
-                isViewportMdOrLager
-                  ? backgroundTitleStyles
-                  : backgroundTitleStylesMobile
-              }
-            >
+            <Typography variant="h2" sx={isViewportMdOrLager ? backgroundTitleStyles : backgroundTitleStylesMobile}>
               <Trans i18nKey="home-page.title_line2">
                 for <strong>large-scale</strong> science facilities
               </Trans>
@@ -227,9 +199,7 @@ const HomePage = (): React.ReactElement => {
                     marginBottom: theme.spacing(2),
                   })}
                 >
-                  {t(
-                    'Reduce and perform basic analysis remotely from a clean web interface'
-                  )}
+                  {t('Reduce and perform basic analysis remotely from a clean web interface')}
                 </Typography>
                 <PaperDescription variant="body1">
                   {t(
@@ -238,9 +208,8 @@ const HomePage = (): React.ReactElement => {
                 </PaperDescription>
                 <PaperDescription variant="body1">
                   <Trans i18nKey="home-page.browse.description2">
-                    <strong>Interactive Reduction</strong> focuses on providing
-                    scientists an interface to perform automatic reductions for
-                    beamline instruments from the web.
+                    <strong>Interactive Reduction</strong> focuses on providing scientists an interface to perform
+                    automatic reductions for beamline instruments from the web.
                   </Trans>
                 </PaperDescription>
                 <Box marginTop="16px">
@@ -312,20 +281,16 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">
-                  {t('Historical reductions')}
-                </PaperHeading>
+                <PaperHeading variant="h4">{t('Historical reductions')}</PaperHeading>
                 <PaperDescription variant="body1">
-                  {t(
-                    'Browse and search a list of all reduction performed on the platform.'
-                  )}
+                  {t('Browse and search a list of all reduction performed on the platform.')}
                 </PaperDescription>
                 <Box marginTop="auto">
                   <Button
                     color="primary"
                     variant="contained"
                     component={Link}
-                    to={t('history')}
+                    to={t('reduction-history/ALF')}
                     data-testid="browse-button"
                   >
                     {t('Browse reductions')}
@@ -335,10 +300,7 @@ const HomePage = (): React.ReactElement => {
             </Paper>
           </Grid>
           <Grid item xs={12} md={4}>
-            <Paper
-              sx={{ ...paperStyles, backgroundColor: '#003088' }}
-              elevation={1}
-            >
+            <Paper sx={{ ...paperStyles, backgroundColor: '#003088' }} elevation={1}>
               <div
                 style={{
                   backgroundImage: `url(${GreenSwirl2Image})`,
@@ -349,9 +311,7 @@ const HomePage = (): React.ReactElement => {
                 }}
               >
                 <Box sx={paperContentStyles}>
-                  <BluePaperHeading variant="h4">
-                    {t('ISIS Neutron and Muon Source')}
-                  </BluePaperHeading>
+                  <BluePaperHeading variant="h4">{t('ISIS Neutron and Muon Source')}</BluePaperHeading>
                   <BluePaperDescription variant="body1">
                     {t(
                       'World-leading centre for research giving unique insights into the properties of materials on the atomic scale.'
