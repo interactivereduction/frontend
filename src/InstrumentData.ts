@@ -98,12 +98,7 @@ export const instruments: InstrumentData[] = [
       'HRPD, the High Resolution Powder Diffractometer, is the highest resolution neutron powder diffractometer of its type in the world.',
     type: 'Crystallography diffractometer',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/HRPD.aspx',
-    scientists: [
-      'Sacha Fop',
-      'Dominic Fortes',
-      'Alexandra Gibbs',
-      'Paul Henry',
-    ],
+    scientists: ['Sacha Fop', 'Dominic Fortes', 'Alexandra Gibbs', 'Paul Henry'],
   },
   {
     id: 11,
@@ -139,12 +134,7 @@ export const instruments: InstrumentData[] = [
       'IRIS is a time-of-flight inverted-geometry crystal analyser spectrometer designed for quasi-elastic and low-energy high resolution inelastic spectroscopy.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/IRIS.aspx',
-    scientists: [
-      'Franz Demmel',
-      ' Victoria Garcia Sakai',
-      'Sanghamitra Mukhopadhyay',
-      'Mona Sarter',
-    ],
+    scientists: ['Franz Demmel', ' Victoria Garcia Sakai', 'Sanghamitra Mukhopadhyay', 'Mona Sarter'],
   },
   {
     id: 15,
@@ -180,12 +170,7 @@ export const instruments: InstrumentData[] = [
       'MAPS has been in operation since 2000. It was the first chopper spectrometer to employ a large array of position sensitive detectors, and the first to be designed solely for the purpose of measuring excitations in single crystals.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/MAPS.aspx',
-    scientists: [
-      'Hamish Cavaye',
-      'Stewart Parker',
-      'Aleksadra Krajewska',
-      'Helen Walker',
-    ],
+    scientists: ['Hamish Cavaye', 'Stewart Parker', 'Aleksadra Krajewska', 'Helen Walker'],
   },
   {
     id: 19,
@@ -199,8 +184,7 @@ export const instruments: InstrumentData[] = [
   {
     id: 20,
     name: 'MERLIN',
-    description:
-      'Merlin is a high count rate, medium energy resolution, direct geometry chopper spectrometer.',
+    description: 'Merlin is a high count rate, medium energy resolution, direct geometry chopper spectrometer.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/MERLIN.aspx',
     scientists: ['Devashibhai Adroja', 'David Voneshen'],
@@ -239,12 +223,7 @@ export const instruments: InstrumentData[] = [
       'OSIRIS is a spectrometer optimised for very low energy studies and long wavelength diffraction. These studies can provide information on relatively slow motions in materials such as diffusion in liquids and the movement of protons in batteries.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/OSIRIS.aspx',
-    scientists: [
-      'Franz Demmel',
-      'Sanghamitra Mukhopadhyay',
-      'Victoria Garcia Sakai',
-      'Mona Sarter',
-    ],
+    scientists: ['Franz Demmel', 'Sanghamitra Mukhopadhyay', 'Victoria Garcia Sakai', 'Mona Sarter'],
   },
   {
     id: 25,
