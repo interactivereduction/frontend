@@ -179,7 +179,15 @@ const ReductionHistory: React.FC = () => {
                   Experiment Number
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Reduction Input</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'filename'}
+                  direction={orderBy === 'filename' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('filename')}
+                >
+                  Reduction Input
+                </TableSortLabel>
+              </TableCell>
               <TableCell>
                 <TableSortLabel
                   active={orderBy === 'reduction_state'}
@@ -187,33 +195,6 @@ const ReductionHistory: React.FC = () => {
                   onClick={() => handleSort('reduction_state')}
                 >
                   Reduction Status
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_start'}
-                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_start')}
-                >
-                  Reduction Start
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_start'}
-                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_start')}
-                >
-                  Reduction End
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_start'}
-                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_start')}
-                >
-                  Title
                 </TableSortLabel>
               </TableCell>
               <TableCell>
@@ -234,7 +215,34 @@ const ReductionHistory: React.FC = () => {
                   Run End
                 </TableSortLabel>
               </TableCell>
-              <TableCell>Reduction Outputs</TableCell>
+              <TableCell>Title</TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_start'}
+                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_start')}
+                >
+                  Reduction Start
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_end'}
+                  direction={orderBy === 'reduction_end' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_end')}
+                >
+                  Reduction End
+                </TableSortLabel>
+              </TableCell>
+              <TableCell>
+                <TableSortLabel
+                  active={orderBy === 'reduction_outputs'}
+                  direction={orderBy === 'reduction_outputs' ? orderDirection : 'asc'}
+                  onClick={() => handleSort('reduction_outputs')}
+                >
+                  Reduction Outputs
+                </TableSortLabel>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -243,11 +251,11 @@ const ReductionHistory: React.FC = () => {
                 <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
                 <TableCell>{formatReductionStatus(reduction.reduction_state)}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
-                <TableCell>{reduction.runs[0].title}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
+                <TableCell>{reduction.runs[0].title}</TableCell>
+                <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
+                <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
                 <TableCell>{reduction.reduction_outputs}</TableCell>
               </StyledTableRow>
             ))}
