@@ -135,6 +135,13 @@ const ReductionHistory: React.FC = () => {
     return fileName;
   };
 
+  const formatReductionStatus = (status: string): string => {
+    if (status === 'NOT_STARTED') {
+      return 'NOT STARTED';
+    }
+    return status;
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
@@ -235,7 +242,7 @@ const ReductionHistory: React.FC = () => {
               <StyledTableRow key={index}>
                 <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell>{reduction.reduction_state}</TableCell>
+                <TableCell>{formatReductionStatus(reduction.reduction_state)}</TableCell>
                 <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
                 <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
                 <TableCell>{reduction.runs[0].title}</TableCell>
