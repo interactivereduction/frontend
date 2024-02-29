@@ -25,7 +25,5 @@ export function createRoute(
       logoAltText: 'Interactive Reduction',
     },
   };
-  document.dispatchEvent(
-    new CustomEvent('scigateway', { detail: routeAction })
-  );
+  document.dispatchEvent(new CustomEvent('scigateway', { detail: routeAction }));
 }

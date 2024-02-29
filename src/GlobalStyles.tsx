@@ -1,20 +1,11 @@
 import React from 'react';
-import {
-  ThemeProvider,
-  StyledEngineProvider,
-  Theme,
-  createTheme,
-} from '@mui/material/styles';
+import { ThemeProvider, StyledEngineProvider, Theme, createTheme } from '@mui/material/styles';
 
 let theme: Theme = createTheme();
 
 document.addEventListener('scigateway', (e) => {
   const action = (e as CustomEvent).detail;
-  if (
-    action.type === 'scigateway:api:send_themeoptions' &&
-    action.payload &&
-    action.payload.theme
-  ) {
+  if (action.type === 'scigateway:api:send_themeoptions' && action.payload && action.payload.theme) {
     theme = action.payload.theme;
   }
 });

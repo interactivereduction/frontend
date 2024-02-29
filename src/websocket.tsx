@@ -6,9 +6,7 @@ export function createWebsocketClient(url: string): WebSocket {
 
   ws.addEventListener('message', (event) => {
     const data = JSON.parse(event.data);
-    log.info(
-      `Received notification from WebSocket to dispatch ${data.message}`
-    );
+    log.info(`Received notification from WebSocket to dispatch ${data.message}`);
     const action = {
       type: 'scigateway:api:notification',
       payload: {
