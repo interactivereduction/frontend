@@ -1,3 +1,5 @@
+import logoLight from './images/ir-light-text-logo.png';
+
 export function createRoute(
   section: string,
   label: string,
@@ -16,9 +18,12 @@ export function createRoute(
       order: order,
       helpText: helpText,
       unauthorised: unauthorised,
+      // By default SciGateway will use logoDarkMode but can't see the dark mode
+      // logo because it's on a blue background
+      logoLightMode: 'http://localhost:5001/' + logoLight,
+      logoDarkMode: 'http://localhost:5001/' + logoLight,
+      logoAltText: 'Interactive Reduction',
     },
   };
-  document.dispatchEvent(
-    new CustomEvent('scigateway', { detail: routeAction })
-  );
+  document.dispatchEvent(new CustomEvent('scigateway', { detail: routeAction }));
 }
