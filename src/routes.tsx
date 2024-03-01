@@ -8,6 +8,10 @@ export function createRoute(
   helpText: string,
   unauthorised: boolean
 ): void {
+  // By default SciGateway will use logoDarkMode even when light mode is on.
+  // Also, switching between light and dark doesn't alter the header bar
+  // colour unless high contrast mode is also on, so for now only using the
+  // light logo
   const pluginUrl = process.env.REACT_APP_PLUGIN_URL;
   const logoUrl = pluginUrl + logoLight;
   const routeAction = {
@@ -20,8 +24,6 @@ export function createRoute(
       order: order,
       helpText: helpText,
       unauthorised: unauthorised,
-      // By default SciGateway will use logoDarkMode but can't see the dark mode
-      // logo because it's on a blue background
       logoLightMode: logoUrl,
       logoDarkMode: logoUrl,
       logoAltText: 'Interactive Reduction',
