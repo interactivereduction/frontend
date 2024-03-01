@@ -1,42 +1,24 @@
 import React from 'react';
 import { ThemeProvider, StyledEngineProvider, Theme, createTheme } from '@mui/material/styles';
 
-interface State {
-  theme: Theme;
-}
+let theme: Theme = createTheme();
 
-class GlobalStyles extends React.Component<{ children: React.ReactNode }, State> {
+document.addEventListener('scigateway', (e) => {
+  const action = (e as CustomEvent).detail;
+  if (action.type === 'scigateway:api:send_themeoptions' && action.payload && action.payload.theme) {
+    theme = action.payload.theme;
+  }
+});
+
+class GlobalStyles extends React.Component<{ children: React.ReactNode }> {
   public constructor(props: { children: React.ReactNode }) {
     super(props);
-    this.state = {
-      theme: createTheme(),
-    };
   }
-
-  componentDidMount(): void {
-    document.addEventListener('scigateway', this.handleThemeChange);
-  }
-
-  componentWillUnmount(): void {
-    document.removeEventListener('scigateway', this.handleThemeChange);
-  }
-
-  handleThemeChange = (e: Event): void => {
-    console.log('Received a scigateway event:', e);
-    console.log('Action structure:', (e as CustomEvent).detail);
-    const action = (e as CustomEvent).detail;
-    if (action.type === 'scigateway:api:send_themeoptions' && action.payload && action.payload.theme) {
-      this.setState({ theme: action.payload.theme });
-
-      console.log('Received theme:', action.payload.theme);
-      console.log('Current theme mode after setting:', this.state.theme.palette.mode);
-    }
-  };
 
   public render(): React.ReactElement {
     return (
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={this.state.theme}>{this.props.children}</ThemeProvider>
+        <ThemeProvider theme={theme}>{this.props.children}</ThemeProvider>
       </StyledEngineProvider>
     );
   }

@@ -65,7 +65,6 @@ createRoute(
   true // whether the link should be visible to unauthenticated users
 );
 createRoute('Reductions', 'Instruments', '/ir/instruments', 2, 'Data help text', true);
-
 createRoute('Reductions', 'Reduction history', '/ir/reduction-history/ALF', 3, 'Data help text', true);
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
