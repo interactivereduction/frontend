@@ -8,6 +8,8 @@ export function createRoute(
   helpText: string,
   unauthorised: boolean
 ): void {
+  const pluginUrl = process.env.REACT_APP_PLUGIN_URL;
+  const logoUrl = pluginUrl + logoLight;
   const routeAction = {
     type: 'scigateway:api:register_route',
     payload: {
@@ -20,8 +22,8 @@ export function createRoute(
       unauthorised: unauthorised,
       // By default SciGateway will use logoDarkMode but can't see the dark mode
       // logo because it's on a blue background
-      logoLightMode: 'http://localhost:5001/' + logoLight,
-      logoDarkMode: 'http://localhost:5001/' + logoLight,
+      logoLightMode: logoUrl,
+      logoDarkMode: logoUrl,
       logoAltText: 'Interactive Reduction',
     },
   };
