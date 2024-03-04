@@ -22,13 +22,4 @@ describe('HomePage Component Tests', () => {
     cy.contains('Data reduction and processing').should('be.visible');
     cy.contains('for large-scale science facilities').should('be.visible');
   });
-
-  // TODO: currently a false test as the light / dark mode setting is bugged
-  // Also realHover() doesn't appear to actually work
-  // it('changes button background color on hover', () => {
-  //   cy.get('[data-testid="browse-button"]').first()
-  //     .should("have.css", "background-color", "rgb(25, 118, 210)") // Asserts the default color
-  //     .realHover() // Simulates a real hover event over the button
-  //     .should('have.css', 'background-color', "rgb(21, 101, 192)"); // Asserts the hover color
-  // });
 });
