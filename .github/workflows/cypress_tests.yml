@@ -21,6 +21,8 @@ jobs:
 
     - name: Run Cypress Tests
       uses: cypress-io/github-action@v2
+      env:
+        ELECTRON_EXTRA_LAUNCH_ARGS: '--disable-gpu'
       with:
         start: yarn start # Command to start your server, adjust as necessary
         wait-on: 'http://localhost:3000' # Adjust the URL as necessary
