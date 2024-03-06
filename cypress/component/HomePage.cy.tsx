@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import HomePage from './HomePage';
+import HomePage from '../../src/HomePage';
 
 describe('HomePage Component Tests', () => {
   beforeEach(() => {
