@@ -22,4 +22,14 @@ describe('HomePage Component Tests', () => {
     cy.contains('Data reduction and processing').should('be.visible');
     cy.contains('for large-scale science facilities').should('be.visible');
   });
+
+  it('displays the background image', () => {
+    cy.get('div[id="ir-homepage"] > div')
+      .first()
+      .should('exist')
+      .and('have.css', 'backgroundImage')
+      .and((url) => {
+        expect(url).to.match(/background.*\.jpg/);
+      });
+  });
 });
