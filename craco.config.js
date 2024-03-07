@@ -7,7 +7,7 @@ module.exports = {
       };
 
       // if (env === 'production' && !process.env.REACT_APP_E2E_TESTING) {
-      webpackConfig.output.library = 'demo_plugin';
+      webpackConfig.output.library = 'flexible-interactive-automation';
       webpackConfig.output.libraryTarget = 'window';
 
       webpackConfig.output.filename = '[name].js';
