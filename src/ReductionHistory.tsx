@@ -148,6 +148,20 @@ const ReductionHistory: React.FC = () => {
     return formattedSatatus;
   };
 
+  const getStatusColor = (state: string): string => {
+    switch (state) {
+      case 'UNSUCCESSFUL':
+      case 'ERROR':
+        return 'rgba(255, 0, 0, 0.2)'; // Light red background
+      case 'SUCCESSFUL':
+        return 'rgba(0, 255, 0, 0.2)'; // Light green background
+      case 'NOT_STARTED':
+        return 'rgba(255, 255, 0, 0.2)'; // Light yellow background
+      default:
+        return 'inherit'; // Default background color
+    }
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
@@ -256,7 +270,7 @@ const ReductionHistory: React.FC = () => {
               <StyledTableRow key={index}>
                 <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell>
+                <TableCell style={{ backgroundColor: getStatusColor(reduction.reduction_state) }}>
                   {formatReductionStatus(reduction.reduction_state, reduction.reduction_status_message)}
                 </TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
