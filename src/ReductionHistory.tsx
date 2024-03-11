@@ -135,11 +135,17 @@ const ReductionHistory: React.FC = () => {
     return fileName;
   };
 
-  const formatReductionStatus = (status: string): string => {
+  const formatReductionStatus = (status: string, statusMessage: string): string => {
+    let formattedSatatus = status;
     if (status === 'NOT_STARTED') {
-      return 'NOT STARTED';
+      formattedSatatus = 'NOT STARTED';
     }
-    return status;
+
+    if (statusMessage && statusMessage.trim().length > 0) {
+      formattedSatatus += ` - ${statusMessage}`;
+    }
+
+    return formattedSatatus;
   };
 
   return (
@@ -250,7 +256,9 @@ const ReductionHistory: React.FC = () => {
               <StyledTableRow key={index}>
                 <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell>{formatReductionStatus(reduction.reduction_state)}</TableCell>
+                <TableCell>
+                  {formatReductionStatus(reduction.reduction_state, reduction.reduction_status_message)}
+                </TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
                 <TableCell>{reduction.runs[0].title}</TableCell>
