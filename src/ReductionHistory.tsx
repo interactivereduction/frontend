@@ -18,8 +18,13 @@ import {
   InputLabel,
   SelectChangeEvent,
   Box,
+  Tooltip,
   styled,
 } from '@mui/material';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
 import { instruments } from './InstrumentData';
 
 interface Run {
@@ -135,32 +140,47 @@ const ReductionHistory: React.FC = () => {
     return fileName;
   };
 
-  const formatReductionStatus = (status: string, statusMessage: string): string => {
-    let formattedSatatus = status;
-    if (status === 'NOT_STARTED') {
-      formattedSatatus = 'NOT STARTED';
-    }
+  const ReductionStatusIcon = ({ state, statusMessage }: { state: string; statusMessage: string }): JSX.Element => {
+    let IconComponent;
+    let color;
 
-    if (statusMessage && statusMessage.trim().length > 0) {
-      formattedSatatus += ` - ${statusMessage}`;
-    }
-
-    return formattedSatatus;
-  };
-
-  const getStatusColor = (state: string): string => {
     switch (state) {
-      case 'UNSUCCESSFUL':
       case 'ERROR':
-        return '#F88888'; // Light red background
+        IconComponent = ErrorOutlineIcon;
+        color = 'red';
+        break;
       case 'SUCCESSFUL':
-        return '#9BE19B'; // Light green background
+        IconComponent = CheckCircleOutlineIcon;
+        color = 'green';
+        break;
+      case 'UNSUCCESSFUL':
+        IconComponent = WarningAmberIcon;
+        color = 'orange';
+        break;
       case 'NOT_STARTED':
-        return '#F9F995'; // Light yellow background
+        IconComponent = HighlightOffIcon;
+        color = 'grey';
+        break;
       default:
-        return 'inherit'; // Default background color
+        IconComponent = ErrorOutlineIcon;
+        color = 'disabled';
+        statusMessage = 'Unknown status';
     }
+    return (
+      <Tooltip title={statusMessage}>
+        <div>
+          <IconComponent style={{ color }} />
+        </div>
+      </Tooltip>
+    );
   };
+
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    minWidth: 160,
+  }));
 
   return (
     <div style={{ padding: '20px' }}>
@@ -190,7 +210,8 @@ const ReductionHistory: React.FC = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>
+              <TableCell></TableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'experiment_number'}
                   direction={orderBy === 'experiment_number' ? orderDirection : 'asc'}
@@ -198,8 +219,8 @@ const ReductionHistory: React.FC = () => {
                 >
                   Experiment Number
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'filename'}
                   direction={orderBy === 'filename' ? orderDirection : 'asc'}
@@ -207,17 +228,8 @@ const ReductionHistory: React.FC = () => {
                 >
                   Reduction Input
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_state'}
-                  direction={orderBy === 'reduction_state' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_state')}
-                >
-                  Reduction Status
-                </TableSortLabel>
-              </TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'run_start'}
                   direction={orderBy === 'run_start' ? orderDirection : 'asc'}
@@ -225,8 +237,8 @@ const ReductionHistory: React.FC = () => {
                 >
                   Run Start
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'run_end'}
                   direction={orderBy === 'run_end' ? orderDirection : 'asc'}
@@ -234,9 +246,9 @@ const ReductionHistory: React.FC = () => {
                 >
                   Run End
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>Title</TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>Title</StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'reduction_start'}
                   direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
@@ -244,8 +256,8 @@ const ReductionHistory: React.FC = () => {
                 >
                   Reduction Start
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'reduction_end'}
                   direction={orderBy === 'reduction_end' ? orderDirection : 'asc'}
@@ -253,8 +265,8 @@ const ReductionHistory: React.FC = () => {
                 >
                   Reduction End
                 </TableSortLabel>
-              </TableCell>
-              <TableCell>
+              </StyledTableCell>
+              <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'reduction_outputs'}
                   direction={orderBy === 'reduction_outputs' ? orderDirection : 'asc'}
@@ -262,17 +274,20 @@ const ReductionHistory: React.FC = () => {
                 >
                   Reduction Outputs
                 </TableSortLabel>
-              </TableCell>
+              </StyledTableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {reductions.map((reduction, index) => (
               <StyledTableRow key={index}>
+                <TableCell>
+                  <ReductionStatusIcon
+                    state={reduction.reduction_state}
+                    statusMessage={reduction.reduction_status_message}
+                  />
+                </TableCell>
                 <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell style={{ backgroundColor: getStatusColor(reduction.reduction_state) }}>
-                  {formatReductionStatus(reduction.reduction_state, reduction.reduction_status_message)}
-                </TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
                 <TableCell>{reduction.runs[0].title}</TableCell>
