@@ -152,11 +152,11 @@ const ReductionHistory: React.FC = () => {
     switch (state) {
       case 'UNSUCCESSFUL':
       case 'ERROR':
-        return 'rgba(255, 0, 0, 0.2)'; // Light red background
+        return '#F88888'; // Light red background
       case 'SUCCESSFUL':
-        return 'rgba(0, 255, 0, 0.2)'; // Light green background
+        return '#9BE19B'; // Light green background
       case 'NOT_STARTED':
-        return 'rgba(255, 255, 0, 0.2)'; // Light yellow background
+        return '#F9F995'; // Light yellow background
       default:
         return 'inherit'; // Default background color
     }
