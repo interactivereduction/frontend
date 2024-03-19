@@ -137,7 +137,7 @@ const Instrument: React.FC = () => {
                     underline="always"
                     style={styles.infoLink}
                   >
-                    More Information
+                    {instrument.infoPage}
                   </Link>
                 </Box>
                 <Box style={styles.scientistBox}>
