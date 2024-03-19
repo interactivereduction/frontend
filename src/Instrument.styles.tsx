@@ -70,7 +70,6 @@ export const styles: Record<string, CSSProperties> = {
   infoLink: {
     marginTop: '10',
     color: 'lightblue',
-    textDecoration: 'none',
   },
   scientistBox: {
     flex: '1',
