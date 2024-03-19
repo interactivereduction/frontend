@@ -210,7 +210,6 @@ const ReductionHistory: React.FC = () => {
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell></TableCell>
               <StyledTableCell>
                 <TableSortLabel
                   active={orderBy === 'experiment_number'}
@@ -281,12 +280,14 @@ const ReductionHistory: React.FC = () => {
             {reductions.map((reduction, index) => (
               <StyledTableRow key={index}>
                 <TableCell>
-                  <ReductionStatusIcon
-                    state={reduction.reduction_state}
-                    statusMessage={reduction.reduction_status_message}
-                  />
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <ReductionStatusIcon
+                      state={reduction.reduction_state}
+                      statusMessage={reduction.reduction_status_message}
+                    />
+                    <span style={{ marginLeft: '40px' }}>{reduction.runs[0].experiment_number}</span>
+                  </div>
                 </TableCell>
-                <TableCell>{reduction.runs[0].experiment_number}</TableCell>
                 <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
                 <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
