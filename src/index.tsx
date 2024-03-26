@@ -8,9 +8,9 @@ import { createRoute } from './routes';
 import { createWebsocketClient } from './websocket';
 
 if (process.env.NODE_ENV === `development`) {
-  const el = document.getElementById('demo_plugin');
+  const el = document.getElementById('flexible-interactive-automation');
   if (el) {
-    ReactDOM.render(<App />, document.getElementById('demo_plugin'));
+    ReactDOM.render(<App />, document.getElementById('flexible-interactive-automation'));
   }
   log.setDefaultLevel(log.levels.DEBUG);
 } else {
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === `development`) {
 
 function domElementGetter(): HTMLElement {
   // Make sure there is a div for us to render into
-  let el = document.getElementById('demo_plugin');
+  let el = document.getElementById('flexible-interactive-automation');
   if (!el) {
     el = document.createElement('div');
   }
@@ -36,7 +36,7 @@ const reactLifecycles = singleSpaReact({
   rootComponent: App,
   domElementGetter,
   errorBoundary: (error): React.ReactElement => {
-    log.error(`demo_plugin failed with error: ${error}`);
+    log.error(`flexible-interactive-reduction failed with error: ${error}`);
 
     return (
       <div className="error">
@@ -73,10 +73,10 @@ export function bootstrap(props: unknown): Promise<void> {
   return reactLifecycles
     .bootstrap(props)
     .then(() => {
-      log.info('demo_plugin has been successfully bootstrapped');
+      log.info('flexible-interactive-reduction has been successfully bootstrapped');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst bootstrapping: ' + error);
+      log.error('flexible-interactive-reduction failed whilst bootstrapping: ' + error);
     });
 }
 
@@ -84,10 +84,10 @@ export function mount(props: unknown): Promise<void> {
   return reactLifecycles
     .mount(props)
     .then(() => {
-      log.info('demo_plugin has been successfully mounted');
+      log.info('flexible-interactive-reduction has been successfully mounted');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst mounting: ' + error);
+      log.error('flexible-interactive-reduction failed whilst mounting: ' + error);
     });
 }
 
@@ -95,9 +95,9 @@ export function unmount(props: unknown): Promise<void> {
   return reactLifecycles
     .unmount(props)
     .then(() => {
-      log.info('demo_plugin has been successfully unmounted');
+      log.info('flexible-interactive-reduction has been successfully unmounted');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst unmounting: ' + error);
+      log.error('flexible-interactive-reduction failed whilst unmounting: ' + error);
     });
 }
