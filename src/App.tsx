@@ -5,6 +5,7 @@ import Instrument from './Instrument';
 import LiveReduction from './LiveReduction';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
+import DataViewer from './DataViewer';
 import GlobalStyles from './GlobalStyles';
 
 const App: FC = () => {
@@ -47,6 +48,9 @@ const App: FC = () => {
           </Route>
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />
+          </Route>
+          <Route path="/data-viewer/:instrumentName">
+            <DataViewer />
           </Route>
         </Switch>
       </Router>
