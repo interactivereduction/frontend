@@ -66,7 +66,7 @@ createRoute(
 );
 createRoute('Reductions', 'Instruments', '/ir/instruments', 2, 'Data help text', true);
 createRoute('Reductions', 'Reduction history', '/ir/reduction-history/ALF', 3, 'Data help text', true);
-createRoute('Reductions', 'Data Viewer', '/ir/data-viewer/ALF', 4, 'Data help text', true);
+createRoute('Reductions', 'Data viewer', '/ir/data-viewer/ALF', 4, 'Data help text', true);
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
