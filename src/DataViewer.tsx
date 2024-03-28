@@ -30,9 +30,10 @@ const DataViewer: React.FC = () => {
 
   return (
     <div style={{ padding: '20px' }}>
-      <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
-        {selectedInstrument.toUpperCase()} Data Viewer
-      </Typography>
+      <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
+        <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
+          {selectedInstrument.toUpperCase()} data viewer
+        </Typography>
 
       <FormControl style={{ margin: '20px 0' }}>
         <InputLabel id="instrument-select-label">Instrument</InputLabel>
