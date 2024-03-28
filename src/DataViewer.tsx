@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Plot from 'react-plotly.js';
 import { useTheme } from '@mui/material/styles';
 import { useParams, useHistory } from 'react-router-dom';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from '@mui/material';
-import Typography from '@mui/material/Typography';
+import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box, Typography } from '@mui/material';
 import { instruments } from './InstrumentData';
 
 const DataViewer: React.FC = () => {
@@ -35,16 +34,22 @@ const DataViewer: React.FC = () => {
           {selectedInstrument.toUpperCase()} data viewer
         </Typography>
 
-      <FormControl style={{ margin: '20px 0' }}>
-        <InputLabel id="instrument-select-label">Instrument</InputLabel>
-        <Select labelId="instrument-select-label" value={selectedInstrument} onChange={handleInstrumentChange}>
-          {instruments.map((instrument) => (
-            <MenuItem key={instrument.id} value={instrument.name}>
-              {instrument.name}
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
+        <FormControl style={{ minWidth: '200px' }}>
+          <InputLabel id="instrument-select-label">Instrument</InputLabel>
+          <Select
+            labelId="instrument-select-label"
+            value={selectedInstrument}
+            label="Instrument"
+            onChange={handleInstrumentChange}
+          >
+            {instruments.map((instrument) => (
+              <MenuItem key={instrument.id} value={instrument.name}>
+                {instrument.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
 
       <Plot
         data={[
