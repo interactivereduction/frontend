@@ -186,7 +186,7 @@ const ReductionHistory: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
         <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
-          {`${selectedInstrument.toUpperCase()} Reduction History`}
+          {selectedInstrument.toUpperCase()} reduction history
         </Typography>
 
         <FormControl style={{ width: '200px', marginLeft: '20px' }}>

@@ -112,10 +112,10 @@ const Instrument: React.FC = () => {
                   <Button
                     variant="contained"
                     component={RouterLink}
-                    to={`/live-reduction/${instrument.name.toUpperCase()}`}
+                    to={`/data-viewer/${instrument.name.toUpperCase()}`}
                     style={styles.button}
                   >
-                    Live Reduction
+                    Data Viewer
                   </Button>
                   <Button
                     variant="contained"
