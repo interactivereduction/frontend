@@ -40,7 +40,7 @@ const DataViewer: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
         <Typography variant="h3" component="h1" style={{ color: textColor }}>
-          {selectedInstrument.toUpperCase()} Data viewer
+          {selectedInstrument.toUpperCase()} data viewer
         </Typography>
 
         <FormControl style={{ minWidth: '200px' }}>
