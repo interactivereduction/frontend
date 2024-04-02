@@ -8,9 +8,9 @@ import { createRoute } from './routes';
 import { createWebsocketClient } from './websocket';
 
 if (process.env.NODE_ENV === `development`) {
-  const el = document.getElementById('flexible-interactive-automation');
+  const el = document.getElementById('fia');
   if (el) {
-    ReactDOM.render(<App />, document.getElementById('flexible-interactive-automation'));
+    ReactDOM.render(<App />, document.getElementById('fia'));
   }
   log.setDefaultLevel(log.levels.DEBUG);
 } else {
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === `development`) {
 
 function domElementGetter(): HTMLElement {
   // Make sure there is a div for us to render into
-  let el = document.getElementById('flexible-interactive-automation');
+  let el = document.getElementById('fia');
   if (!el) {
     el = document.createElement('div');
   }
@@ -36,7 +36,7 @@ const reactLifecycles = singleSpaReact({
   rootComponent: App,
   domElementGetter,
   errorBoundary: (error): React.ReactElement => {
-    log.error(`flexible-interactive-automation failed with error: ${error}`);
+    log.error(`fia failed with error: ${error}`);
 
     return (
       <div className="error">
@@ -73,10 +73,10 @@ export function bootstrap(props: unknown): Promise<void> {
   return reactLifecycles
     .bootstrap(props)
     .then(() => {
-      log.info('flexible-interactive-automation has been successfully bootstrapped');
+      log.info('fia has been successfully bootstrapped');
     })
     .catch((error: unknown) => {
-      log.error('flexible-interactive-automation failed whilst bootstrapping: ' + error);
+      log.error('fia failed whilst bootstrapping: ' + error);
     });
 }
 
@@ -84,10 +84,10 @@ export function mount(props: unknown): Promise<void> {
   return reactLifecycles
     .mount(props)
     .then(() => {
-      log.info('flexible-interactive-automation has been successfully mounted');
+      log.info('fia has been successfully mounted');
     })
     .catch((error: unknown) => {
-      log.error('flexible-interactive-automation failed whilst mounting: ' + error);
+      log.error('fia failed whilst mounting: ' + error);
     });
 }
 
@@ -95,9 +95,9 @@ export function unmount(props: unknown): Promise<void> {
   return reactLifecycles
     .unmount(props)
     .then(() => {
-      log.info('flexible-interactive-automation has been successfully unmounted');
+      log.info('fia has been successfully unmounted');
     })
     .catch((error: unknown) => {
-      log.error('flexible-interactive-automation failed whilst unmounting: ' + error);
+      log.error('fia failed whilst unmounting: ' + error);
     });
 }

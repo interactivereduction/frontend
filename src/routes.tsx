@@ -19,7 +19,7 @@ export function createRoute(
     payload: {
       section: section,
       link: route,
-      plugin: 'flexible-interactive-automation',
+      plugin: 'fia',
       displayName: label,
       order: order,
       helpText: helpText,
