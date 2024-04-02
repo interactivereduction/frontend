@@ -46,7 +46,7 @@ interface Reduction {
 }
 
 const ReductionHistory: React.FC = () => {
-  const irApiUrl = process.env.REACT_APP_IR_REST_API_URL;
+  const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
   const theme = useTheme();
   const history = useHistory();
   const { instrumentName } = useParams<{ instrumentName: string }>();
@@ -70,25 +70,25 @@ const ReductionHistory: React.FC = () => {
 
   const fetchTotalCount = useCallback(async (): Promise<void> => {
     try {
-      const response = await fetch(`${irApiUrl}/instrument/${selectedInstrument}/reductions/count`);
+      const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions/count`);
       const data = await response.json();
       setTotalPages(Math.ceil(data.count / limit));
     } catch (error) {
       console.error('Error fetching run count:', error);
     }
-  }, [selectedInstrument, irApiUrl]);
+  }, [selectedInstrument, fiaApiUrl]);
 
   const fetchReductions = useCallback(async (): Promise<void> => {
     try {
       const offset = (currentPage - 1) * limit;
       const query = `limit=${limit}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}&include_runs=true`;
-      const response = await fetch(`${irApiUrl}/instrument/${selectedInstrument}/reductions?${query}`);
+      const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions?${query}`);
       const data = await response.json();
       setReductions(data);
     } catch (error) {
       console.error('Error fetching runs:', error);
     }
-  }, [selectedInstrument, currentPage, orderBy, orderDirection, irApiUrl]);
+  }, [selectedInstrument, currentPage, orderBy, orderDirection, fiaApiUrl]);
 
   useEffect(() => {
     fetchTotalCount();

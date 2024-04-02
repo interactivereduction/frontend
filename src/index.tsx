@@ -8,9 +8,9 @@ import { createRoute } from './routes';
 import { createWebsocketClient } from './websocket';
 
 if (process.env.NODE_ENV === `development`) {
-  const el = document.getElementById('demo_plugin');
+  const el = document.getElementById('fia');
   if (el) {
-    ReactDOM.render(<App />, document.getElementById('demo_plugin'));
+    ReactDOM.render(<App />, document.getElementById('fia'));
   }
   log.setDefaultLevel(log.levels.DEBUG);
 } else {
@@ -19,7 +19,7 @@ if (process.env.NODE_ENV === `development`) {
 
 function domElementGetter(): HTMLElement {
   // Make sure there is a div for us to render into
-  let el = document.getElementById('demo_plugin');
+  let el = document.getElementById('fia');
   if (!el) {
     el = document.createElement('div');
   }
@@ -36,7 +36,7 @@ const reactLifecycles = singleSpaReact({
   rootComponent: App,
   domElementGetter,
   errorBoundary: (error): React.ReactElement => {
-    log.error(`demo_plugin failed with error: ${error}`);
+    log.error(`fia failed with error: ${error}`);
 
     return (
       <div className="error">
@@ -59,13 +59,13 @@ const reactLifecycles = singleSpaReact({
 createRoute(
   'Reductions', // what section of the menu you want the link to be in
   'Home page', // text of the link
-  '/ir', // route the link should link to
+  '/fia', // route the link should link to
   1, // how high up in the section should your link be - ascending order
   'Data help text', // help text renders a tooltip in the site tour for this link
   true // whether the link should be visible to unauthenticated users
 );
-createRoute('Reductions', 'Instruments', '/ir/instruments', 2, 'Data help text', true);
-createRoute('Reductions', 'Reduction history', '/ir/reduction-history/ALF', 3, 'Data help text', true);
+createRoute('Reductions', 'Instruments', '/fia/instruments', 2, 'Data help text', true);
+createRoute('Reductions', 'Reduction history', '/fia/reduction-history/ALF', 3, 'Data help text', true);
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
@@ -73,10 +73,10 @@ export function bootstrap(props: unknown): Promise<void> {
   return reactLifecycles
     .bootstrap(props)
     .then(() => {
-      log.info('demo_plugin has been successfully bootstrapped');
+      log.info('fia has been successfully bootstrapped');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst bootstrapping: ' + error);
+      log.error('fia failed whilst bootstrapping: ' + error);
     });
 }
 
@@ -84,10 +84,10 @@ export function mount(props: unknown): Promise<void> {
   return reactLifecycles
     .mount(props)
     .then(() => {
-      log.info('demo_plugin has been successfully mounted');
+      log.info('fia has been successfully mounted');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst mounting: ' + error);
+      log.error('fia failed whilst mounting: ' + error);
     });
 }
 
@@ -95,9 +95,9 @@ export function unmount(props: unknown): Promise<void> {
   return reactLifecycles
     .unmount(props)
     .then(() => {
-      log.info('demo_plugin has been successfully unmounted');
+      log.info('fia has been successfully unmounted');
     })
     .catch((error: unknown) => {
-      log.error('demo_plugin failed whilst unmounting: ' + error);
+      log.error('fia failed whilst unmounting: ' + error);
     });
 }
