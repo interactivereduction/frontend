@@ -139,7 +139,7 @@ const HomePage = (): React.ReactElement => {
   const isViewportMdOrLager = useMediaQuery(theme.breakpoints.up('md'));
 
   return (
-    <div id="ir-homepage">
+    <div id="fia-homepage">
       <div
         style={{
           backgroundImage: `url(${BackgroundImage})`,
@@ -208,8 +208,8 @@ const HomePage = (): React.ReactElement => {
                 </PaperDescription>
                 <PaperDescription variant="body1">
                   <Trans i18nKey="home-page.browse.description2">
-                    <strong>Interactive Reduction</strong> focuses on providing scientists an interface to perform
-                    automatic reductions for beamline instruments from the web.
+                    <strong>Flexible Interactive Reduction</strong> focuses on providing scientists an interface to
+                    perform automatic reductions for beamline instruments from the web.
                   </Trans>
                 </PaperDescription>
                 <Box marginTop="16px">

@@ -1,4 +1,4 @@
-# Repo for the Interactive Reduction Frontend
+# Repo for the Flexible Interactive Automation Frontend
 
 ## Getting Started with Create React App
 

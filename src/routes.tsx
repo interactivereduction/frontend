@@ -1,4 +1,4 @@
-import logoLight from './images/ir-light-text-logo.png';
+import logoLight from './images/fia-light-text-logo.png';
 
 export function createRoute(
   section: string,
@@ -26,7 +26,7 @@ export function createRoute(
       unauthorised: unauthorised,
       logoLightMode: logoUrl,
       logoDarkMode: logoUrl,
-      logoAltText: 'Interactive Reduction',
+      logoAltText: 'Flexible Interactive Reduction',
     },
   };
   document.dispatchEvent(new CustomEvent('scigateway', { detail: routeAction }));
