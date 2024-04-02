@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { mount } from '@cypress/react';
-import HomePage from './HomePage';
+import HomePage from '../../src/HomePage';
 
 describe('HomePage Component Tests', () => {
   beforeEach(() => {
@@ -21,5 +21,15 @@ describe('HomePage Component Tests', () => {
   it('renders the title correctly in two parts', () => {
     cy.contains('Data reduction and processing').should('be.visible');
     cy.contains('for large-scale science facilities').should('be.visible');
+  });
+
+  it('displays the background image', () => {
+    cy.get('div[id="ir-homepage"] > div')
+      .first()
+      .should('exist')
+      .and('have.css', 'backgroundImage')
+      .and((url) => {
+        expect(url).to.match(/background.*\.jpg/);
+      });
   });
 });

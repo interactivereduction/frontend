@@ -53,11 +53,11 @@ export const styles: Record<string, CSSProperties> = {
     marginRight: 20,
   },
   button: {
-    marginBottom: 8,
-    fontWeight: 'bold',
+    marginBottom: 14,
+    outline: '1px solid white',
   },
   secondButton: {
-    fontWeight: 'bold',
+    outline: '1px solid white',
   },
   infoBox: {
     flex: '1.8',
@@ -70,7 +70,6 @@ export const styles: Record<string, CSSProperties> = {
   infoLink: {
     marginTop: '10',
     color: 'lightblue',
-    textDecoration: 'none',
   },
   scientistBox: {
     flex: '1',
