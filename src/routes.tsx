@@ -26,7 +26,7 @@ export function createRoute(
       unauthorised: unauthorised,
       logoLightMode: logoUrl,
       logoDarkMode: logoUrl,
-      logoAltText: 'Flexible Interactive Reduction',
+      logoAltText: 'Flexible Interactive Automation',
     },
   };
   document.dispatchEvent(new CustomEvent('scigateway', { detail: routeAction }));
