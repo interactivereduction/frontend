@@ -24,7 +24,7 @@ describe('HomePage Component Tests', () => {
   });
 
   it('displays the background image', () => {
-    cy.get('div[id="ir-homepage"] > div')
+    cy.get('div[id="fia-homepage"] > div')
       .first()
       .should('exist')
       .and('have.css', 'backgroundImage')
