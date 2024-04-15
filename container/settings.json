@@ -14,8 +14,8 @@
   },
   "plugins": [
     {
-      "name": "flexible-interactive-automation",
-      "src": "http://localhost:5001/main.js",
+      "name": "fia",
+      "src": "/f-i-a/main.js",
       "enable": true,
       "location": "main"
     }
@@ -60,5 +60,5 @@
   "autoLogin": true,
   "ga-tracking-id": "UA-XXXX-Y",
   "contactUsAccessibilityFormUrl": "",
-  "homepageUrl": "/ir"
+  "homepageUrl": "/fia"
 }

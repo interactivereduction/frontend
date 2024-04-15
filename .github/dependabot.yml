@@ -20,3 +20,12 @@ updates:
       JS-packages:
         patterns:
           - "*"
+
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "daily"
+    groups:
+      docker-packages:
+        patterns:
+          - "*"

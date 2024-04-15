@@ -31,13 +31,14 @@ jobs:
       - name: Build and push frontend Docker image
         uses: docker/build-push-action@v5
         with:
-          file: ./container/frontend.D
+          file: ./container/frontend.dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ github.sha }}
 
       - name: Build and push scigateway Docker image
         uses: docker/build-push-action@v5
         with:
-          file: ./container/scigateway.D
+          context: ./container
+          file: ./container/scigateway.dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway:${{ github.sha }}
