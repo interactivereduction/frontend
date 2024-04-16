@@ -278,7 +278,13 @@ const ReductionHistory: React.FC = () => {
           </TableHead>
           <TableBody>
             {reductions.map((reduction, index) => (
-              <StyledTableRow key={index}>
+              <StyledTableRow
+                key={index}
+                onClick={() =>
+                  history.push(`/data-viewer/${selectedInstrument}/${reduction.runs[0].experiment_number}`)
+                }
+                style={{ cursor: 'pointer' }}
+              >
                 <TableCell>
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <ReductionStatusIcon
