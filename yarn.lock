@@ -3047,7 +3047,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@plotly/mapbox-gl@npm:v1.13.4":
+"@plotly/mapbox-gl@npm:1.13.4":
   version: 1.13.4
   resolution: "@plotly/mapbox-gl@npm:1.13.4"
   dependencies:
@@ -3200,9 +3200,9 @@ __metadata:
   linkType: hard
 
 "@rushstack/eslint-patch@npm:^1.1.0":
-  version: 1.10.1
-  resolution: "@rushstack/eslint-patch@npm:1.10.1"
-  checksum: ea539ec4d44632cc4a57aa12a37c6d79905b90f94f2c37788fcc0048eae542091dd791177a0adcf51a67fd379f954c8754e2e689ff80af460f531e6bdb03d78d
+  version: 1.10.2
+  resolution: "@rushstack/eslint-patch@npm:1.10.2"
+  checksum: 2bac46e0f662c6b9c1f1d2268e4165a779331b9229eaeeb360852feaecdc5cb4adf8e1a36ac510b3545a83f83de702811b984afe26ec7d4a79e1c0ea708e2bfe
   languageName: node
   linkType: hard
 
@@ -3559,12 +3559,12 @@ __metadata:
   linkType: hard
 
 "@types/eslint@npm:*, @types/eslint@npm:^7.29.0 || ^8.4.1":
-  version: 8.56.7
-  resolution: "@types/eslint@npm:8.56.7"
+  version: 8.56.9
+  resolution: "@types/eslint@npm:8.56.9"
   dependencies:
     "@types/estree": "*"
     "@types/json-schema": "*"
-  checksum: 26b036e27e369981843585248591b15068f1ba3ac44a01c09c34717f0b57cbb422a7ed2b497b51093b0ead97739e187dde65bbd5893ec901672dac39f41c8038
+  checksum: c0c033fc724774b791bf97465cfe246814eda1f82460aff2daa64dfce1b1a01626c75f4281d2ab10dcd9176446df0b4bf57e8ac542da6476902e28683e89137d
   languageName: node
   linkType: hard
 
@@ -3769,9 +3769,9 @@ __metadata:
   linkType: hard
 
 "@types/qs@npm:*":
-  version: 6.9.14
-  resolution: "@types/qs@npm:6.9.14"
-  checksum: d3b76021d36b86c0063ec4b7373e9fa470754914e486fbfe54b3a8866dad037800a2c2068ecbcaa9399ae3ed15772a26b07e67793ed2519cf2de199104014716
+  version: 6.9.15
+  resolution: "@types/qs@npm:6.9.15"
+  checksum: 97d8208c2b82013b618e7a9fc14df6bd40a73e1385ac479b6896bafc7949a46201c15f42afd06e86a05e914f146f495f606b6fb65610cc60cf2e0ff743ec38a2
   languageName: node
   linkType: hard
 
@@ -5633,9 +5633,9 @@ __metadata:
   linkType: hard
 
 "caniuse-lite@npm:^1.0.0, caniuse-lite@npm:^1.0.30001587, caniuse-lite@npm:^1.0.30001599":
-  version: 1.0.30001607
-  resolution: "caniuse-lite@npm:1.0.30001607"
-  checksum: 45fe5da6ae408cab5e2f01078cb43620ce64f4c0dcc07c81284717ccaf3adaee373ecac8febe8507e0f0ede32ebe105146a5253402d8339db745258f3ac332e3
+  version: 1.0.30001610
+  resolution: "caniuse-lite@npm:1.0.30001610"
+  checksum: 580c7367aafd7e524f4e3f0e8b22ac08d081a4d44ceece211f1758e214df9a87961750fb1e1ee28a2cd2830f0daf3edafe5e1d87bf1eefbbe7c6cf3d00e2979d
   languageName: node
   linkType: hard
 
@@ -6750,8 +6750,8 @@ __metadata:
   linkType: hard
 
 "cypress@npm:^13.6.4":
-  version: 13.7.2
-  resolution: "cypress@npm:13.7.2"
+  version: 13.7.3
+  resolution: "cypress@npm:13.7.3"
   dependencies:
     "@cypress/request": ^3.0.0
     "@cypress/xvfb": ^1.2.4
@@ -6797,7 +6797,7 @@ __metadata:
     yauzl: ^2.10.0
   bin:
     cypress: bin/cypress
-  checksum: ff4df8403756bf12b21b045ffd288da53c1b4bb2e69b4ce8fcc54ccf6a35cb4c2ede8e08586f2c758086a552170e61a14908fbead35a72783fff4f6e23cf9852
+  checksum: 618db0839893d7633771437a0109225251fc4d3c1fcf54f35e727acc1422ec811907edab2721fa3d8bbc3017df5eb974e2b96cf78d70e40eb92465b3772fa5ca
   languageName: node
   linkType: hard
 
@@ -7456,20 +7456,20 @@ __metadata:
   linkType: hard
 
 "ejs@npm:^3.1.6":
-  version: 3.1.9
-  resolution: "ejs@npm:3.1.9"
+  version: 3.1.10
+  resolution: "ejs@npm:3.1.10"
   dependencies:
     jake: ^10.8.5
   bin:
     ejs: bin/cli.js
-  checksum: af6f10eb815885ff8a8cfacc42c6b6cf87daf97a4884f87a30e0c3271fedd85d76a3a297d9c33a70e735b97ee632887f85e32854b9cdd3a2d97edf931519a35f
+  checksum: ce90637e9c7538663ae023b8a7a380b2ef7cc4096de70be85abf5a3b9641912dde65353211d05e24d56b1f242d71185c6d00e02cb8860701d571786d92c71f05
   languageName: node
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.731
-  resolution: "electron-to-chromium@npm:1.4.731"
-  checksum: f5ec068ae0616e2c3b68d66ce253a673de65b22ab3bea7e70dc16db7b7c683ca65f7d5c3b7276dd1f837a9c513ef435a53475b69a5df5eb581736d69b713ba3e
+  version: 1.4.737
+  resolution: "electron-to-chromium@npm:1.4.737"
+  checksum: ef20126fee0eecb3bb3d8af0cfd33b8b8305d4726f2ea6d25bd7f21f7d0e7a4b64026b185fd24146e3a81d9a3ebee68f6742230d9281962274b5478dcb798b06
   languageName: node
   linkType: hard
 
@@ -10053,11 +10053,11 @@ __metadata:
   linkType: hard
 
 "i18next@npm:^23.6.0":
-  version: 23.11.1
-  resolution: "i18next@npm:23.11.1"
+  version: 23.11.2
+  resolution: "i18next@npm:23.11.2"
   dependencies:
     "@babel/runtime": ^7.23.2
-  checksum: f8361eb4a3c5c09e5da53fd74026910a72fc5773291247ffef32cf9a97b0a5687ef29a3bae9a941bc81ac3ad16344122a9ef176cfbc0b825d8f9f73c09730062
+  checksum: c465b9bacf3066b6d112982deb03fa8a2578be38cf1e973749c884401ba1165431655e1a4438f0da08c978ce5525170ec3809968691190c194af80b20e496538
   languageName: node
   linkType: hard
 
@@ -13463,13 +13463,13 @@ __metadata:
   linkType: hard
 
 "plotly.js@npm:^2.30.1":
-  version: 2.30.1
-  resolution: "plotly.js@npm:2.30.1"
+  version: 2.31.1
+  resolution: "plotly.js@npm:2.31.1"
   dependencies:
     "@plotly/d3": 3.8.1
     "@plotly/d3-sankey": 0.7.2
     "@plotly/d3-sankey-circular": 0.33.1
-    "@plotly/mapbox-gl": v1.13.4
+    "@plotly/mapbox-gl": 1.13.4
     "@turf/area": ^6.4.0
     "@turf/bbox": ^6.4.0
     "@turf/centroid": ^6.0.2
@@ -13515,7 +13515,7 @@ __metadata:
     topojson-client: ^3.1.0
     webgl-context: ^2.2.0
     world-calendars: ^1.0.3
-  checksum: c0672c6feaad8482dba50bcd519a571c47a4ba84a0762c7d492b46c46268a270c49e02481a7b6a7eae87e90b96eb181d4403b5e6572a22051d92e965891477b7
+  checksum: a810ea1b85dddccd0cb76ac7c9f121b4d0b95ed9fb3ae532b4c61ef5dd42783941fdf27d0d88bc3d543c0b29527707c73b3c810e846f7f32170537cb03b50f03
   languageName: node
   linkType: hard
 
