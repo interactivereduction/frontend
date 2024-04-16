@@ -255,21 +255,17 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">{t('Live reductions')}</PaperHeading>
-                <PaperDescription variant="body1">
-                  {t(
-                    'Browse the instrument page to select an instrument to access the live data functionality for a specific instrument.'
-                  )}
-                </PaperDescription>
+                <PaperHeading variant="h4">{t('Data viewer')}</PaperHeading>
+                <PaperDescription variant="body1">{t('View reduction scripts and relevant graphs.')}</PaperDescription>
                 <Box marginTop="auto">
                   <Button
                     color="primary"
                     variant="contained"
                     component={Link}
-                    to={t('instruments')}
+                    to={t('data-viewer/ALF/1')}
                     data-testid="browse-button"
                   >
-                    {t('Browse instruments')}
+                    {t('View data')}
                   </Button>
                 </Box>
               </Box>
