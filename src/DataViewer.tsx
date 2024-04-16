@@ -1,7 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box, Typography, Grid } from '@mui/material';
+import {
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
+  SelectChangeEvent,
+  Box,
+  Typography,
+  Grid,
+  Tabs,
+  Tab,
+} from '@mui/material';
 import Plot from 'react-plotly.js';
 import Editor from '@monaco-editor/react';
 import { instruments } from './InstrumentData';
@@ -11,22 +22,72 @@ const DataViewer: React.FC = () => {
   const history = useHistory();
   const { instrumentName, experimentNumber } = useParams<{ instrumentName: string; experimentNumber: string }>();
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [plotData, setPlotData] = useState<any[]>([]);
+  const [activeTab, setActiveTab] = useState<number>(0);
 
   const backgroundColor = theme.palette.mode === 'dark' ? '#282828' : 'white';
   const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
   const textColor = theme.palette.text.primary;
 
+  const fetchPlotData = useCallback(async (): Promise<void> => {
+    try {
+      const irApiUrl = process.env.REACT_APP_IR_REST_API_URL;
+      const response = await fetch(`${irApiUrl}/reduction/${experimentNumber}/plots`);
+      const data = await response.json();
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const processedData = data.map((plot: any) => {
+        if (plot.type === '1d') {
+          return {
+            x: plot.x,
+            y: plot.y,
+            error_y: {
+              type: 'data',
+              array: plot.errors,
+              visible: true,
+            },
+            type: 'scatter',
+            mode: 'markers',
+            marker: { color: 'orange' },
+            name: 'Data with error bars',
+          };
+        } else if (plot.type === '2d') {
+          return {
+            x: plot.x,
+            y: plot.y,
+            z: plot.errors,
+            type: 'heatmap',
+            colorscale: 'Viridis',
+            name: '2D Histogram',
+          };
+        }
+        return plot;
+      });
+
+      setPlotData(processedData);
+    } catch (error) {
+      console.error('Error fetching plot data:', error);
+    }
+  }, [experimentNumber]);
+
   useEffect(() => {
+    fetchPlotData();
+
     if (!instruments.some((i) => i.name === instrumentName)) {
       setSelectedInstrument(instruments[0].name);
       history.replace(`/data-viewer/${instruments[0].name}/${experimentNumber}`);
     }
-  }, [instrumentName, experimentNumber, history]);
+  }, [fetchPlotData, instrumentName, experimentNumber, history]);
 
   const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
     history.push(`/data-viewer/${newInstrument}/${experimentNumber}`);
+  };
+
+  const handleChangeTab = (event: React.SyntheticEvent, newValue: number): void => {
+    setActiveTab(newValue);
   };
 
   return (
@@ -51,43 +112,26 @@ const DataViewer: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
+      <Tabs value={activeTab} onChange={handleChangeTab} aria-label="plot tabs">
+        {plotData.map((_, index) => (
+          <Tab label={`Plot ${index + 1}`} key={index} />
+        ))}
+      </Tabs>
       <Grid container spacing={1}>
         <Grid item xs={12} md={6}>
-          <Plot
-            data={[
-              {
-                x: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
-                y: [4.76, 5.4, 7.97, 11.24, 12.86, 12.02, 15.95, 16.84, 18.89, 21.41],
-                error_y: {
-                  type: 'data',
-                  array: [0.52, 0.79, 0.65, 0.52, 0.58, 0.56, 0.79, 0.45, 0.56, 0.32],
-                  visible: true,
-                },
-                type: 'scatter',
-                mode: 'markers',
-                marker: { color: 'orange' },
-                name: 'Data with error bars',
-              },
-              {
-                x: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
-                y: [4.5, 6.33, 8.16, 9.99, 11.82, 13.65, 15.48, 17.31, 19.14, 20.97],
-                type: 'scatter',
-                mode: 'lines',
-                line: { color: 'red' },
-                name: 'Line of Best Fit',
-              },
-            ]}
-            layout={{
-              width: 750,
-              height: 440,
-              title: 'A Test Plot',
-              paper_bgcolor: backgroundColor,
-              plot_bgcolor: backgroundColor,
-              font: {
-                color: textColor,
-              },
-            }}
-          />
+          {plotData.length > 0 && (
+            <Plot
+              data={[plotData[activeTab]]}
+              layout={{
+                width: 750,
+                height: 440,
+                title: `Plot ${activeTab + 1}`,
+                paper_bgcolor: backgroundColor,
+                plot_bgcolor: backgroundColor,
+                font: { color: textColor },
+              }}
+            />
+          )}
         </Grid>
         <Grid item xs={12} md={6}>
           <Editor
@@ -95,10 +139,7 @@ const DataViewer: React.FC = () => {
             defaultLanguage="python"
             defaultValue="# Add your code here"
             theme={editorTheme}
-            options={{
-              minimap: { enabled: false },
-              automaticLayout: true,
-            }}
+            options={{ minimap: { enabled: false }, automaticLayout: true }}
           />
         </Grid>
       </Grid>
