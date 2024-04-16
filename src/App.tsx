@@ -39,13 +39,10 @@ const App: FC = () => {
           <Route path="/instruments">
             <Instrument />
           </Route>
-          <Route path="/reduction-history/ALF">
-            <ReductionHistory />
-          </Route>
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />
           </Route>
-          <Route path="/data-viewer/:instrumentName">
+          <Route path="/data-viewer/:instrumentName/:experimentNumber">
             <DataViewer />
           </Route>
         </Switch>

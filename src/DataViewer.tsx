@@ -1,49 +1,40 @@
 import React, { useState, useEffect } from 'react';
-import Plot from 'react-plotly.js';
-import { useTheme } from '@mui/material/styles';
 import { useParams, useHistory } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
 import { FormControl, InputLabel, Select, MenuItem, SelectChangeEvent, Box, Typography, Grid } from '@mui/material';
-import { instruments } from './InstrumentData';
+import Plot from 'react-plotly.js';
 import Editor from '@monaco-editor/react';
+import { instruments } from './InstrumentData';
 
 const DataViewer: React.FC = () => {
   const theme = useTheme();
   const history = useHistory();
-  const { instrumentName } = useParams<{ instrumentName: string }>();
+  const { instrumentName, experimentNumber } = useParams<{ instrumentName: string; experimentNumber: string }>();
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
 
   const backgroundColor = theme.palette.mode === 'dark' ? '#282828' : 'white';
   const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
   const textColor = theme.palette.text.primary;
 
-  // Example data for Plotly
-  const x = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0];
-  const y = [4.76, 5.4, 7.97, 11.24, 12.86, 12.02, 15.95, 16.84, 18.89, 21.41];
-  const yerr = [0.52, 0.79, 0.65, 0.52, 0.58, 0.56, 0.79, 0.45, 0.56, 0.32];
-  const line_y = [4.5, 6.33, 8.16, 9.99, 11.82, 13.65, 15.48, 17.31, 19.14, 20.97];
-
   useEffect(() => {
-    if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
-      setSelectedInstrument(instrumentName);
-    } else {
+    if (!instruments.some((i) => i.name === instrumentName)) {
       setSelectedInstrument(instruments[0].name);
-      history.replace(`/data-viewer/${instruments[0].name}`);
+      history.replace(`/data-viewer/${instruments[0].name}/${experimentNumber}`);
     }
-  }, [instrumentName, history]);
+  }, [instrumentName, experimentNumber, history]);
 
   const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
-    history.push(`/data-viewer/${newInstrument}`);
+    history.push(`/data-viewer/${newInstrument}/${experimentNumber}`);
   };
 
   return (
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
         <Typography variant="h3" component="h1" style={{ color: textColor }}>
-          {selectedInstrument.toUpperCase()} experiment #####
+          {`${selectedInstrument.toUpperCase()} experiment ${experimentNumber}`}
         </Typography>
-
         <FormControl style={{ minWidth: '200px' }}>
           <InputLabel id="instrument-select-label">Instrument</InputLabel>
           <Select
@@ -60,17 +51,16 @@ const DataViewer: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
-
       <Grid container spacing={1}>
         <Grid item xs={12} md={6}>
           <Plot
             data={[
               {
-                x,
-                y,
+                x: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
+                y: [4.76, 5.4, 7.97, 11.24, 12.86, 12.02, 15.95, 16.84, 18.89, 21.41],
                 error_y: {
                   type: 'data',
-                  array: yerr,
+                  array: [0.52, 0.79, 0.65, 0.52, 0.58, 0.56, 0.79, 0.45, 0.56, 0.32],
                   visible: true,
                 },
                 type: 'scatter',
@@ -79,8 +69,8 @@ const DataViewer: React.FC = () => {
                 name: 'Data with error bars',
               },
               {
-                x,
-                y: line_y,
+                x: [1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0],
+                y: [4.5, 6.33, 8.16, 9.99, 11.82, 13.65, 15.48, 17.31, 19.14, 20.97],
                 type: 'scatter',
                 mode: 'lines',
                 line: { color: 'red' },
