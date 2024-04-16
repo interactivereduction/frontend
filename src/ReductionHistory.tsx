@@ -86,7 +86,7 @@ const ReductionHistory: React.FC = () => {
       const data = await response.json();
       setReductions(data);
     } catch (error) {
-      console.error('Error fetching runs:', error);
+      console.error('Error fetching reductions:', error);
     }
   }, [selectedInstrument, currentPage, orderBy, orderDirection, fiaApiUrl]);
 
