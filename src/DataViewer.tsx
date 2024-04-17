@@ -12,12 +12,12 @@ import {
   Grid,
   MobileStepper,
   Button,
-  // Tabs,
-  // Tab
+  Tabs,
+  Tab,
 } from '@mui/material';
-import Plot from 'react-plotly.js';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
+import Plot from 'react-plotly.js';
 import Editor from '@monaco-editor/react';
 import { instruments } from './InstrumentData';
 
@@ -26,10 +26,10 @@ const DataViewer: React.FC = () => {
   const history = useHistory();
   const { instrumentName, experimentNumber } = useParams<{ instrumentName: string; experimentNumber: string }>();
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
-  const [activeStep, setActiveStep] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [plotData, setPlotData] = useState<any[]>([]);
-  // const [activeTab, setActiveTab] = useState<number>(0);
+  const [activeStep, setActiveStep] = useState<number>(0);
+  const [activeEditorTab, setActiveEditorTab] = useState<number>(0);
 
   const backgroundColor = theme.palette.mode === 'dark' ? '#282828' : 'white';
   const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
@@ -78,22 +78,13 @@ const DataViewer: React.FC = () => {
 
   useEffect(() => {
     fetchPlotData();
-
-    if (!instruments.some((i) => i.name === instrumentName)) {
-      setSelectedInstrument(instruments[0].name);
-      history.replace(`/data-viewer/${instruments[0].name}/${experimentNumber}`);
-    }
-  }, [fetchPlotData, instrumentName, experimentNumber, history]);
+  }, [fetchPlotData, experimentNumber]);
 
   const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
     history.push(`/data-viewer/${newInstrument}/${experimentNumber}`);
   };
-
-  // const handleChangeTab = (event: React.SyntheticEvent, newValue: number): void => {
-  //   setActiveTab(newValue);
-  // };
 
   const handleNext = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -102,6 +93,16 @@ const DataViewer: React.FC = () => {
   const handleBack = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
+
+  const handleChangeEditorTab = (event: React.SyntheticEvent, newValue: number): void => {
+    setActiveEditorTab(newValue);
+  };
+
+  const editorContents = [
+    "# Scientist's Python script 1",
+    "# Scientist's Python script 2",
+    "# Scientist's Python script 3",
+  ];
 
   return (
     <div style={{ padding: '20px' }}>
@@ -160,10 +161,15 @@ const DataViewer: React.FC = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
+          <Tabs value={activeEditorTab} onChange={handleChangeEditorTab} aria-label="code editor tabs">
+            <Tab label="Script 1" />
+            <Tab label="Script 2" />
+            <Tab label="Script 3" />
+          </Tabs>
           <Editor
             height="440px"
             defaultLanguage="python"
-            defaultValue="# Add your code here"
+            value={editorContents[activeEditorTab]}
             theme={editorTheme}
             options={{ minimap: { enabled: false }, automaticLayout: true }}
           />
