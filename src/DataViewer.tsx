@@ -10,10 +10,14 @@ import {
   Box,
   Typography,
   Grid,
-  Tabs,
-  Tab,
+  MobileStepper,
+  Button,
+  // Tabs,
+  // Tab
 } from '@mui/material';
 import Plot from 'react-plotly.js';
+import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
+import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Editor from '@monaco-editor/react';
 import { instruments } from './InstrumentData';
 
@@ -22,9 +26,10 @@ const DataViewer: React.FC = () => {
   const history = useHistory();
   const { instrumentName, experimentNumber } = useParams<{ instrumentName: string; experimentNumber: string }>();
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
+  const [activeStep, setActiveStep] = useState<number>(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [plotData, setPlotData] = useState<any[]>([]);
-  const [activeTab, setActiveTab] = useState<number>(0);
+  // const [activeTab, setActiveTab] = useState<number>(0);
 
   const backgroundColor = theme.palette.mode === 'dark' ? '#282828' : 'white';
   const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
@@ -86,8 +91,16 @@ const DataViewer: React.FC = () => {
     history.push(`/data-viewer/${newInstrument}/${experimentNumber}`);
   };
 
-  const handleChangeTab = (event: React.SyntheticEvent, newValue: number): void => {
-    setActiveTab(newValue);
+  // const handleChangeTab = (event: React.SyntheticEvent, newValue: number): void => {
+  //   setActiveTab(newValue);
+  // };
+
+  const handleNext = (): void => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = (): void => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
   return (
@@ -112,26 +125,39 @@ const DataViewer: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
-      <Tabs value={activeTab} onChange={handleChangeTab} aria-label="plot tabs">
-        {plotData.map((_, index) => (
-          <Tab label={`Plot ${index + 1}`} key={index} />
-        ))}
-      </Tabs>
       <Grid container spacing={1}>
         <Grid item xs={12} md={6}>
-          {plotData.length > 0 && (
+          <Box width={750} mx="auto">
             <Plot
-              data={[plotData[activeTab]]}
+              data={[plotData[activeStep]]}
               layout={{
                 width: 750,
                 height: 440,
-                title: `Plot ${activeTab + 1}`,
+                title: `Plot ${activeStep + 1}`,
                 paper_bgcolor: backgroundColor,
                 plot_bgcolor: backgroundColor,
                 font: { color: textColor },
               }}
             />
-          )}
+            <MobileStepper
+              variant="dots"
+              steps={plotData.length}
+              position="static"
+              activeStep={activeStep}
+              nextButton={
+                <Button size="small" onClick={handleNext} disabled={activeStep === plotData.length - 1}>
+                  Next
+                  <KeyboardArrowRight />
+                </Button>
+              }
+              backButton={
+                <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
+                  <KeyboardArrowLeft />
+                  Back
+                </Button>
+              }
+            />
+          </Box>
         </Grid>
         <Grid item xs={12} md={6}>
           <Editor
