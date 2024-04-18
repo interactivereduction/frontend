@@ -104,8 +104,8 @@ const DataViewer: React.FC = () => {
     "# Scientist's Python script 3",
   ];
 
-  // TODO: Generate number of dots for mobile stepper depending on reduction
-  // output files. Fetch plots using file output name.
+  // TODO: Generate number of dots for mobile stepper depending on number
+  // reduction output files. Fetch plots using output file names.
   // function countOutputFiles(input: string | string[]): number {
   //   if (typeof input === 'string') {
   //     return 1;
