@@ -104,6 +104,15 @@ const DataViewer: React.FC = () => {
     "# Scientist's Python script 3",
   ];
 
+  // TODO: Generate number of dots for mobile stepper depending on reduction
+  // output files. Fetch plots using file output name.
+  // function countOutputFiles(input: string | string[]): number {
+  //   if (typeof input === 'string') {
+  //     return 1;
+  //   }
+  //   return input.length;
+  // }
+
   return (
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
@@ -127,13 +136,31 @@ const DataViewer: React.FC = () => {
         </FormControl>
       </Box>
       <Grid container spacing={1}>
+        <Grid item xs={12}>
+          <Box style={{ border: '4px solid darkgray', padding: '10px', marginBottom: '10px' }}>
+            <Typography variant="h5" component="h2" style={{ color: textColor }}>
+              Experiment Summary
+            </Typography>
+            <p style={{ color: textColor }}>Placeholder text for important information related to this reduction.</p>
+            <p style={{ color: textColor }}>Lorem Ipsum text...</p>
+          </Box>
+        </Grid>
         <Grid item xs={12} md={6}>
-          <Box width={750} mx="auto">
+          <Box
+            style={{
+              border: '4px solid darkgray',
+              overflow: 'hidden',
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
             <Plot
               data={[plotData[activeStep]]}
               layout={{
-                width: 750,
-                height: 440,
+                width: 800,
+                height: 500,
                 title: `Plot ${activeStep + 1}`,
                 paper_bgcolor: backgroundColor,
                 plot_bgcolor: backgroundColor,
@@ -147,32 +174,33 @@ const DataViewer: React.FC = () => {
               activeStep={activeStep}
               nextButton={
                 <Button size="small" onClick={handleNext} disabled={activeStep === plotData.length - 1}>
-                  Next
-                  <KeyboardArrowRight />
+                  Next <KeyboardArrowRight />
                 </Button>
               }
               backButton={
                 <Button size="small" onClick={handleBack} disabled={activeStep === 0}>
-                  <KeyboardArrowLeft />
-                  Back
+                  <KeyboardArrowLeft /> Back
                 </Button>
               }
             />
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Tabs value={activeEditorTab} onChange={handleChangeEditorTab} aria-label="code editor tabs">
-            <Tab label="Script 1" />
-            <Tab label="Script 2" />
-            <Tab label="Script 3" />
-          </Tabs>
-          <Editor
-            height="440px"
-            defaultLanguage="python"
-            value={editorContents[activeEditorTab]}
-            theme={editorTheme}
-            options={{ minimap: { enabled: false }, automaticLayout: true }}
-          />
+          <Box style={{ border: '4px solid darkgray', overflow: 'hidden' }}>
+            <Tabs value={activeEditorTab} onChange={handleChangeEditorTab} aria-label="code editor tabs">
+              <Tab label="Script 1" />
+              <Tab label="Script 2" />
+              <Tab label="Script 3" />
+            </Tabs>
+            <Editor
+              width="100%"
+              height="500px"
+              defaultLanguage="python"
+              value={editorContents[activeEditorTab]}
+              theme={editorTheme}
+              options={{ minimap: { enabled: false }, automaticLayout: true }}
+            />
+          </Box>
         </Grid>
       </Grid>
     </div>
