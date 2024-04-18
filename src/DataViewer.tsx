@@ -31,8 +31,8 @@ const DataViewer: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [activeEditorTab, setActiveEditorTab] = useState<number>(0);
 
-  const backgroundColor = theme.palette.mode === 'dark' ? '#23428d' : 'white';
-  const boxColor = theme.palette.mode === 'dark' ? '#23428d' : 'white';
+  const backgroundColor = theme.palette.mode === 'dark' ? '#192d57' : 'white';
+  const boxColor = theme.palette.mode === 'dark' ? '#192d57' : 'white';
   const editorColor = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
   const textColor = theme.palette.text.primary;
   const axisStyles =
