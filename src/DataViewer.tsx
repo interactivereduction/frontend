@@ -98,7 +98,7 @@ const DataViewer: React.FC = () => {
     '# PLACEHOLDER',
   ];
 
-  // TODO: Generate number of dots for mobile stepper depending on number
+  // TODO: Generate number of dots for mobile stepper depending on number of
   // reduction output files. Fetch plots using output file names.
   // function countOutputFiles(input: string | string[]): number {
   //   if (typeof input === 'string') {
