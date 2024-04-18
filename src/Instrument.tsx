@@ -112,7 +112,7 @@ const Instrument: React.FC = () => {
                   <Button
                     variant="contained"
                     component={RouterLink}
-                    to={`/data-viewer/${instrument.name.toUpperCase()}`}
+                    to={`/data-viewer/${instrument.name.toUpperCase()}/1`}
                     style={styles.button}
                   >
                     Data Viewer
