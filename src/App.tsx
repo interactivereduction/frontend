@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Instrument from './Instrument';
+import Instruments from './Instruments';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
 import DataViewer from './DataViewer';
@@ -37,7 +37,7 @@ const App: FC = () => {
             <HomePage />
           </Route>
           <Route path="/instruments">
-            <Instrument />
+            <Instruments />
           </Route>
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />
