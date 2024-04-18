@@ -62,7 +62,7 @@ export const ExpandableCard = styled(Card)<{ expanded: boolean }>(({ theme, expa
   margin: '8px',
 }));
 
-const Instrument: React.FC = () => {
+const Instruments: React.FC = () => {
   const theme = useTheme();
   const [expandedId, setExpandedId] = React.useState<number | null>(null);
   const [order, setOrder] = React.useState<Order>('desc');
@@ -207,4 +207,4 @@ const Instrument: React.FC = () => {
   );
 };
 
-export default Instrument;
+export default Instruments;
