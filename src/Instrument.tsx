@@ -139,10 +139,10 @@ const Instrument: React.FC = () => {
       <Box sx={{ paddingBottom: '2rem' }}>
         <TableHead>
           <TableRow>
-            <TableCell>
+            <TableCell sx={{ paddingLeft: 4 }}>
               <TableSortLabel
                 data-cy="sort-button"
-                style={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
+                sx={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
                 active={orderBy === 'name'}
                 direction={orderBy === 'name' ? order : 'asc'}
                 onClick={() => handleSortRequest('name')}
@@ -150,9 +150,9 @@ const Instrument: React.FC = () => {
                 Name
               </TableSortLabel>
             </TableCell>
-            <TableCell>
+            <TableCell sx={{ paddingLeft: 4 }}>
               <TableSortLabel
-                style={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
+                sx={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
                 active={orderBy === 'type'}
                 direction={orderBy === 'type' ? order : 'asc'}
                 onClick={() => handleSortRequest('type')}
@@ -163,7 +163,11 @@ const Instrument: React.FC = () => {
           </TableRow>
         </TableHead>
         {stableSort(instruments, getComparator(order, orderBy)).map((instrument) => (
-          <Box key={instrument.id} sx={{ marginBottom: 1 }} onClick={() => handleExpandClick(instrument.id)}>
+          <Box
+            key={instrument.id}
+            sx={{ marginBottom: 1, marginLeft: 2, marginRight: 2 }}
+            onClick={() => handleExpandClick(instrument.id)}
+          >
             <ExpandableCard expanded={expandedId === instrument.id} elevation={4}>
               <CardContent style={styles.cardContent}>
                 <Box>
