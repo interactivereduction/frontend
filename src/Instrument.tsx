@@ -79,63 +79,22 @@ const Instrument: React.FC = () => {
   };
 
   const styles = {
-    expandMoreIcon: {
+    expandMoreIcon: (isExpanded: boolean) => ({
       color: theme.palette.mode === 'light' ? '#333' : 'white',
       fontSize: '2rem',
-    },
-    expandMoreIconExpanded: {
-      color: theme.palette.mode === 'light' ? '#333' : 'white',
-      fontSize: '2rem',
-      transform: 'rotate(180deg)',
-    },
-    button: {
-      marginBottom: 14,
-      outline: '1px solid white',
-    },
-    secondButton: {
-      outline: '1px solid white',
-    },
+      transform: isExpanded ? 'rotate(180deg)' : 'none',
+    }),
     infoLink: {
       marginTop: '10',
       color: theme.palette.mode === 'light' ? '#0066cc' : 'lightblue',
-    },
-    cardContentExpanded: {
-      padding: '6px 16px',
-      display: 'flex',
-      alignItems: 'flex-start',
-      paddingBottom: '24px',
-    },
-    tableSortLabel: {
-      fontSize: '1.2rem',
-      fontWeight: 'bold',
-      textTransform: 'uppercase',
-    },
-    scientistBox: {
-      flex: '1',
-    },
-    cardContent: {
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '12px 16px',
-      height: '36px',
-    },
-    infoBox: {
-      flex: '1.8',
-      marginRight: 60,
-    },
-    listItem: {
-      padding: '0',
     },
   };
 
   return (
     <>
-      <div style={{ padding: '20px' }}>
-        <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
-          ISIS instruments
-        </Typography>
-      </div>
+      <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary, padding: '20px' }}>
+        ISIS instruments
+      </Typography>
       <Box sx={{ paddingBottom: '2rem' }}>
         <TableHead>
           <TableRow>
@@ -169,7 +128,15 @@ const Instrument: React.FC = () => {
             onClick={() => handleExpandClick(instrument.id)}
           >
             <ExpandableCard expanded={expandedId === instrument.id} elevation={4}>
-              <CardContent style={styles.cardContent}>
+              <CardContent
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  padding: '12px 16px',
+                  height: '36px',
+                }}
+              >
                 <Box>
                   <Typography
                     variant="h6"
@@ -181,19 +148,19 @@ const Instrument: React.FC = () => {
                   <Typography variant="body1">{instrument.type}</Typography>
                 </Box>
                 <IconButton aria-expanded={expandedId === instrument.id} aria-label="show more">
-                  <ExpandMoreIcon
-                    style={expandedId === instrument.id ? styles.expandMoreIconExpanded : styles.expandMoreIcon}
-                  />
+                  <ExpandMoreIcon style={styles.expandMoreIcon(expandedId === instrument.id)} />
                 </IconButton>
               </CardContent>
               {expandedId === instrument.id && (
-                <CardContent style={styles.cardContentExpanded}>
+                <CardContent
+                  style={{ padding: '6px 16px', display: 'flex', alignItems: 'flex-start', paddingBottom: '24px' }}
+                >
                   <Box style={{ display: 'flex', flexDirection: 'column', marginRight: 20 }}>
                     <Button
                       variant="contained"
                       component={RouterLink}
                       to={`/data-viewer/${instrument.name.toUpperCase()}/1`}
-                      style={styles.button}
+                      style={{ marginBottom: 14, outline: '1px solid white' }}
                     >
                       Data Viewer
                     </Button>
@@ -201,12 +168,12 @@ const Instrument: React.FC = () => {
                       variant="contained"
                       component={RouterLink}
                       to={`/reduction-history/${instrument.name.toUpperCase()}`}
-                      style={styles.secondButton}
+                      style={{ outline: '1px solid white' }}
                     >
                       Reduction History
                     </Button>
                   </Box>
-                  <Box style={styles.infoBox}>
+                  <Box style={{ flex: '1.8', marginRight: 60 }}>
                     <Typography variant="body2" paragraph style={{ textAlign: 'justify', marginBottom: 30 }}>
                       {instrument.description}
                     </Typography>
@@ -220,11 +187,11 @@ const Instrument: React.FC = () => {
                       {instrument.infoPage}
                     </Link>
                   </Box>
-                  <Box style={styles.scientistBox}>
+                  <Box style={{ flex: '1' }}>
                     <Typography variant="body2">Scientists:</Typography>
                     <List>
                       {instrument.scientists.map((scientist) => (
-                        <ListItem key={scientist} style={styles.listItem}>
+                        <ListItem key={scientist} style={{ padding: '0' }}>
                           <Typography variant="body2">Dr. {scientist}</Typography>
                         </ListItem>
                       ))}
