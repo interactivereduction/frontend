@@ -31,9 +31,24 @@ const DataViewer: React.FC = () => {
   const [activeStep, setActiveStep] = useState<number>(0);
   const [activeEditorTab, setActiveEditorTab] = useState<number>(0);
 
-  const backgroundColor = theme.palette.mode === 'dark' ? '#282828' : 'white';
-  const editorTheme = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
+  const backgroundColor = theme.palette.mode === 'dark' ? '#23428d' : 'white';
+  const boxColor = theme.palette.mode === 'dark' ? '#23428d' : 'white';
+  const editorColor = theme.palette.mode === 'dark' ? 'vs-dark' : 'light';
   const textColor = theme.palette.text.primary;
+  const axisStyles =
+    theme.palette.mode === 'dark'
+      ? {
+          color: '#888',
+          zerolinecolor: '#FFF',
+          gridcolor: '#666',
+          tickcolor: '#888',
+        }
+      : {
+          color: '#333',
+          zerolinecolor: '#333',
+          gridcolor: '#CCC',
+          tickcolor: '#333',
+        };
 
   const fetchPlotData = useCallback(async (): Promise<void> => {
     try {
@@ -102,6 +117,7 @@ const DataViewer: React.FC = () => {
     "# Scientist's Python script 1",
     "# Scientist's Python script 2",
     "# Scientist's Python script 3",
+    '# PLACEHOLDER',
   ];
 
   // TODO: Generate number of dots for mobile stepper depending on number
@@ -137,7 +153,9 @@ const DataViewer: React.FC = () => {
       </Box>
       <Grid container spacing={1}>
         <Grid item xs={12}>
-          <Box style={{ border: '4px solid darkgray', padding: '10px', marginBottom: '10px' }}>
+          <Box
+            style={{ border: '3px solid darkgray', padding: '10px', marginBottom: '5px', backgroundColor: boxColor }}
+          >
             <Typography variant="h5" component="h2" style={{ color: textColor }}>
               Experiment Summary
             </Typography>
@@ -148,12 +166,13 @@ const DataViewer: React.FC = () => {
         <Grid item xs={12} md={6}>
           <Box
             style={{
-              border: '4px solid darkgray',
+              border: '3px solid darkgray',
               overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
               justifyContent: 'center',
+              backgroundColor: boxColor,
             }}
           >
             <Plot
@@ -165,6 +184,20 @@ const DataViewer: React.FC = () => {
                 paper_bgcolor: backgroundColor,
                 plot_bgcolor: backgroundColor,
                 font: { color: textColor },
+                xaxis: {
+                  zeroline: true,
+                  zerolinecolor: axisStyles.zerolinecolor,
+                  gridcolor: axisStyles.gridcolor,
+                  tickcolor: axisStyles.tickcolor,
+                  linecolor: axisStyles.color,
+                },
+                yaxis: {
+                  zeroline: true,
+                  zerolinecolor: axisStyles.zerolinecolor,
+                  gridcolor: axisStyles.gridcolor,
+                  tickcolor: axisStyles.tickcolor,
+                  linecolor: axisStyles.color,
+                },
               }}
             />
             <MobileStepper
@@ -186,18 +219,19 @@ const DataViewer: React.FC = () => {
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box style={{ border: '4px solid darkgray', overflow: 'hidden' }}>
+          <Box style={{ border: '3px solid darkgray', overflow: 'hidden' }}>
             <Tabs value={activeEditorTab} onChange={handleChangeEditorTab} aria-label="code editor tabs">
               <Tab label="Script 1" />
               <Tab label="Script 2" />
               <Tab label="Script 3" />
+              <Tab label="GUI Inputs" />
             </Tabs>
             <Editor
               width="100%"
               height="500px"
               defaultLanguage="python"
               value={editorContents[activeEditorTab]}
-              theme={editorTheme}
+              theme={editorColor}
               options={{ minimap: { enabled: false }, automaticLayout: true }}
             />
           </Box>
