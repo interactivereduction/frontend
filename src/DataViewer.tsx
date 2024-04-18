@@ -1,31 +1,15 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import {
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  SelectChangeEvent,
-  Box,
-  Typography,
-  Grid,
-  MobileStepper,
-  Button,
-  Tabs,
-  Tab,
-} from '@mui/material';
+import { Box, Typography, Grid, MobileStepper, Button, Tabs, Tab } from '@mui/material';
 import KeyboardArrowLeft from '@mui/icons-material/KeyboardArrowLeft';
 import KeyboardArrowRight from '@mui/icons-material/KeyboardArrowRight';
 import Plot from 'react-plotly.js';
 import Editor from '@monaco-editor/react';
-import { instruments } from './InstrumentData';
 
 const DataViewer: React.FC = () => {
   const theme = useTheme();
-  const history = useHistory();
   const { instrumentName, experimentNumber } = useParams<{ instrumentName: string; experimentNumber: string }>();
-  const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [plotData, setPlotData] = useState<any[]>([]);
   const [activeStep, setActiveStep] = useState<number>(0);
@@ -95,12 +79,6 @@ const DataViewer: React.FC = () => {
     fetchPlotData();
   }, [fetchPlotData, experimentNumber]);
 
-  const handleInstrumentChange = (event: SelectChangeEvent): void => {
-    const newInstrument = event.target.value as string;
-    setSelectedInstrument(newInstrument);
-    history.push(`/data-viewer/${newInstrument}/${experimentNumber}`);
-  };
-
   const handleNext = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
@@ -133,23 +111,8 @@ const DataViewer: React.FC = () => {
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
         <Typography variant="h3" component="h1" style={{ color: textColor }}>
-          {`${selectedInstrument.toUpperCase()} experiment ${experimentNumber}`}
+          {`${instrumentName.toUpperCase()} experiment ${experimentNumber}`}
         </Typography>
-        <FormControl style={{ minWidth: '200px' }}>
-          <InputLabel id="instrument-select-label">Instrument</InputLabel>
-          <Select
-            labelId="instrument-select-label"
-            value={selectedInstrument}
-            label="Instrument"
-            onChange={handleInstrumentChange}
-          >
-            {instruments.map((instrument) => (
-              <MenuItem key={instrument.id} value={instrument.name}>
-                {instrument.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
       </Box>
       <Grid container spacing={1}>
         <Grid item xs={12}>
