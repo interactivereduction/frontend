@@ -208,7 +208,7 @@ const HomePage = (): React.ReactElement => {
                 </PaperDescription>
                 <PaperDescription variant="body1">
                   <Trans i18nKey="home-page.browse.description2">
-                    <strong>Flexible Interactive Reduction</strong> focuses on providing scientists an interface to
+                    <strong>Flexible Interactive Automation</strong> focuses on providing scientists an interface to
                     perform automatic reductions for beamline instruments from the web.
                   </Trans>
                 </PaperDescription>
@@ -255,17 +255,21 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">{t('Data viewer')}</PaperHeading>
-                <PaperDescription variant="body1">{t('View reduction scripts and relevant graphs.')}</PaperDescription>
+                <PaperHeading variant="h4">{t('ISIS instruments')}</PaperHeading>
+                <PaperDescription variant="body1">
+                  {t(
+                    'ISIS Neutron and Muon Source currently has over 30 neutron and muon instruments. Browse a list of these instruments.'
+                  )}
+                </PaperDescription>
                 <Box marginTop="auto">
                   <Button
                     color="primary"
                     variant="contained"
                     component={Link}
-                    to={t('data-viewer/ALF/1')}
+                    to={t('instruments')}
                     data-testid="browse-button"
                   >
-                    {t('View data')}
+                    {t('Browse instruments')}
                   </Button>
                 </Box>
               </Box>
@@ -277,9 +281,9 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">{t('Historical reductions')}</PaperHeading>
+                <PaperHeading variant="h4">{t('Historic reductions')}</PaperHeading>
                 <PaperDescription variant="body1">
-                  {t('Browse and search a list of all reduction performed on the platform.')}
+                  {t('Browse a list of interactable reductions performed on this platform.')}
                 </PaperDescription>
                 <Box marginTop="auto">
                   <Button
