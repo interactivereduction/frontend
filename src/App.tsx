@@ -31,7 +31,7 @@ const App: FC = () => {
 
   return (
     <GlobalStyles>
-      <Router basename="/ir">
+      <Router basename="/fia">
         <Switch>
           <Route exact path="/">
             <HomePage />
