@@ -36,8 +36,8 @@ const DataViewer: React.FC = () => {
 
   const fetchPlotData = useCallback(async (): Promise<void> => {
     try {
-      const irApiUrl = process.env.REACT_APP_IR_REST_API_URL;
-      const response = await fetch(`${irApiUrl}/reduction/${experimentNumber}/plots`);
+      const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
+      const response = await fetch(`${fiaApiUrl}/reduction/${experimentNumber}/plots`);
       const data = await response.json();
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
