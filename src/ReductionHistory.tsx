@@ -20,6 +20,7 @@ import {
   Box,
   Tooltip,
   styled,
+  Collapse,
 } from '@mui/material';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
