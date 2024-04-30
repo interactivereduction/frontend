@@ -1,31 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import {
-  Typography,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Pagination,
-  TableSortLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
-  Box,
-  Tooltip,
-  styled,
-  Collapse,
-} from '@mui/material';
-import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
-import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+import { Typography, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Box } from '@mui/material';
 import { instruments } from './InstrumentData';
 
 interface Run {
@@ -96,16 +72,6 @@ const ReductionHistory: React.FC = () => {
     fetchReductions();
   }, [fetchTotalCount, fetchReductions]);
 
-  const handleSort = (property: string): void => {
-    const isAsc = orderBy === property && orderDirection === 'asc';
-    setOrderDirection(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number): void => {
-    setCurrentPage(page);
-  };
-
   const handleInstrumentChange = (event: SelectChangeEvent): void => {
     const newInstrument = event.target.value as string;
     setSelectedInstrument(newInstrument);
@@ -114,74 +80,6 @@ const ReductionHistory: React.FC = () => {
     fetchTotalCount();
     fetchReductions();
   };
-
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
-    },
-    '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : 'white',
-    },
-  }));
-
-  const formatDateTime = (dateTimeStr: string | null): string => {
-    if (dateTimeStr === null) {
-      return '';
-    }
-    return dateTimeStr.replace('T', '\n');
-  };
-
-  const extractFileName = (path: string): string => {
-    const fileNameWithExtension = path.split('/').pop();
-
-    if (typeof fileNameWithExtension === 'undefined') {
-      return '';
-    }
-    const fileName = fileNameWithExtension.split('.')[0];
-    return fileName;
-  };
-
-  const ReductionStatusIcon = ({ state, statusMessage }: { state: string; statusMessage: string }): JSX.Element => {
-    let IconComponent;
-    let color;
-
-    switch (state) {
-      case 'ERROR':
-        IconComponent = ErrorOutlineIcon;
-        color = 'red';
-        break;
-      case 'SUCCESSFUL':
-        IconComponent = CheckCircleOutlineIcon;
-        color = 'green';
-        break;
-      case 'UNSUCCESSFUL':
-        IconComponent = WarningAmberIcon;
-        color = 'orange';
-        break;
-      case 'NOT_STARTED':
-        IconComponent = HighlightOffIcon;
-        color = 'grey';
-        break;
-      default:
-        IconComponent = ErrorOutlineIcon;
-        color = 'disabled';
-        statusMessage = 'Unknown status';
-    }
-    return (
-      <Tooltip title={statusMessage}>
-        <div>
-          <IconComponent style={{ color }} />
-        </div>
-      </Tooltip>
-    );
-  };
-
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    minWidth: 160,
-  }));
 
   return (
     <div style={{ padding: '20px' }}>
@@ -206,117 +104,6 @@ const ReductionHistory: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
-
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'experiment_number'}
-                  direction={orderBy === 'experiment_number' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('experiment_number')}
-                >
-                  Experiment Number
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'filename'}
-                  direction={orderBy === 'filename' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('filename')}
-                >
-                  Reduction Input
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'run_start'}
-                  direction={orderBy === 'run_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('run_start')}
-                >
-                  Run Start
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'run_end'}
-                  direction={orderBy === 'run_end' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('run_end')}
-                >
-                  Run End
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_start'}
-                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_start')}
-                >
-                  Reduction Start
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_end'}
-                  direction={orderBy === 'reduction_end' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_end')}
-                >
-                  Reduction End
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_outputs'}
-                  direction={orderBy === 'reduction_outputs' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_outputs')}
-                >
-                  Reduction Outputs
-                </TableSortLabel>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reductions.map((reduction, index) => (
-              <StyledTableRow
-                key={index}
-                onClick={() =>
-                  history.push(`/data-viewer/${selectedInstrument}/${reduction.runs[0].experiment_number}`)
-                }
-                style={{ cursor: 'pointer' }}
-              >
-                <TableCell>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <ReductionStatusIcon
-                      state={reduction.reduction_state}
-                      statusMessage={reduction.reduction_status_message}
-                    />
-                    <span style={{ marginLeft: '40px' }}>{reduction.runs[0].experiment_number}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
-                <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
-                <TableCell>{reduction.runs[0].title}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
-                <TableCell>{reduction.reduction_outputs}</TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {totalPages > 1 && (
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-          sx={{ marginTop: 2, marginBottom: 2 }}
-        />
-      )}
     </div>
   );
 };
