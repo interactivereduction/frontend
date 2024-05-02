@@ -203,6 +203,33 @@ const extractFileName = (path: string): string => {
 function Row({ reduction }: { reduction: Reduction }): JSX.Element {
   const [open, setOpen] = useState(false);
 
+  const renderDetails = (): JSX.Element => {
+    if (reduction.reduction_state === 'ERROR') {
+      return (
+        <Typography variant="subtitle1" style={{ color: 'red' }}>
+          Stacktrace placeholder: src\ReductionHistory.tsx Line 206:25: Missing return type on function
+          @typescript-eslint/explicit-function-return-type
+        </Typography>
+      );
+    } else {
+      return (
+        <>
+          {reduction.reduction_outputs}
+          {reduction.reduction_state !== 'NOT_STARTED' && (
+            <>
+              <Button variant="contained" style={{ marginLeft: '10px' }}>
+                View data
+              </Button>
+              <Button variant="contained" style={{ marginLeft: '10px' }}>
+                GET
+              </Button>
+            </>
+          )}
+        </>
+      );
+    }
+  };
+
   return (
     <>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -235,15 +262,7 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
               <Table size="small" aria-label="details">
                 <TableBody>
                   <TableRow>
-                    <TableCell>
-                      {reduction.reduction_outputs}
-                      <Button variant="contained" style={{ marginLeft: '10px' }}>
-                        View data
-                      </Button>
-                      <Button variant="contained" style={{ marginLeft: '10px' }}>
-                        GET
-                      </Button>
-                    </TableCell>
+                    <TableCell>{renderDetails()}</TableCell>
                   </TableRow>
                 </TableBody>
               </Table>
