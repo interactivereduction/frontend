@@ -1,7 +1,34 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
-import { Typography, Select, MenuItem, FormControl, InputLabel, SelectChangeEvent, Box } from '@mui/material';
+import {
+  Typography,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  SelectChangeEvent,
+  Box,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Collapse,
+  Icon,
+  Button,
+  Tooltip,
+} from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
+import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
 import { instruments } from './InstrumentData';
 
 interface Run {
@@ -11,6 +38,7 @@ interface Run {
   run_end: string;
   title: string;
 }
+
 interface Reduction {
   id: number;
   reduction_start: string;
@@ -30,8 +58,11 @@ const ReductionHistory: React.FC = () => {
   const [reductions, setReductions] = useState<Reduction[]>([]);
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
   const [currentPage, setCurrentPage] = useState(1);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [totalPages, setTotalPages] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [orderBy, setOrderBy] = useState<string>('run_start');
   const limit = 20;
 
@@ -104,8 +135,124 @@ const ReductionHistory: React.FC = () => {
           </Select>
         </FormControl>
       </Box>
+
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table" stickyHeader>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell />
+              <TableCell>Experiment Number</TableCell>
+              <TableCell>Reduction Input</TableCell>
+              <TableCell>Reduction Start</TableCell>
+              <TableCell>Reduction End</TableCell>
+              <TableCell>Title</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {reductions.map((reduction) => (
+              <Row key={reduction.id} reduction={reduction} />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </div>
   );
 };
+
+const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
+  const getIconComponent = (): JSX.Element => {
+    switch (state) {
+      case 'ERROR':
+        return <ErrorOutlineIcon color="error" />;
+      case 'SUCCESSFUL':
+        return <CheckCircleOutlineIcon color="success" />;
+      case 'UNSUCCESSFUL':
+        return <WarningAmberIcon color="warning" />;
+      case 'NOT_STARTED':
+        return <HighlightOffIcon color="action" />;
+      default:
+        return <Icon>help_outline</Icon>;
+    }
+  };
+
+  return (
+    <Tooltip title={state}>
+      <span>{getIconComponent()}</span>
+    </Tooltip>
+  );
+};
+
+const formatDateTime = (dateTimeStr: string | null): string => {
+  if (dateTimeStr === null) {
+    return '';
+  }
+  return dateTimeStr.replace('T', '\n');
+};
+
+const extractFileName = (path: string): string => {
+  const fileNameWithExtension = path.split('/').pop();
+
+  if (typeof fileNameWithExtension === 'undefined') {
+    return '';
+  }
+  const fileName = fileNameWithExtension.split('.')[0];
+  return fileName;
+};
+
+function Row({ reduction }: { reduction: Reduction }): JSX.Element {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+        <TableCell>
+          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>
+          <ReductionStatusIcon state={reduction.reduction_state} />
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {reduction.runs[0].experiment_number}
+        </TableCell>
+        <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
+        <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
+        <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
+        <TableCell>{reduction.runs[0].title}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={2}>
+              <Typography variant="h6" gutterBottom component="div">
+                Reduction Details
+              </Typography>
+              <Typography variant="subtitle1" gutterBottom>
+                {`${reduction.reduction_state} - ${reduction.reduction_status_message}`}
+              </Typography>
+              <Table size="small" aria-label="details">
+                <TableBody>
+                  <TableRow>
+                    <TableCell>
+                      {reduction.reduction_outputs}
+                      <Button variant="contained" style={{ marginLeft: '10px' }}>
+                        View data
+                      </Button>
+                      <Button variant="contained" style={{ marginLeft: '10px' }}>
+                        GET
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
+  );
+}
 
 export default ReductionHistory;
