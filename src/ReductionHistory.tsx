@@ -143,7 +143,7 @@ const ReductionHistory: React.FC = () => {
               <TableCell />
               <TableCell />
               <TableCell>Experiment Number</TableCell>
-              <TableCell>Reduction Input</TableCell>
+              <TableCell>Filename</TableCell>
               <TableCell>Reduction Start</TableCell>
               <TableCell>Reduction End</TableCell>
               <TableCell>Title</TableCell>
