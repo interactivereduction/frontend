@@ -175,7 +175,6 @@ const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
         return <Icon>help_outline</Icon>;
     }
   };
-
   return (
     <Tooltip title={state}>
       <span>{getIconComponent()}</span>
@@ -203,30 +202,66 @@ const extractFileName = (path: string): string => {
 function Row({ reduction }: { reduction: Reduction }): JSX.Element {
   const [open, setOpen] = useState(false);
 
-  const renderDetails = (): JSX.Element => {
-    if (reduction.reduction_state === 'ERROR') {
-      return (
-        <Typography variant="subtitle1" style={{ color: 'red' }}>
-          Stacktrace placeholder: src\ReductionHistory.tsx Line 206:25: Missing return type on function
-          @typescript-eslint/explicit-function-return-type
-        </Typography>
-      );
-    } else {
-      return (
-        <>
-          {reduction.reduction_outputs}
-          {reduction.reduction_state !== 'NOT_STARTED' && (
-            <>
+  const parseReductionOutputs = () => {
+    try {
+      // First replace single quotes with double quotes to attempt to form a valid JSON string
+      const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
+      const parsed = JSON.parse(preProcessed);
+
+      if (Array.isArray(parsed)) {
+        return parsed.map((output: any, index: number) => (
+          <TableRow key={index}>
+            <TableCell>
+              {output}
               <Button variant="contained" style={{ marginLeft: '10px' }}>
                 View data
               </Button>
               <Button variant="contained" style={{ marginLeft: '10px' }}>
                 GET
               </Button>
-            </>
-          )}
+            </TableCell>
+          </TableRow>
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to parse reduction_outputs as JSON:', reduction.reduction_outputs);
+      console.error('Error:', error);
+      // Handle cases where parsing fails
+      return (
+        <TableRow>
+          <TableCell>{reduction.reduction_outputs}</TableCell>
+        </TableRow>
+      );
+    }
+  };
+
+  const reductionStatusDisplay = (): JSX.Element => {
+    if (reduction.reduction_state === 'ERROR') {
+      return (
+        <Typography variant="subtitle1" style={{ color: 'red' }}>
+          [ERROR] Stacktrace placeholder: src\ReductionHistory.tsx Line 206:25: Missing return type on function
+          @typescript-eslint/explicit-function-return-type
+        </Typography>
+      );
+    } else if (reduction.reduction_state === 'SUCCESSFUL') {
+      return (
+        <>
+          <Typography variant="subtitle1" style={{ color: 'green' }}>
+            [SUCCESS] Reduction performed successfully
+          </Typography>
+          <Table size="small" aria-label="details">
+            <TableBody>{parseReductionOutputs()}</TableBody>
+          </Table>
         </>
       );
+    } else if (reduction.reduction_state === 'NOT_STARTED') {
+      return (
+        <Typography variant="subtitle1" style={{ color: 'gray' }}>
+          [NOT STARTED] This reduction has not been started yet
+        </Typography>
+      );
+    } else {
+      return <></>; // Return empty for other states or include other cases as needed
     }
   };
 
@@ -257,15 +292,8 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
                 Reduction Details
               </Typography>
               <Typography variant="subtitle1" gutterBottom>
-                {`${reduction.reduction_state} - ${reduction.reduction_status_message}`}
+                {reductionStatusDisplay()}
               </Typography>
-              <Table size="small" aria-label="details">
-                <TableBody>
-                  <TableRow>
-                    <TableCell>{renderDetails()}</TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
             </Box>
           </Collapse>
         </TableCell>
