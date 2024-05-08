@@ -131,9 +131,10 @@ const ReductionHistory: React.FC = () => {
   };
 
   const headerStyles = {
+    color: 'white',
     backgroundColor: '#003088',
     fontWeight: 'bold',
-    borderRight: `1px solid ${theme.palette.divider}`,
+    borderRight: `1px solid #1f4996`,
     '&:last-child': {
       borderRight: 'none',
     },
@@ -167,9 +168,7 @@ const ReductionHistory: React.FC = () => {
         <Table aria-label="collapsible table" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell
-                sx={{ backgroundColor: theme.palette.mode === 'light' ? '#c3c3c3' : '#003088', fontWeight: 'bold' }}
-              />
+              <TableCell sx={{ backgroundColor: '#003088', fontWeight: 'bold' }} />
               <TableCell sx={headerStyles} />
               <TableCell sx={headerStyles}>Experiment number</TableCell>
               <TableCell sx={headerStyles}>Filename</TableCell>
@@ -318,7 +317,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
       index % 2 === 0
         ? theme.palette.mode === 'light'
           ? '#ececec'
-          : '#3d3d3d' // Conditionally set for even rows based on theme mode
+          : '#2d2d2d' // Conditionally set for even rows based on theme mode
         : theme.palette.background.default, // Default for odd rows
   };
 
