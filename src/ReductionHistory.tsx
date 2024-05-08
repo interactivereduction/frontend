@@ -130,6 +130,15 @@ const ReductionHistory: React.FC = () => {
     fetchReductions();
   };
 
+  const headerStyles = {
+    backgroundColor: '#003088',
+    fontWeight: 'bold',
+    borderRight: `1px solid ${theme.palette.divider}`,
+    '&:last-child': {
+      borderRight: 'none',
+    },
+  };
+
   return (
     <div style={{ padding: '20px' }}>
       <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
@@ -158,18 +167,20 @@ const ReductionHistory: React.FC = () => {
         <Table aria-label="collapsible table" stickyHeader>
           <TableHead>
             <TableRow>
-              <TableCell />
-              <TableCell />
-              <TableCell>Experiment Number</TableCell>
-              <TableCell>Filename</TableCell>
-              <TableCell>Reduction Start</TableCell>
-              <TableCell>Reduction End</TableCell>
-              <TableCell>Title</TableCell>
+              <TableCell
+                sx={{ backgroundColor: theme.palette.mode === 'light' ? '#c3c3c3' : '#003088', fontWeight: 'bold' }}
+              />
+              <TableCell sx={headerStyles} />
+              <TableCell sx={headerStyles}>Experiment number</TableCell>
+              <TableCell sx={headerStyles}>Filename</TableCell>
+              <TableCell sx={headerStyles}>Reduction start</TableCell>
+              <TableCell sx={headerStyles}>Reduction end</TableCell>
+              <TableCell sx={headerStyles}>Title</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {reductions.map((reduction) => (
-              <Row key={reduction.id} reduction={reduction} />
+            {reductions.map((reduction, index) => (
+              <Row key={reduction.id} reduction={reduction} index={index} />
             ))}
           </TableBody>
         </Table>
@@ -217,8 +228,9 @@ const extractFileName = (path: string): string => {
   return fileName;
 };
 
-function Row({ reduction }: { reduction: Reduction }): JSX.Element {
+function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
   const [open, setOpen] = useState(false);
+  const theme = useTheme();
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
@@ -301,11 +313,27 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
     ));
   };
 
+  const rowStyles = {
+    backgroundColor:
+      index % 2 === 0
+        ? theme.palette.mode === 'light'
+          ? '#ececec'
+          : '#3d3d3d' // Conditionally set for even rows based on theme mode
+        : theme.palette.background.default, // Default for odd rows
+  };
+
   return (
     <>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow
+        sx={{
+          '& > *': { borderBottom: 'unset' },
+          ...rowStyles,
+          '&:hover': { backgroundColor: theme.palette.action.hover },
+        }}
+        onClick={() => setOpen(!open)}
+      >
         <TableCell>
-          <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
+          <IconButton aria-label="expand row" size="small">
             {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
           </IconButton>
         </TableCell>
@@ -320,7 +348,7 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
         <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
         <TableCell>{reduction.runs[0].title}</TableCell>
       </TableRow>
-      <TableRow>
+      <TableRow sx={rowStyles}>
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={2}>
