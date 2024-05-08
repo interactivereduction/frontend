@@ -236,11 +236,16 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
                 </Box>
                 <Box>
                   <Button variant="contained" style={{ marginLeft: '10px' }}>
-                    View data
+                    View
                   </Button>
-                  <Button variant="contained" style={{ marginLeft: '10px' }}>
-                    GET
-                  </Button>
+                  <Tooltip title="Will be added in the future">
+                    <span>
+                      {/* Span is necessary because Tooltip doesn't work directly on disabled elements */}
+                      <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
+                        Download
+                      </Button>
+                    </span>
+                  </Tooltip>
                 </Box>
               </Box>
             </TableCell>
@@ -268,7 +273,7 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
       );
     } else if (reduction.reduction_state === 'SUCCESSFUL') {
       return (
-        <Typography variant="subtitle1" style={{ color: 'lightgreen' }}>
+        <Typography variant="subtitle1" style={{ color: '#2e7d32', fontWeight: 'bold' }}>
           [SUCCESS] Reduction performed successfully
         </Typography>
       );
