@@ -16,6 +16,7 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Grid,
   IconButton,
   Collapse,
   Icon,
@@ -37,6 +38,10 @@ interface Run {
   run_start: string;
   run_end: string;
   title: string;
+  users: string;
+  good_frames: number;
+  raw_frames: number;
+  instrument_name: string;
 }
 
 interface Reduction {
@@ -45,8 +50,21 @@ interface Reduction {
   reduction_end: string;
   reduction_state: string;
   reduction_status_message: string;
-  reduction_inputs: Record<string, string>;
+  reduction_inputs: {
+    ei: string;
+    runno: number;
+    wbvan: number;
+    monovan: number;
+    sam_rmm: number;
+    sam_mass: number;
+    sum_runs: boolean;
+    remove_bkg: boolean;
+    mask_file_link: string;
+  };
   reduction_outputs: string;
+  script: {
+    value: string;
+  };
   runs: Run[];
 }
 
@@ -202,9 +220,9 @@ const extractFileName = (path: string): string => {
 function Row({ reduction }: { reduction: Reduction }): JSX.Element {
   const [open, setOpen] = useState(false);
 
-  const parseReductionOutputs = () => {
+  const parseReductionOutputs = (): any => {
     try {
-      // First replace single quotes with double quotes to attempt to form a valid JSON string
+      // Replace single quotes with double quotes to form a valid JSON string
       const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
       const parsed = JSON.parse(preProcessed);
 
@@ -212,13 +230,19 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
         return parsed.map((output: any, index: number) => (
           <TableRow key={index}>
             <TableCell>
-              {output}
-              <Button variant="contained" style={{ marginLeft: '10px' }}>
-                View data
-              </Button>
-              <Button variant="contained" style={{ marginLeft: '10px' }}>
-                GET
-              </Button>
+              <Box maxHeight="80px" display="flex" justifyContent="space-between" width="100%">
+                <Box flex="1" textAlign="left">
+                  {output}
+                </Box>
+                <Box>
+                  <Button variant="contained" style={{ marginLeft: '10px' }}>
+                    View data
+                  </Button>
+                  <Button variant="contained" style={{ marginLeft: '10px' }}>
+                    GET
+                  </Button>
+                </Box>
+              </Box>
             </TableCell>
           </TableRow>
         ));
@@ -226,7 +250,6 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
     } catch (error) {
       console.error('Failed to parse reduction_outputs as JSON:', reduction.reduction_outputs);
       console.error('Error:', error);
-      // Handle cases where parsing fails
       return (
         <TableRow>
           <TableCell>{reduction.reduction_outputs}</TableCell>
@@ -239,20 +262,15 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
     if (reduction.reduction_state === 'ERROR') {
       return (
         <Typography variant="subtitle1" style={{ color: 'red' }}>
-          [ERROR] Stacktrace placeholder: src\ReductionHistory.tsx Line 206:25: Missing return type on function
-          @typescript-eslint/explicit-function-return-type
+          [ERROR] {reduction.reduction_status_message}: src\ReductionHistory.tsx Line 206:25: Missing return type on
+          function @typescript-eslint/explicit-function-return-type
         </Typography>
       );
     } else if (reduction.reduction_state === 'SUCCESSFUL') {
       return (
-        <>
-          <Typography variant="subtitle1" style={{ color: 'green' }}>
-            [SUCCESS] Reduction performed successfully
-          </Typography>
-          <Table size="small" aria-label="details">
-            <TableBody>{parseReductionOutputs()}</TableBody>
-          </Table>
-        </>
+        <Typography variant="subtitle1" style={{ color: 'lightgreen' }}>
+          [SUCCESS] Reduction performed successfully
+        </Typography>
       );
     } else if (reduction.reduction_state === 'NOT_STARTED') {
       return (
@@ -261,8 +279,21 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
         </Typography>
       );
     } else {
-      return <></>; // Return empty for other states or include other cases as needed
+      return <></>;
     }
+  };
+
+  const renderReductionInputs = () => {
+    const entries = Object.entries(reduction.reduction_inputs);
+    if (entries.length === 0) {
+      return <Typography>No input data available.</Typography>;
+    }
+
+    return entries.map(([key, value], index) => (
+      <Typography key={index} variant="body1">
+        {`${key}: ${value}`}
+      </Typography>
+    ));
   };
 
   return (
@@ -289,11 +320,49 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={2}>
               <Typography variant="h6" gutterBottom component="div">
-                Reduction Details
-              </Typography>
-              <Typography variant="subtitle1" gutterBottom>
                 {reductionStatusDisplay()}
               </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    Reduction ouputs
+                  </Typography>
+                  <Box sx={{ maxHeight: 180, overflowY: 'auto' }}>
+                    <Table size="small" aria-label="details">
+                      <TableBody>{parseReductionOutputs()}</TableBody>
+                    </Table>
+                  </Box>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    Run details
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Instrument: {reduction.runs[0].instrument_name}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Start: {formatDateTime(reduction.runs[0].run_start)}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    End: {formatDateTime(reduction.runs[0].run_end)}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Good frames: {reduction.runs[0].good_frames.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Raw frames: {reduction.runs[0].raw_frames.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body1" gutterBottom>
+                    Users: {reduction.runs[0].users}
+                  </Typography>
+                </Grid>
+                <Grid item xs={5}>
+                  <Typography variant="h6" gutterBottom component="div">
+                    Reduction inputs
+                  </Typography>
+                  <Box sx={{ maxHeight: 180, overflowY: 'auto' }}>{renderReductionInputs()}</Box>
+                </Grid>
+              </Grid>
             </Box>
           </Collapse>
         </TableCell>
