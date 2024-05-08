@@ -220,14 +220,14 @@ const extractFileName = (path: string): string => {
 function Row({ reduction }: { reduction: Reduction }): JSX.Element {
   const [open, setOpen] = useState(false);
 
-  const parseReductionOutputs = (): any => {
+  const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
       // Replace single quotes with double quotes to form a valid JSON string
       const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
       const parsed = JSON.parse(preProcessed);
 
       if (Array.isArray(parsed)) {
-        return parsed.map((output: any, index: number) => (
+        return parsed.map((output, index: number) => (
           <TableRow key={index}>
             <TableCell>
               <Box maxHeight="80px" display="flex" justifyContent="space-between" width="100%">
@@ -283,7 +283,7 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
     }
   };
 
-  const renderReductionInputs = () => {
+  const renderReductionInputs = (): JSX.Element | JSX.Element[] => {
     const entries = Object.entries(reduction.reduction_inputs);
     if (entries.length === 0) {
       return <Typography>No input data available.</Typography>;
