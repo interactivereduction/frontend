@@ -290,7 +290,7 @@ function Row({ reduction }: { reduction: Reduction }): JSX.Element {
     }
 
     return entries.map(([key, value], index) => (
-      <Typography key={index} variant="body1">
+      <Typography key={index} variant="body2">
         {`${key}: ${value}`}
       </Typography>
     ));
