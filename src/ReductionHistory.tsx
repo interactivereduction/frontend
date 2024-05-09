@@ -128,6 +128,13 @@ const ReductionHistory: React.FC = () => {
     fetchReductions();
   };
 
+  const handleSort = (property: string): void => {
+    const isAsc = orderBy === property && orderDirection === 'asc';
+    setOrderDirection(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    setCurrentPage(0); // Reset to the first page
+  };
+
   const handleChangePage = (event: unknown, newPage: number): void => {
     setCurrentPage(newPage);
   };
@@ -191,11 +198,42 @@ const ReductionHistory: React.FC = () => {
                   <TableCell style={headerStyles} colSpan={2}>
                     {selectedInstrument}
                   </TableCell>
-                  <TableCell style={headerStyles}>Experiment number</TableCell>
-                  <TableCell style={headerStyles}>Filename</TableCell>
-                  <TableCell style={headerStyles}>Reduction start</TableCell>
-                  <TableCell style={headerStyles}>Reduction end</TableCell>
-                  <TableCell style={headerStyles}>Title</TableCell>
+                  <TableCell
+                    style={headerStyles}
+                    sortDirection={orderBy === 'experiment_number' ? orderDirection : false}
+                    onClick={() => handleSort('experiment_number')}
+                  >
+                    Experiment Number {orderBy === 'experiment_number' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={headerStyles}
+                    sortDirection={orderBy === 'filename' ? orderDirection : false}
+                    onClick={() => handleSort('filename')}
+                  >
+                    Filename {orderBy === 'filename' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={headerStyles}
+                    sortDirection={orderBy === 'reduction_start' ? orderDirection : false}
+                    onClick={() => handleSort('reduction_start')}
+                  >
+                    Reduction start {orderBy === 'reduction_start' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={headerStyles}
+                    sortDirection={orderBy === 'reduction_end' ? orderDirection : false}
+                    onClick={() => handleSort('reduction_end')}
+                  >
+                    Reduction end {orderBy === 'reduction_end' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  {/* API currently doesn't allow for sorting by title so will crash the web app */}
+                  <TableCell
+                    style={headerStyles}
+                    sortDirection={orderBy === 'title' ? orderDirection : false}
+                    onClick={() => handleSort('title')}
+                  >
+                    Title {orderBy === 'title' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
                 </TableRow>
               </TableHead>
 
@@ -212,48 +250,48 @@ const ReductionHistory: React.FC = () => {
   );
 };
 
-const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
-  const getIconComponent = (): JSX.Element => {
-    switch (state) {
-      case 'ERROR':
-        return <ErrorOutlineIcon color="error" />;
-      case 'SUCCESSFUL':
-        return <CheckCircleOutlineIcon color="success" />;
-      case 'UNSUCCESSFUL':
-        return <WarningAmberIcon color="warning" />;
-      case 'NOT_STARTED':
-        return <HighlightOffIcon color="action" />;
-      default:
-        return <Icon>help_outline</Icon>;
-    }
-  };
-  return (
-    <Tooltip title={state}>
-      <span>{getIconComponent()}</span>
-    </Tooltip>
-  );
-};
-
-const formatDateTime = (dateTimeStr: string | null): string => {
-  if (dateTimeStr === null) {
-    return '';
-  }
-  return dateTimeStr.replace('T', '\n');
-};
-
-const extractFileName = (path: string): string => {
-  const fileNameWithExtension = path.split('/').pop();
-
-  if (typeof fileNameWithExtension === 'undefined') {
-    return '';
-  }
-  const fileName = fileNameWithExtension.split('.')[0];
-  return fileName;
-};
-
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+
+  const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
+    const getIconComponent = (): JSX.Element => {
+      switch (state) {
+        case 'ERROR':
+          return <ErrorOutlineIcon color="error" />;
+        case 'SUCCESSFUL':
+          return <CheckCircleOutlineIcon color="success" />;
+        case 'UNSUCCESSFUL':
+          return <WarningAmberIcon color="warning" />;
+        case 'NOT_STARTED':
+          return <HighlightOffIcon color="action" />;
+        default:
+          return <Icon>help_outline</Icon>;
+      }
+    };
+    return (
+      <Tooltip title={state}>
+        <span>{getIconComponent()}</span>
+      </Tooltip>
+    );
+  };
+
+  const formatDateTime = (dateTimeStr: string | null): string => {
+    if (dateTimeStr === null) {
+      return '';
+    }
+    return dateTimeStr.replace('T', '\n');
+  };
+
+  const extractFileName = (path: string): string => {
+    const fileNameWithExtension = path.split('/').pop();
+
+    if (typeof fileNameWithExtension === 'undefined') {
+      return '';
+    }
+    const fileName = fileNameWithExtension.split('.')[0];
+    return fileName;
+  };
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
@@ -298,7 +336,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     }
   };
 
-  const reductionStatusDisplay = (): JSX.Element => {
+  const renderReductionStatus = (): JSX.Element => {
     if (reduction.reduction_state === 'ERROR') {
       return (
         <Typography variant="subtitle1" style={{ color: 'red', fontWeight: 'bold' }}>
@@ -376,7 +414,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
           <Collapse in={open} timeout="auto" unmountOnExit>
             <Box margin={2}>
               <Typography variant="h6" gutterBottom component="div">
-                {reductionStatusDisplay()}
+                {renderReductionStatus()}
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
