@@ -195,32 +195,32 @@ const ReductionHistory: React.FC = () => {
             <Table aria-label="collapsible table" stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell style={headerStyles} colSpan={2}>
+                  <TableCell style={{ ...headerStyles, width: '10%' }} colSpan={2}>
                     {selectedInstrument}
                   </TableCell>
                   <TableCell
-                    style={headerStyles}
+                    style={{ ...headerStyles, width: '10%' }}
                     sortDirection={orderBy === 'experiment_number' ? orderDirection : false}
                     onClick={() => handleSort('experiment_number')}
                   >
                     Experiment Number {orderBy === 'experiment_number' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
                   <TableCell
-                    style={headerStyles}
+                    style={{ ...headerStyles, width: '10%' }}
                     sortDirection={orderBy === 'filename' ? orderDirection : false}
                     onClick={() => handleSort('filename')}
                   >
                     Filename {orderBy === 'filename' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
                   <TableCell
-                    style={headerStyles}
+                    style={{ ...headerStyles, width: '15%' }}
                     sortDirection={orderBy === 'reduction_start' ? orderDirection : false}
                     onClick={() => handleSort('reduction_start')}
                   >
                     Reduction start {orderBy === 'reduction_start' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
                   <TableCell
-                    style={headerStyles}
+                    style={{ ...headerStyles, width: '15%' }}
                     sortDirection={orderBy === 'reduction_end' ? orderDirection : false}
                     onClick={() => handleSort('reduction_end')}
                   >
@@ -228,7 +228,7 @@ const ReductionHistory: React.FC = () => {
                   </TableCell>
                   {/* API currently doesn't allow for sorting by title so will crash the web app */}
                   <TableCell
-                    style={headerStyles}
+                    style={{ ...headerStyles, width: '40%' }}
                     sortDirection={orderBy === 'title' ? orderDirection : false}
                     onClick={() => handleSort('title')}
                   >
@@ -354,6 +354,12 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
       return (
         <Typography variant="subtitle1" style={{ color: 'gray', fontWeight: 'bold' }}>
           [NOT STARTED] This reduction has not been started yet
+        </Typography>
+      );
+    } else if (reduction.reduction_state === 'UNSUCCESSFUL') {
+      return (
+        <Typography variant="subtitle1" style={{ color: '#ed6c02', fontWeight: 'bold' }}>
+          [NOT STARTED] {reduction.reduction_status_message}
         </Typography>
       );
     } else {
