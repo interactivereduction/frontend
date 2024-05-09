@@ -340,8 +340,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     if (reduction.reduction_state === 'ERROR') {
       return (
         <Typography variant="subtitle1" style={{ color: 'red', fontWeight: 'bold' }}>
-          [ERROR] {reduction.reduction_status_message}: src\ReductionHistory.tsx Line 206:25: Missing return type on
-          function @typescript-eslint/explicit-function-return-type
+          [ERROR] {reduction.reduction_status_message}
         </Typography>
       );
     } else if (reduction.reduction_state === 'SUCCESSFUL') {
