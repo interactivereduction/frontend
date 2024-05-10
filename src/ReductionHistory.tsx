@@ -77,9 +77,7 @@ const ReductionHistory: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // Page index starts at 0 for TablePagination
   const [rowsPerPage, setRowsPerPage] = useState(10);
   const [totalRows, setTotalRows] = useState(0);
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [orderBy, setOrderBy] = useState<string>('run_start');
 
   useEffect(() => {
