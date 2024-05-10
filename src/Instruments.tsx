@@ -1,8 +1,12 @@
+// React components
 import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+
+// Material UI components
 import {
   Box,
   Button,
+  Card,
   CardContent,
   IconButton,
   Link,
@@ -13,12 +17,12 @@ import {
   TableRow,
   TableSortLabel,
   Typography,
+  useTheme,
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useTheme } from '@mui/material/styles';
 import { styled } from '@mui/system';
-import { Card } from '@mui/material';
 
+// Local data
 import { instruments, InstrumentData } from './InstrumentData';
 
 type Order = 'asc' | 'desc';

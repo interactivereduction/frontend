@@ -1,6 +1,8 @@
+// React components
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
+// Local data
 import Instruments from './Instruments';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
