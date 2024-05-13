@@ -302,7 +302,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                 <Box>
                   <Tooltip title="Will be added in the future">
                     <span>
-                      {/* Span is necessary because Tooltip doesn't work directly on disabled elements */}
+                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
                       <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
                         View
                       </Button>
@@ -310,7 +310,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   </Tooltip>
                   <Tooltip title="Will be added in the future">
                     <span>
-                      {/* Span is necessary because Tooltip doesn't work directly on disabled elements */}
+                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
                       <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
                         Download
                       </Button>
@@ -468,7 +468,25 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
                     Reduction inputs
                   </Typography>
-                  <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>{renderReductionInputs()}</Box>
+                  <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
+                  <Box>
+                    <Tooltip title="Will be added in the future">
+                      <span>
+                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                        <Button variant="contained" sx={{ marginRight: 1 }} disabled>
+                          Value editor
+                        </Button>
+                      </span>
+                    </Tooltip>
+                    <Tooltip title="Will be added in the future">
+                      <span>
+                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                        <Button variant="contained" color="primary" disabled>
+                          Rerun
+                        </Button>
+                      </span>
+                    </Tooltip>
+                  </Box>
                 </Grid>
               </Grid>
             </Box>
