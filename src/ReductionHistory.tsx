@@ -224,14 +224,9 @@ const ReductionHistory: React.FC = () => {
                   >
                     Reduction end {orderBy === 'reduction_end' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
-                  {/* API currently doesn't allow for sorting by title so will crash the web app */}
-                  <TableCell
-                    style={{ ...headerStyles, width: '40%' }}
-                    sortDirection={orderBy === 'title' ? orderDirection : false}
-                    onClick={() => handleSort('title')}
-                  >
-                    Title {orderBy === 'title' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
+                  {/* API doesn't allow for sorting by title */}
+                  <TableCell style={{ ...headerStyles, width: '40%' }}>Title</TableCell>
                 </TableRow>
               </TableHead>
 
