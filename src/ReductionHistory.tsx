@@ -193,11 +193,11 @@ const ReductionHistory: React.FC = () => {
             <Table aria-label="collapsible table" stickyHeader>
               <TableHead>
                 <TableRow>
-                  <TableCell style={{ ...headerStyles, width: '10%' }} colSpan={2}>
+                  <TableCell style={{ ...headerStyles, width: '8%' }} colSpan={2}>
                     {selectedInstrument}
                   </TableCell>
                   <TableCell
-                    style={{ ...headerStyles, width: '10%' }}
+                    style={{ ...headerStyles, width: '12%' }}
                     sortDirection={orderBy === 'experiment_number' ? orderDirection : false}
                     onClick={() => handleSort('experiment_number')}
                   >
