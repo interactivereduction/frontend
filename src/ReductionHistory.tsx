@@ -420,13 +420,21 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                    Reduction ouputs
                   <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
+                    {reduction.reduction_state === 'UNSUCCESSFUL' || reduction.reduction_state === 'ERROR'
+                      ? 'Stacktrace output'
+                      : 'Reduction outputs'}
                   </Typography>
                   <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
-                    <Table size="small" aria-label="details">
-                      <TableBody>{parseReductionOutputs()}</TableBody>
-                    </Table>
+                    {reduction.reduction_state === 'NOT_STARTED' ? (
+                      <Typography variant="body2" style={{ margin: 2 }}>
+                        No output files to show
+                      </Typography>
+                    ) : (
+                      <Table size="small" aria-label="details">
+                        <TableBody>{parseReductionOutputs()}</TableBody>
+                      </Table>
+                    )}
                   </Box>
                 </Grid>
                 <Grid item xs={3}>
