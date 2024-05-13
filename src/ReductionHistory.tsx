@@ -1,62 +1,86 @@
+// React components
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+
+// Material UI components
 import {
-  Typography,
+  Box,
+  Button,
+  Collapse,
+  FormControl,
+  Grid,
+  Icon,
+  IconButton,
+  InputLabel,
+  Paper,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
   Table,
   TableBody,
   TableCell,
   TableContainer,
   TableHead,
+  TablePagination,
   TableRow,
-  Paper,
-  Pagination,
-  TableSortLabel,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  SelectChangeEvent,
-  Box,
   Tooltip,
-  styled,
+  Typography,
 } from '@mui/material';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import ErrorOutlineIcon from '@mui/icons-material/ErrorOutline';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import WarningAmberIcon from '@mui/icons-material/WarningAmber';
+
+// Local data
 import { instruments } from './InstrumentData';
 
+// Represents a single run with metadata and frame statistics
 interface Run {
   experiment_number: number;
   filename: string;
   run_start: string;
   run_end: string;
   title: string;
+  users: string;
+  good_frames: number;
+  raw_frames: number;
+  instrument_name: string;
 }
+
+// Describes the details of a reduction for one or more runs
 interface Reduction {
   id: number;
   reduction_start: string;
   reduction_end: string;
   reduction_state: string;
   reduction_status_message: string;
-  reduction_inputs: Record<string, string>;
+  reduction_inputs: {
+    [key: string]: string | number | boolean | null;
+  };
   reduction_outputs: string;
+  script: {
+    value: string;
+  };
   runs: Run[];
 }
 
 const ReductionHistory: React.FC = () => {
   const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
-  const theme = useTheme();
   const history = useHistory();
+  const theme = useTheme();
   const { instrumentName } = useParams<{ instrumentName: string }>();
   const [reductions, setReductions] = useState<Reduction[]>([]);
   const [selectedInstrument, setSelectedInstrument] = useState<string>(instrumentName || instruments[0].name);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0); // Page index starts at 0 for TablePagination
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [totalRows, setTotalRows] = useState(0);
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<string>('run_start');
-  const limit = 20;
+
+  console.log('xDDDDDD', theme.palette.mode);
 
   useEffect(() => {
     if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
@@ -72,7 +96,7 @@ const ReductionHistory: React.FC = () => {
     try {
       const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions/count`);
       const data = await response.json();
-      setTotalPages(Math.ceil(data.count / limit));
+      setTotalRows(data.count);
     } catch (error) {
       console.error('Error fetching run count:', error);
     }
@@ -80,48 +104,171 @@ const ReductionHistory: React.FC = () => {
 
   const fetchReductions = useCallback(async (): Promise<void> => {
     try {
-      const offset = (currentPage - 1) * limit;
-      const query = `limit=${limit}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}&include_runs=true`;
+      const offset = currentPage * rowsPerPage;
+      const query = `limit=${rowsPerPage}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}&include_runs=true`;
       const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions?${query}`);
       const data = await response.json();
       setReductions(data);
     } catch (error) {
-      console.error('Error fetching runs:', error);
+      console.error('Error fetching reductions:', error);
     }
-  }, [selectedInstrument, currentPage, orderBy, orderDirection, fiaApiUrl]);
+  }, [selectedInstrument, currentPage, rowsPerPage, orderBy, orderDirection, fiaApiUrl]);
 
   useEffect(() => {
     fetchTotalCount();
     fetchReductions();
-  }, [fetchTotalCount, fetchReductions]);
+  }, [fetchTotalCount, fetchReductions, currentPage, rowsPerPage]);
 
-  const handleSort = (property: string): void => {
-    const isAsc = orderBy === property && orderDirection === 'asc';
-    setOrderDirection(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
-  };
-
-  const handlePageChange = (event: React.ChangeEvent<unknown>, page: number): void => {
-    setCurrentPage(page);
-  };
-
-  const handleInstrumentChange = (event: SelectChangeEvent): void => {
-    const newInstrument = event.target.value as string;
+  const handleInstrumentChange = (event: SelectChangeEvent<string>): void => {
+    const newInstrument = event.target.value;
     setSelectedInstrument(newInstrument);
-    setCurrentPage(1); // Reset to page 1 when the instrument changes
+    setCurrentPage(0);
     history.push(`/reduction-history/${newInstrument}`);
     fetchTotalCount();
     fetchReductions();
   };
 
-  const StyledTableRow = styled(TableRow)(({ theme }) => ({
-    '&:nth-of-type(odd)': {
-      backgroundColor: theme.palette.action.hover,
+  const handleSort = (property: string): void => {
+    const isAsc = orderBy === property && orderDirection === 'asc';
+    setOrderDirection(isAsc ? 'desc' : 'asc');
+    setOrderBy(property);
+    setCurrentPage(0); // Reset to the first page
+  };
+
+  const handleChangePage = (event: unknown, newPage: number): void => {
+    setCurrentPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setCurrentPage(0);
+  };
+
+  const headerStyles = {
+    color: theme.palette.primary.contrastText,
+    backgroundColor: theme.palette.primary.main,
+    fontWeight: 'bold',
+    borderRight: `1px solid #1f4996`,
+    '&:last-child': {
+      borderRight: 'none',
     },
-    '&:nth-of-type(even)': {
-      backgroundColor: theme.palette.mode === 'dark' ? theme.palette.background.default : 'white',
-    },
-  }));
+  };
+
+  return (
+    <div style={{ padding: '20px' }}>
+      <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
+        <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
+          {selectedInstrument.toUpperCase()} reduction history
+        </Typography>
+        <FormControl style={{ width: '200px', marginLeft: '20px' }}>
+          <InputLabel id="instrument-select-label">Instrument</InputLabel>
+          <Select
+            labelId="instrument-select-label"
+            value={selectedInstrument}
+            label="Instrument"
+            onChange={handleInstrumentChange}
+          >
+            {instruments.map((instrument) => (
+              <MenuItem key={instrument.name} value={instrument.name}>
+                {instrument.name}
+              </MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+      </Box>
+
+      {reductions.length === 0 ? (
+        <Typography variant="h6" style={{ textAlign: 'center', marginTop: '20px', color: theme.palette.text.primary }}>
+          No reductions to show for this instrument
+        </Typography>
+      ) : (
+        <>
+          <TablePagination
+            component="div"
+            count={totalRows}
+            page={currentPage}
+            onPageChange={handleChangePage}
+            rowsPerPage={rowsPerPage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+          />
+          <TableContainer component={Paper} style={{ maxHeight: '740px', overflowY: 'scroll' }}>
+            <Table aria-label="collapsible table" stickyHeader>
+              <TableHead>
+                <TableRow>
+                  <TableCell style={{ ...headerStyles, width: '8%' }} colSpan={2}>
+                    {selectedInstrument}
+                  </TableCell>
+                  <TableCell
+                    style={{ ...headerStyles, width: '12%' }}
+                    sortDirection={orderBy === 'experiment_number' ? orderDirection : false}
+                    onClick={() => handleSort('experiment_number')}
+                  >
+                    Experiment Number {orderBy === 'experiment_number' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={{ ...headerStyles, width: '10%' }}
+                    sortDirection={orderBy === 'filename' ? orderDirection : false}
+                    onClick={() => handleSort('filename')}
+                  >
+                    Filename {orderBy === 'filename' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={{ ...headerStyles, width: '15%' }}
+                    sortDirection={orderBy === 'run_start' ? orderDirection : false}
+                    onClick={() => handleSort('run_start')}
+                  >
+                    Run start {orderBy === 'run_start' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  <TableCell
+                    style={{ ...headerStyles, width: '15%' }}
+                    sortDirection={orderBy === 'run_end' ? orderDirection : false}
+                    onClick={() => handleSort('run_end')}
+                  >
+                    Run end {orderBy === 'run_end' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                  </TableCell>
+                  {/* API doesn't allow for sorting by title */}
+                  <TableCell style={{ ...headerStyles, width: '40%' }}>Title</TableCell>
+                </TableRow>
+              </TableHead>
+
+              <TableBody>
+                {reductions.map((reduction, index) => (
+                  <Row key={reduction.id} reduction={reduction} index={index} />
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </>
+      )}
+    </div>
+  );
+};
+
+function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
+  const [open, setOpen] = useState(false);
+  const theme = useTheme();
+
+  const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
+    const getIconComponent = (): JSX.Element => {
+      switch (state) {
+        case 'ERROR':
+          return <ErrorOutlineIcon color="error" />;
+        case 'SUCCESSFUL':
+          return <CheckCircleOutlineIcon color="success" />;
+        case 'UNSUCCESSFUL':
+          return <WarningAmberIcon color="warning" />;
+        case 'NOT_STARTED':
+          return <HighlightOffIcon color="action" />;
+        default:
+          return <Icon>help_outline</Icon>;
+      }
+    };
+    return (
+      <Tooltip title={state}>
+        <span>{getIconComponent()}</span>
+      </Tooltip>
+    );
+  };
 
   const formatDateTime = (dateTimeStr: string | null): string => {
     if (dateTimeStr === null) {
@@ -140,178 +287,216 @@ const ReductionHistory: React.FC = () => {
     return fileName;
   };
 
-  const ReductionStatusIcon = ({ state, statusMessage }: { state: string; statusMessage: string }): JSX.Element => {
-    let IconComponent;
-    let color;
+  const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
+    try {
+      // Replace single quotes with double quotes to form a valid JSON string
+      const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
+      const parsed = JSON.parse(preProcessed);
 
-    switch (state) {
-      case 'ERROR':
-        IconComponent = ErrorOutlineIcon;
-        color = 'red';
-        break;
-      case 'SUCCESSFUL':
-        IconComponent = CheckCircleOutlineIcon;
-        color = 'green';
-        break;
-      case 'UNSUCCESSFUL':
-        IconComponent = WarningAmberIcon;
-        color = 'orange';
-        break;
-      case 'NOT_STARTED':
-        IconComponent = HighlightOffIcon;
-        color = 'grey';
-        break;
-      default:
-        IconComponent = ErrorOutlineIcon;
-        color = 'disabled';
-        statusMessage = 'Unknown status';
+      if (Array.isArray(parsed)) {
+        return parsed.map((output, index: number) => (
+          <TableRow key={index}>
+            <TableCell>
+              <Box maxHeight="80px" display="flex" alignItems="center" justifyContent="space-between" width="100%">
+                <Box flex="1" textAlign="left">
+                  {output}
+                </Box>
+                <Box>
+                  <Tooltip title="Will be added in the future">
+                    <span>
+                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                      <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
+                        View
+                      </Button>
+                    </span>
+                  </Tooltip>
+                  <Tooltip title="Will be added in the future">
+                    <span>
+                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                      <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
+                        Download
+                      </Button>
+                    </span>
+                  </Tooltip>
+                </Box>
+              </Box>
+            </TableCell>
+          </TableRow>
+        ));
+      }
+    } catch (error) {
+      console.error('Failed to parse reduction_outputs as JSON:', reduction.reduction_outputs);
+      console.error('Error:', error);
+      return (
+        <TableRow>
+          <TableCell>{reduction.reduction_outputs}</TableCell>
+        </TableRow>
+      );
     }
-    return (
-      <Tooltip title={statusMessage}>
-        <div>
-          <IconComponent style={{ color }} />
-        </div>
-      </Tooltip>
-    );
   };
 
-  const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-    minWidth: 160,
-  }));
+  const renderReductionStatus = (): JSX.Element => {
+    if (reduction.reduction_state === 'ERROR') {
+      return (
+        <Typography variant="subtitle1" style={{ color: 'red', fontWeight: 'bold' }}>
+          [ERROR] {reduction.reduction_status_message}
+        </Typography>
+      );
+    } else if (reduction.reduction_state === 'SUCCESSFUL') {
+      return (
+        <Typography variant="subtitle1" style={{ color: '#2e7d32', fontWeight: 'bold' }}>
+          [SUCCESS] Reduction performed successfully
+        </Typography>
+      );
+    } else if (reduction.reduction_state === 'NOT_STARTED') {
+      return (
+        <Typography variant="subtitle1" style={{ color: 'gray', fontWeight: 'bold' }}>
+          [NOT STARTED] This reduction has not been started yet
+        </Typography>
+      );
+    } else if (reduction.reduction_state === 'UNSUCCESSFUL') {
+      return (
+        <Typography variant="subtitle1" style={{ color: '#ed6c02', fontWeight: 'bold' }}>
+          [NOT STARTED] {reduction.reduction_status_message}
+        </Typography>
+      );
+    } else {
+      return <></>;
+    }
+  };
+
+  const renderReductionInputs = (): JSX.Element | JSX.Element[] => {
+    const entries = Object.entries(reduction.reduction_inputs);
+    if (entries.length === 0) {
+      return <Typography sx={{ fontWeight: 'bold' }}>No input data available</Typography>;
+    }
+
+    return entries.map(([key, value], index) => (
+      <Typography key={index} variant="body2" sx={{ fontWeight: 'bold' }}>
+        {`${key}: ${value}`}
+      </Typography>
+    ));
+  };
+
+  const rowStyles = {
+    backgroundColor:
+      index % 2 === 0
+        ? theme.palette.mode === 'light'
+          ? '#ececec'
+          : '#2d2d2d' // Conditionally set for even rows based on theme mode
+        : theme.palette.background.default, // Default for odd rows
+  };
 
   return (
-    <div style={{ padding: '20px' }}>
-      <Box display="flex" alignItems="center" justifyContent="space-between" marginBottom="20px">
-        <Typography variant="h3" component="h1" style={{ color: theme.palette.text.primary }}>
-          {`${selectedInstrument.toUpperCase()} Reduction History`}
-        </Typography>
+    <>
+      <TableRow
+        sx={{
+          '& > *': { borderBottom: 'unset' },
+          ...rowStyles,
+          '&:hover': { backgroundColor: theme.palette.action.hover },
+        }}
+        onClick={() => setOpen(!open)}
+      >
+        <TableCell>
+          <IconButton aria-label="expand row" size="small">
+            {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          </IconButton>
+        </TableCell>
+        <TableCell>
+          <ReductionStatusIcon state={reduction.reduction_state} />
+        </TableCell>
+        <TableCell component="th" scope="row">
+          {reduction.runs[0].experiment_number}
+        </TableCell>
+        <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
+        <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
+        <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
+        <TableCell>{reduction.runs[0].title}</TableCell>
+      </TableRow>
+      <TableRow sx={rowStyles}>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={7}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box margin={2}>
+              <Typography variant="h6" gutterBottom component="div">
+                {renderReductionStatus()}
+              </Typography>
+              <Grid container spacing={3}>
+                <Grid item xs={4}>
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
+                    {reduction.reduction_state === 'UNSUCCESSFUL' || reduction.reduction_state === 'ERROR'
+                      ? 'Stacktrace output'
+                      : 'Reduction outputs'}
+                  </Typography>
+                  <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
+                    {reduction.reduction_state === 'NOT_STARTED' ? (
+                      <Typography variant="body2" style={{ margin: 2 }}>
+                        No output files to show
+                      </Typography>
+                    ) : (
+                      <Table size="small" aria-label="details">
+                        <TableBody>{parseReductionOutputs()}</TableBody>
+                      </Table>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={3}>
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
+                    Run details
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Reduction ID: {reduction.id}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Instrument: {reduction.runs[0].instrument_name}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Reduction start: {formatDateTime(reduction.reduction_start)}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Reduction end: {formatDateTime(reduction.reduction_end)}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Good frames: {reduction.runs[0].good_frames.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Raw frames: {reduction.runs[0].raw_frames.toLocaleString()}
+                  </Typography>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
+                    Users: {reduction.runs[0].users}
+                  </Typography>
+                </Grid>
 
-        <FormControl style={{ width: '200px', marginLeft: '20px' }}>
-          <InputLabel id="instrument-select-label">Instrument</InputLabel>
-          <Select
-            labelId="instrument-select-label"
-            value={selectedInstrument}
-            label="Instrument"
-            onChange={handleInstrumentChange}
-          >
-            {instruments.map((instrument) => (
-              <MenuItem key={instrument.id} value={instrument.name}>
-                {instrument.name}
-              </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </Box>
-
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'experiment_number'}
-                  direction={orderBy === 'experiment_number' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('experiment_number')}
-                >
-                  Experiment Number
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'filename'}
-                  direction={orderBy === 'filename' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('filename')}
-                >
-                  Reduction Input
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'run_start'}
-                  direction={orderBy === 'run_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('run_start')}
-                >
-                  Run Start
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'run_end'}
-                  direction={orderBy === 'run_end' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('run_end')}
-                >
-                  Run End
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>Title</StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_start'}
-                  direction={orderBy === 'reduction_start' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_start')}
-                >
-                  Reduction Start
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_end'}
-                  direction={orderBy === 'reduction_end' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_end')}
-                >
-                  Reduction End
-                </TableSortLabel>
-              </StyledTableCell>
-              <StyledTableCell>
-                <TableSortLabel
-                  active={orderBy === 'reduction_outputs'}
-                  direction={orderBy === 'reduction_outputs' ? orderDirection : 'asc'}
-                  onClick={() => handleSort('reduction_outputs')}
-                >
-                  Reduction Outputs
-                </TableSortLabel>
-              </StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {reductions.map((reduction, index) => (
-              <StyledTableRow key={index}>
-                <TableCell>
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <ReductionStatusIcon
-                      state={reduction.reduction_state}
-                      statusMessage={reduction.reduction_status_message}
-                    />
-                    <span style={{ marginLeft: '40px' }}>{reduction.runs[0].experiment_number}</span>
-                  </div>
-                </TableCell>
-                <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-                <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
-                <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
-                <TableCell>{reduction.runs[0].title}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
-                <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
-                <TableCell>{reduction.reduction_outputs}</TableCell>
-              </StyledTableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {totalPages > 1 && (
-        <Pagination
-          count={totalPages}
-          page={currentPage}
-          onChange={handlePageChange}
-          color="primary"
-          sx={{ marginTop: 2, marginBottom: 2 }}
-        />
-      )}
-    </div>
+                <Grid item xs={5}>
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
+                    Reduction inputs
+                  </Typography>
+                  <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
+                  <Box display="flex" justifyContent="right">
+                    <Tooltip title="Will be added in the future">
+                      <span>
+                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                        <Button variant="contained" sx={{ marginRight: 1 }} disabled>
+                          Value editor
+                        </Button>
+                      </span>
+                    </Tooltip>
+                    <Tooltip title="Will be added in the future">
+                      <span>
+                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
+                        <Button variant="contained" color="primary" disabled>
+                          Rerun
+                        </Button>
+                      </span>
+                    </Tooltip>
+                  </Box>
+                </Grid>
+              </Grid>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
-};
+}
 
 export default ReductionHistory;
