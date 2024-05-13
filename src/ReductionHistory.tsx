@@ -80,6 +80,8 @@ const ReductionHistory: React.FC = () => {
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<string>('run_start');
 
+  console.log('xDDDDDD', theme.palette.mode);
+
   useEffect(() => {
     if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
       setSelectedInstrument(instrumentName);
@@ -144,7 +146,7 @@ const ReductionHistory: React.FC = () => {
 
   const headerStyles = {
     color: 'white',
-    backgroundColor: '#003088',
+    backgroundColor: theme.palette.primary.main,
     fontWeight: 'bold',
     borderRight: `1px solid #1f4996`,
     '&:last-child': {
