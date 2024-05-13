@@ -451,7 +451,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                     Reduction start: {formatDateTime(reduction.reduction_start)}
                   </Typography>
                   <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
-                    Reduction end: {formatDateTime(reduction.reduction_start)}
+                    Reduction end: {formatDateTime(reduction.reduction_end)}
                   </Typography>
                   <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Good frames: {reduction.runs[0].good_frames.toLocaleString()}
