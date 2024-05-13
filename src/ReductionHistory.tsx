@@ -469,7 +469,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                     Reduction inputs
                   </Typography>
                   <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
-                  <Box>
+                  <Box display="flex" justifyContent="right">
                     <Tooltip title="Will be added in the future">
                       <span>
                         {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
