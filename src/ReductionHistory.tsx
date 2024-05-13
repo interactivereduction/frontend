@@ -145,7 +145,7 @@ const ReductionHistory: React.FC = () => {
   };
 
   const headerStyles = {
-    color: 'white',
+    color: theme.palette.primary.contrastText,
     backgroundColor: theme.palette.primary.main,
     fontWeight: 'bold',
     borderRight: `1px solid #1f4996`,
