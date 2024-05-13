@@ -295,7 +295,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
         return parsed.map((output, index: number) => (
           <TableRow key={index}>
             <TableCell>
-              <Box maxHeight="80px" display="flex" justifyContent="space-between" width="100%">
+              <Box maxHeight="80px" display="flex" alignItems="center" justifyContent="space-between" width="100%">
                 <Box flex="1" textAlign="left">
                   {output}
                 </Box>
