@@ -212,18 +212,17 @@ const ReductionHistory: React.FC = () => {
                   </TableCell>
                   <TableCell
                     style={{ ...headerStyles, width: '15%' }}
-                    sortDirection={orderBy === 'reduction_start' ? orderDirection : false}
-                    onClick={() => handleSort('reduction_start')}
+                    sortDirection={orderBy === 'run_start' ? orderDirection : false}
+                    onClick={() => handleSort('run_start')}
                   >
-                    Reduction start {orderBy === 'reduction_start' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
+                    Run start {orderBy === 'run_start' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
                   <TableCell
                     style={{ ...headerStyles, width: '15%' }}
-                    sortDirection={orderBy === 'reduction_end' ? orderDirection : false}
-                    onClick={() => handleSort('reduction_end')}
+                    sortDirection={orderBy === 'run_end' ? orderDirection : false}
+                    onClick={() => handleSort('run_end')}
                   >
-                    Reduction end {orderBy === 'reduction_end' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
-                  </TableCell>
+                    Run end {orderBy === 'run_end' ? (orderDirection === 'asc' ? '↑' : '↓') : ''}
                   </TableCell>
                   {/* API doesn't allow for sorting by title */}
                   <TableCell style={{ ...headerStyles, width: '40%' }}>Title</TableCell>
@@ -403,8 +402,8 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
           {reduction.runs[0].experiment_number}
         </TableCell>
         <TableCell>{extractFileName(reduction.runs[0].filename)}</TableCell>
-        <TableCell>{formatDateTime(reduction.reduction_start)}</TableCell>
-        <TableCell>{formatDateTime(reduction.reduction_end)}</TableCell>
+        <TableCell>{formatDateTime(reduction.runs[0].run_start)}</TableCell>
+        <TableCell>{formatDateTime(reduction.runs[0].run_end)}</TableCell>
         <TableCell>{reduction.runs[0].title}</TableCell>
       </TableRow>
       <TableRow sx={rowStyles}>
@@ -436,10 +435,10 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                     Instrument: {reduction.runs[0].instrument_name}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    Start: {formatDateTime(reduction.runs[0].run_start)}
+                    Reduction start: {formatDateTime(reduction.reduction_start)}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
-                    End: {formatDateTime(reduction.runs[0].run_end)}
+                    Reduction end: {formatDateTime(reduction.reduction_start)}
                   </Typography>
                   <Typography variant="body2" gutterBottom>
                     Good frames: {reduction.runs[0].good_frames.toLocaleString()}
