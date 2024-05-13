@@ -1,8 +1,9 @@
+// React components
 import React, { FC } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 
-import Instrument from './Instrument';
-import LiveReduction from './LiveReduction';
+// Local data
+import Instruments from './Instruments';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
 import GlobalStyles from './GlobalStyles';
@@ -37,13 +38,7 @@ const App: FC = () => {
             <HomePage />
           </Route>
           <Route path="/instruments">
-            <Instrument />
-          </Route>
-          <Route path="/reduction-history/ALF">
-            <ReductionHistory />
-          </Route>
-          <Route path="/live-reduction/:instrumentName">
-            <LiveReduction />
+            <Instruments />
           </Route>
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />

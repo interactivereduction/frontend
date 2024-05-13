@@ -1,8 +1,13 @@
+// React imports
 import React from 'react';
-import Typography from '@mui/material/Typography';
-import { Grid, Box, Paper, Button, Avatar, alpha, styled, useMediaQuery } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
 import { Trans, useTranslation } from 'react-i18next';
+
+// Material UI imports
+import { Avatar, Box, Button, Grid, Paper, Typography, alpha, styled, useMediaQuery, useTheme } from '@mui/material';
+import SearchIcon from '@mui/icons-material/Search';
+
+// Local data
 import BackgroundImage from './images/background.jpg';
 import GreenSwirl1Image from './images/green-swirl1.png';
 import GreenSwirl2Image from './images/green-swirl2.png';
@@ -11,8 +16,6 @@ import Decal2Image from './images/decal2.svg';
 import Decal2DarkImage from './images/decal2-dark.svg';
 import Decal2DarkHCImage from './images/decal2-darkhc.svg';
 import FacilityImage from './images/facility.jpg';
-import { Link } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 
 export interface HomePageProps {
   logo: string;
@@ -208,7 +211,7 @@ const HomePage = (): React.ReactElement => {
                 </PaperDescription>
                 <PaperDescription variant="body1">
                   <Trans i18nKey="home-page.browse.description2">
-                    <strong>Flexible Interactive Reduction</strong> focuses on providing scientists an interface to
+                    <strong>Flexible Interactive Automation</strong> focuses on providing scientists an interface to
                     perform automatic reductions for beamline instruments from the web.
                   </Trans>
                 </PaperDescription>
@@ -255,11 +258,9 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">{t('Live reductions')}</PaperHeading>
+                <PaperHeading variant="h4">{t('ISIS instruments')}</PaperHeading>
                 <PaperDescription variant="body1">
-                  {t(
-                    'Browse the instrument page to select an instrument to access the live data functionality for a specific instrument.'
-                  )}
+                  {t("Browse a list of ISIS Neutron and Muon Source's instruments.")}
                 </PaperDescription>
                 <Box marginTop="auto">
                   <Button
@@ -281,9 +282,9 @@ const HomePage = (): React.ReactElement => {
                 <Avatar sx={avatarStyles}>
                   <SearchIcon sx={avatarIconStyles} />
                 </Avatar>
-                <PaperHeading variant="h4">{t('Historical reductions')}</PaperHeading>
+                <PaperHeading variant="h4">{t('Historic reductions')}</PaperHeading>
                 <PaperDescription variant="body1">
-                  {t('Browse and search a list of all reduction performed on the platform.')}
+                  {t('Browse a list of interactable reductions performed on this platform.')}
                 </PaperDescription>
                 <Box marginTop="auto">
                   <Button

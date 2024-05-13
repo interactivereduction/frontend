@@ -1,4 +1,7 @@
+// React components
 import React from 'react';
+
+// Material UI components
 import { ThemeProvider, StyledEngineProvider, Theme, createTheme } from '@mui/material/styles';
 
 let theme: Theme = createTheme();
