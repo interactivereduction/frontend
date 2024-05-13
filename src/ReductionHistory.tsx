@@ -361,11 +361,11 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
   const renderReductionInputs = (): JSX.Element | JSX.Element[] => {
     const entries = Object.entries(reduction.reduction_inputs);
     if (entries.length === 0) {
-      return <Typography>No input data available.</Typography>;
+      return <Typography sx={{ fontWeight: 'bold' }}>No input data available</Typography>;
     }
 
     return entries.map(([key, value], index) => (
-      <Typography key={index} variant="body2">
+      <Typography key={index} variant="body2" sx={{ fontWeight: 'bold' }}>
         {`${key}: ${value}`}
       </Typography>
     ));
@@ -415,8 +415,8 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
               </Typography>
               <Grid container spacing={3}>
                 <Grid item xs={4}>
-                  <Typography variant="h6" gutterBottom component="div">
                     Reduction ouputs
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
                   </Typography>
                   <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>
                     <Table size="small" aria-label="details">
@@ -425,33 +425,34 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   </Box>
                 </Grid>
                 <Grid item xs={3}>
-                  <Typography variant="h6" gutterBottom component="div">
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
                     Run details
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Reduction ID: {reduction.id}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Instrument: {reduction.runs[0].instrument_name}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Reduction start: {formatDateTime(reduction.reduction_start)}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Reduction end: {formatDateTime(reduction.reduction_start)}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Good frames: {reduction.runs[0].good_frames.toLocaleString()}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Raw frames: {reduction.runs[0].raw_frames.toLocaleString()}
                   </Typography>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2" gutterBottom sx={{ fontWeight: 'bold' }}>
                     Users: {reduction.runs[0].users}
                   </Typography>
                 </Grid>
+
                 <Grid item xs={5}>
-                  <Typography variant="h6" gutterBottom component="div">
+                  <Typography variant="h6" gutterBottom component="div" sx={{ fontWeight: 'bold' }}>
                     Reduction inputs
                   </Typography>
                   <Box sx={{ maxHeight: 200, overflowY: 'auto' }}>{renderReductionInputs()}</Box>
