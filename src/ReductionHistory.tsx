@@ -288,10 +288,16 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
-      // Replace single quotes with double quotes to form a valid JSON string
-      const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
-      const parsed = JSON.parse(preProcessed);
-
+      let parsed;
+      if (reduction.reduction_outputs.startsWith('[') && reduction.reduction_outputs.endsWith(']')) {
+        // Multiple files in a list case
+        // Replace single quotes with double quotes to form a valid JSON string
+        const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
+        parsed = JSON.parse(preProcessed);
+      } else {
+        // Single file case
+        parsed = [reduction.reduction_outputs];
+      }
 
       if (Array.isArray(parsed)) {
         return parsed.map((output, index: number) => (
