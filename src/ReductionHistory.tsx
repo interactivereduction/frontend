@@ -80,8 +80,6 @@ const ReductionHistory: React.FC = () => {
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<string>('run_start');
 
-  console.log('xDDDDDD', theme.palette.mode);
-
   useEffect(() => {
     if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
       setSelectedInstrument(instrumentName);
