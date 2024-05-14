@@ -80,8 +80,6 @@ const ReductionHistory: React.FC = () => {
   const [orderDirection, setOrderDirection] = useState<'asc' | 'desc'>('desc');
   const [orderBy, setOrderBy] = useState<string>('run_start');
 
-  console.log('xDDDDDD', theme.palette.mode);
-
   useEffect(() => {
     if (instrumentName && instruments.some((i) => i.name === instrumentName)) {
       setSelectedInstrument(instrumentName);
@@ -247,6 +245,7 @@ const ReductionHistory: React.FC = () => {
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
 
   const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
     const getIconComponent = (): JSX.Element => {
@@ -289,12 +288,19 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
-      // Replace single quotes with double quotes to form a valid JSON string
-      const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
-      const parsed = JSON.parse(preProcessed);
+      let outputs;
+      if (reduction.reduction_outputs.startsWith('[') && reduction.reduction_outputs.endsWith(']')) {
+        // If ouputs is a list, repalce single quotes with double quotes to form
+        // a valid JSON string before parsing
+        const preParsedOutputs = reduction.reduction_outputs.replace(/'/g, '"');
+        outputs = JSON.parse(preParsedOutputs);
+      } else {
+        // Cast to a list if just a single file
+        outputs = [reduction.reduction_outputs];
+      }
 
-      if (Array.isArray(parsed)) {
-        return parsed.map((output, index: number) => (
+      if (Array.isArray(outputs)) {
+        return outputs.map((output, index: number) => (
           <TableRow key={index}>
             <TableCell>
               <Box maxHeight="80px" display="flex" alignItems="center" justifyContent="space-between" width="100%">
@@ -302,14 +308,16 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   {output}
                 </Box>
                 <Box>
-                  <Tooltip title="Will be added in the future">
-                    <span>
-                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
-                      <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
-                        View
-                      </Button>
-                    </span>
-                  </Tooltip>
+                  <Button
+                    variant="contained"
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => {
+                      const url = `${fiaDataViewerUrl}/view/${reduction.runs[0].instrument_name}/${reduction.runs[0].experiment_number}/${output}`;
+                      window.open(url, '_blank');
+                    }}
+                  >
+                    View
+                  </Button>
                   <Tooltip title="Will be added in the future">
                     <span>
                       {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
@@ -327,11 +335,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     } catch (error) {
       console.error('Failed to parse reduction_outputs as JSON:', reduction.reduction_outputs);
       console.error('Error:', error);
-      return (
-        <TableRow>
-          <TableCell>{reduction.reduction_outputs}</TableCell>
-        </TableRow>
-      );
+      return <TableCell>{reduction.reduction_outputs}</TableCell>;
     }
   };
 
