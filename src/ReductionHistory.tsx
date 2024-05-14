@@ -329,11 +329,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     } catch (error) {
       console.error('Failed to parse reduction_outputs as JSON:', reduction.reduction_outputs);
       console.error('Error:', error);
-      return (
-        <TableRow>
-          <TableCell>{reduction.reduction_outputs}</TableCell>
-        </TableRow>
-      );
+      return <TableCell>{reduction.reduction_outputs}</TableCell>;
     }
   };
 
