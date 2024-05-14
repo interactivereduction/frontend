@@ -245,6 +245,7 @@ const ReductionHistory: React.FC = () => {
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
   const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
 
   const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
     const getIconComponent = (): JSX.Element => {
@@ -291,7 +292,6 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
       const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
       const parsed = JSON.parse(preProcessed);
 
-      const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
 
       if (Array.isArray(parsed)) {
         return parsed.map((output, index: number) => (
