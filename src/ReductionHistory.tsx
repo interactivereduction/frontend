@@ -291,6 +291,8 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
       const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
       const parsed = JSON.parse(preProcessed);
 
+      const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
+
       if (Array.isArray(parsed)) {
         return parsed.map((output, index: number) => (
           <TableRow key={index}>
@@ -300,14 +302,16 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   {output}
                 </Box>
                 <Box>
-                  <Tooltip title="Will be added in the future">
-                    <span>
-                      {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
-                      <Button variant="contained" style={{ marginLeft: '10px' }} disabled>
-                        View
-                      </Button>
-                    </span>
-                  </Tooltip>
+                  <Button
+                    variant="contained"
+                    style={{ marginLeft: '10px' }}
+                    onClick={() => {
+                      const url = `${fiaDataViewerUrl}/view/${reduction.runs[0].instrument_name}/${reduction.runs[0].experiment_number}/${output}`;
+                      window.open(url, '_blank');
+                    }}
+                  >
+                    View
+                  </Button>
                   <Tooltip title="Will be added in the future">
                     <span>
                       {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
