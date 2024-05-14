@@ -288,19 +288,19 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
     try {
-      let parsed;
+      let outputs;
       if (reduction.reduction_outputs.startsWith('[') && reduction.reduction_outputs.endsWith(']')) {
-        // Multiple files in a list case
-        // Replace single quotes with double quotes to form a valid JSON string
-        const preProcessed = reduction.reduction_outputs.replace(/'/g, '"');
-        parsed = JSON.parse(preProcessed);
+        // If ouputs is a list, repalce single quotes with double quotes to form
+        // a valid JSON string before parsing
+        const preParsedOutputs = reduction.reduction_outputs.replace(/'/g, '"');
+        outputs = JSON.parse(preParsedOutputs);
       } else {
-        // Single file case
-        parsed = [reduction.reduction_outputs];
+        // Cast to a list if just a single file
+        outputs = [reduction.reduction_outputs];
       }
 
-      if (Array.isArray(parsed)) {
-        return parsed.map((output, index: number) => (
+      if (Array.isArray(outputs)) {
+        return outputs.map((output, index: number) => (
           <TableRow key={index}>
             <TableCell>
               <Box maxHeight="80px" display="flex" alignItems="center" justifyContent="space-between" width="100%">
