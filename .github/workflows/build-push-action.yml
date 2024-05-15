@@ -42,3 +42,21 @@ jobs:
           file: ./container/scigateway.dockerfile
           push: true
           tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway:${{ github.sha }}
+    
+      - name: Checkout the Gitops repository
+        uses: actions/checkout@v4
+        with:
+          repository: fiaisis/gitops
+          token: ${{ secrets.GITOPS_STAGING_EDIT_TOKEN }}
+  
+      - name: Edit the YAML frontend file for staging
+        uses: mikefarah/yq@v4.43.1
+        with:
+          cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "frontend").image = "ghcr.io/fiaisis/frontend@${{ steps.docker_build.outputs.digest }}"' './components/frontend/overlays/staging/frontend.yml'
+  
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git commit -am "Update frontend to use ${{ steps.docker_build.outputs.digest }}"
+          git push
