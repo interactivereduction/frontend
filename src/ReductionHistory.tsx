@@ -290,7 +290,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     try {
       let outputs;
       if (reduction.reduction_outputs.startsWith('[') && reduction.reduction_outputs.endsWith(']')) {
-        // If ouputs is a list, repalce single quotes with double quotes to form
+        // If outputs is a list, replace single quotes with double quotes to form
         // a valid JSON string before parsing
         const preParsedOutputs = reduction.reduction_outputs.replace(/'/g, '"');
         outputs = JSON.parse(preParsedOutputs);
@@ -304,7 +304,14 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
           <TableRow key={index}>
             <TableCell>
               <Box maxHeight="80px" display="flex" alignItems="center" justifyContent="space-between" width="100%">
-                <Box flex="1" textAlign="left">
+                <Box
+                  flex="1"
+                  textAlign="left"
+                  sx={{
+                    minWidth: 0,
+                    overflowWrap: 'break-word',
+                  }}
+                >
                   {output}
                 </Box>
                 <Box>
