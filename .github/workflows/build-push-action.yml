@@ -29,6 +29,7 @@ jobs:
           password: ${{ secrets.WRITE_PACKAGE_TOKEN }}
 
       - name: Build and push frontend Docker image
+        id: frontend_build
         uses: docker/build-push-action@v5
         with:
           file: ./container/frontend.dockerfile
@@ -37,6 +38,7 @@ jobs:
 
       - name: Build and push scigateway Docker image
         uses: docker/build-push-action@v5
+        id: scigateway_build
         with:
           context: ./container
           file: ./container/scigateway.dockerfile
@@ -52,11 +54,16 @@ jobs:
       - name: Edit the YAML frontend file for staging
         uses: mikefarah/yq@v4.43.1
         with:
-          cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "frontend").image = "ghcr.io/fiaisis/frontend@${{ steps.docker_build.outputs.digest }}"' './components/frontend/overlays/staging/frontend.yml'
-  
+          cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "frontend").image = "ghcr.io/fiaisis/frontend@${{ steps.frontend_build.outputs.digest }}"' './components/frontend/overlays/staging/frontend.yml'
+
+      - name: Edit the YAML scigateway file for staging
+        uses: mikefarah/yq@v4.43.1
+        with:
+          cmd: yq e -i '.spec.template.spec.containers[] |= select(.name == "scigateway").image = "ghcr.io/fiaisis/scigateway@${{ steps.scigateway_build.outputs.digest }}"' './components/scigateway/overlays/staging/scigateway.yml'
+
       - name: Commit and push changes
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git commit -am "Update frontend to use ${{ steps.docker_build.outputs.digest }}"
+          git commit -am "Update frontend to use ${{ steps.frontend_build.outputs.digest }}"
           git push
