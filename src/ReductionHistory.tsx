@@ -417,7 +417,6 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     <>
       <TableRow
         sx={{
-          '& > *': { borderBottom: 'unset' },
           ...rowStyles,
           '&:hover': hoverStyles(theme, index),
         }}
