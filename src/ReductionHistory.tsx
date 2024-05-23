@@ -354,7 +354,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
       );
     } else if (reduction.reduction_state === 'NOT_STARTED') {
       return (
-        <Typography variant="subtitle1" style={{ color: theme.palette.grey.A700, fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.grey[700], fontWeight: 'bold' }}>
           [NOT STARTED] This reduction has not been started yet
         </Typography>
       );
