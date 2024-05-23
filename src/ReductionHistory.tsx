@@ -393,7 +393,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
         : theme.palette.background.default, // All even rows (default background color)
   };
 
-  const hoverStyles = (theme: any, index: number): React.CSSProperties => {
+  const hoverStyles = (theme: Theme, index: number): React.CSSProperties => {
     return {
       backgroundColor:
         theme.palette.mode === 'light'
