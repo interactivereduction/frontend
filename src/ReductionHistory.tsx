@@ -23,6 +23,7 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Theme,
   Tooltip,
   Typography,
   useTheme,
