@@ -342,25 +342,25 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
   const renderReductionStatus = (): JSX.Element => {
     if (reduction.reduction_state === 'ERROR') {
       return (
-        <Typography variant="subtitle1" style={{ color: 'red', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.error.dark, fontWeight: 'bold' }}>
           [ERROR] {reduction.reduction_status_message}
         </Typography>
       );
     } else if (reduction.reduction_state === 'SUCCESSFUL') {
       return (
-        <Typography variant="subtitle1" style={{ color: '#2e7d32', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.success.main, fontWeight: 'bold' }}>
           [SUCCESS] Reduction performed successfully
         </Typography>
       );
     } else if (reduction.reduction_state === 'NOT_STARTED') {
       return (
-        <Typography variant="subtitle1" style={{ color: 'gray', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.grey.A700, fontWeight: 'bold' }}>
           [NOT STARTED] This reduction has not been started yet
         </Typography>
       );
     } else if (reduction.reduction_state === 'UNSUCCESSFUL') {
       return (
-        <Typography variant="subtitle1" style={{ color: '#ed6c02', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.warning.main, fontWeight: 'bold' }}>
           [UNSUCCESSFUL] {reduction.reduction_status_message}
         </Typography>
       );
