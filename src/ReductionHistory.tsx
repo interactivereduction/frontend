@@ -361,7 +361,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     } else if (reduction.reduction_state === 'UNSUCCESSFUL') {
       return (
         <Typography variant="subtitle1" style={{ color: '#ed6c02', fontWeight: 'bold' }}>
-          [NOT STARTED] {reduction.reduction_status_message}
+          [UNSUCCESSFUL] {reduction.reduction_status_message}
         </Typography>
       );
     } else {
