@@ -391,6 +391,13 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
         : theme.palette.background.default, // Default for odd rows
   };
 
+  const openMinimalWindow = (): void => {
+    const url = '/fia/value-editor';
+    const windowName = 'ValueEditorWindow';
+    const features = 'width=600,height=800,resizable=no';
+    window.open(url, windowName, features);
+  };
+
   return (
     <>
       <TableRow
@@ -476,14 +483,9 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   </Typography>
                   <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
                   <Box display="flex" justifyContent="right">
-                    <Tooltip title="Will be added in the future">
-                      <span>
-                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
-                        <Button variant="contained" sx={{ marginRight: 1 }} disabled>
-                          Value editor
-                        </Button>
-                      </span>
-                    </Tooltip>
+                    <Button variant="contained" sx={{ marginRight: 1 }} onClick={openMinimalWindow}>
+                      Value editor
+                    </Button>
                     <Tooltip title="Will be added in the future">
                       <span>
                         {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
