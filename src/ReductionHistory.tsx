@@ -386,11 +386,11 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     backgroundColor:
       index % 2 === 0
         ? theme.palette.mode === 'light'
-          ? '#f0f0f0' // Light mode,  odd rows
+          ? '#f0f0f0' // Light mode, odd rows
           : theme.palette.mode === 'dark'
-          ? '#2d2d2d' // Dark mode,  odd rows
+          ? '#2d2d2d' // Dark mode, odd rows
           : '#000000' // High contrast mode,  odd rows
-        : theme.palette.background.default, // All even (default background color)
+        : theme.palette.background.default, // All even rows (default background color)
   };
 
   const hoverStyles = (theme: any, index: number): React.CSSProperties => {
