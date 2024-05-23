@@ -1,7 +1,6 @@
 // React components
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 
 // Material UI components
 import {
@@ -26,6 +25,7 @@ import {
   TableRow,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
