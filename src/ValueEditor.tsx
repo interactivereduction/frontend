@@ -2,18 +2,7 @@
 import React, { useState } from 'react';
 
 // Material UI components
-import {
-  Box,
-  Tabs,
-  Tab,
-  Typography,
-  FormControl,
-  Select,
-  MenuItem,
-  Button,
-  useTheme,
-  SelectChangeEvent,
-} from '@mui/material';
+import { Box, Tabs, Tab, Typography, Button, useTheme } from '@mui/material';
 
 // Monaco components
 import Editor from '@monaco-editor/react';
@@ -50,8 +39,8 @@ const ValueEditor: React.FC = () => {
     setValue(newValue);
   };
 
-  const handleRunnerVersionChange = (event: SelectChangeEvent<string>): void => {
-    setRunnerVersion(event.target.value as string);
+  const handleRunnerVersionChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    setRunnerVersion(event.target.value);
   };
 
   const fizzBuzzCode = `
@@ -103,32 +92,17 @@ const ValueEditor: React.FC = () => {
         </Tabs>
       </Box>
       <Box sx={{ borderBottom: 2, borderColor: '#1b3972', p: 2, backgroundColor: theme.palette.primary.light }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-          <Typography sx={{ color: theme.palette.common.white, mr: 2 }}>Runner version</Typography>
-          <FormControl
-            variant="outlined"
-            sx={{
-              borderColor: theme.palette.common.white,
-            }}
-          >
-            <Select
-              sx={{ color: theme.palette.common.white }}
-              id="runner-version"
-              value={runnerVersion}
-              onChange={handleRunnerVersionChange}
-            >
-              <MenuItem value={1}>Mantid 6.9.1</MenuItem>
-              <MenuItem value={2}>Mantid 6.8.0</MenuItem>
-              <MenuItem value={3}>Mantid Imaging 2.8</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Typography sx={{ color: theme.palette.common.white, mr: 2 }}>
-            Rerun reduction with selected options
-          </Typography>
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <Typography sx={{ color: theme.palette.common.white, mr: 2 }}>Runner version:</Typography>
+            <select value={runnerVersion} onChange={handleRunnerVersionChange}>
+              <option value="1">Mantid 6.9.1</option>
+              <option value="2">Mantid 6.8.0</option>
+              <option value="3">Mantid Imaging 2.8</option>
+            </select>
+          </Box>
           <Button variant="contained" color="primary">
-            Run
+            Rerun
           </Button>
         </Box>
       </Box>
