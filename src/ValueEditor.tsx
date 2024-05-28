@@ -86,7 +86,7 @@ const ValueEditor: React.FC = () => {
             },
           }}
         >
-          {['Script 1', 'Script 2', 'Script 3', 'User inputs'].map((label, index) => (
+          {['Script', 'User inputs'].map((label, index) => (
             <Tab
               key={index}
               label={label}
@@ -136,27 +136,11 @@ const ValueEditor: React.FC = () => {
         <Editor
           height="100%"
           defaultLanguage="python"
-          defaultValue={'# Script 1\n' + fizzBuzzCode}
+          defaultValue={'# User script \n' + fizzBuzzCode}
           theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
         />
       </TabPanel>
       <TabPanel value={value} index={1}>
-        <Editor
-          height="100%"
-          defaultLanguage="python"
-          defaultValue={'# Script 2\n' + fizzBuzzCode}
-          theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        <Editor
-          height="100%"
-          defaultLanguage="python"
-          defaultValue={'# Script 3\n' + fizzBuzzCode}
-          theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
-        />
-      </TabPanel>
-      <TabPanel value={value} index={3}>
         <Typography sx={{ color: theme.palette.text.primary, textAlign: 'center' }}>
           Options for user inputs will appear here soon
         </Typography>
