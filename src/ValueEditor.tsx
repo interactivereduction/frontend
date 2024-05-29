@@ -55,57 +55,59 @@ const ValueEditor: React.FC = () => {
         print(i)`;
 
   return (
-    <Box sx={{ marginTop: 2, width: '100%', height: '90vh', overflow: 'hidden' }}>
-      <Box
-        sx={{
-          backgroundColor: theme.palette.primary.main,
-          borderBottom: 2,
-          borderTop: 2,
-          borderColor: '#1b3972',
-        }}
-      >
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          aria-label="Value Editor Tabs"
-          sx={{
-            '& .MuiTabs-indicator': {
-              backgroundColor:
-                theme.palette.mode === 'light' ? theme.palette.primary.contrastText : theme.palette.secondary.main,
-            },
-          }}
-        >
-          {['Script', 'User inputs'].map((label, index) => (
-            <Tab
-              key={index}
-              label={label}
-              {...a11yProps(index)}
-              sx={{
-                color: theme.palette.primary.contrastText,
-                '&.Mui-selected': {
-                  color: theme.palette.mode === 'light' ? theme.palette.common.white : theme.palette.text.primary,
-                  backgroundColor: theme.palette.mode === 'light' ? '#3367b4' : theme.palette.action.selected,
-                },
-              }}
-            />
-          ))}
-        </Tabs>
-      </Box>
-      <Box sx={{ borderBottom: 2, borderColor: '#1b3972', p: 2, backgroundColor: theme.palette.primary.light }}>
+    <Box sx={{ width: '100%', height: '90vh', overflow: 'hidden' }}>
+      <Box sx={{ p: 2, backgroundColor: theme.palette.background.default }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
-            <Typography sx={{ color: theme.palette.common.white, mr: 2 }}>Runner version:</Typography>
-            <select value={runnerVersion} onChange={handleRunnerVersionChange}>
+            <Typography sx={{ color: theme.palette.text.primary, mr: 2 }}>Runner version:</Typography>
+            <select
+              value={runnerVersion}
+              onChange={handleRunnerVersionChange}
+              style={{
+                color: theme.palette.primary.contrastText,
+                backgroundColor: theme.palette.primary.main,
+                padding: '8px',
+                borderRadius: '4px',
+              }}
+            >
               <option value="1">Mantid 6.9.1</option>
               <option value="2">Mantid 6.8.0</option>
               <option value="3">Mantid Imaging 2.8</option>
             </select>
           </Box>
           <Button variant="contained" color="primary">
-            Rerun
+            Rerun with changes
           </Button>
         </Box>
       </Box>
+      <Box
+        sx={{
+          borderTop: 3,
+          borderColor: 'divider',
+        }}
+      >
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="Value Editor Tabs"
+          color="primary"
+          sx={{
+            '& .MuiTab-root': {
+              color: theme.palette.mode === 'dark' ? theme.palette.common.white : undefined,
+
+              '&.Mui-selected': {
+                color: theme.palette.mode === 'dark' ? theme.palette.common.white : undefined,
+                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined,
+              },
+            },
+          }}
+        >
+          {['Script', 'User inputs'].map((label, index) => (
+            <Tab key={index} label={label} {...a11yProps(index)} />
+          ))}
+        </Tabs>
+      </Box>
+
       <TabPanel value={value} index={0}>
         <Editor
           height="100%"
