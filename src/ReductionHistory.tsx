@@ -62,6 +62,7 @@ interface Reduction {
     [key: string]: string | number | boolean | null;
   };
   reduction_outputs: string;
+  stacktrace: string;
   script: {
     value: string;
   };
@@ -457,6 +458,10 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                     {reduction.reduction_state === 'NOT_STARTED' ? (
                       <Typography variant="body2" style={{ margin: 2 }}>
                         No output files to show
+                      </Typography>
+                    ) : reduction.reduction_state === 'UNSUCCESSFUL' || reduction.reduction_state === 'ERROR' ? (
+                      <Typography variant="body2" style={{ margin: 2, whiteSpace: 'pre-wrap' }}>
+                        {reduction.stacktrace}
                       </Typography>
                     ) : (
                       <Table size="small" aria-label="details">
