@@ -109,7 +109,7 @@ const ValueEditor: React.FC = () => {
 
               '&.Mui-selected': {
                 color: theme.palette.mode === 'dark' ? theme.palette.common.white : undefined,
-                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[500] : undefined,
+                backgroundColor: theme.palette.mode === 'dark' ? theme.palette.grey[800] : undefined,
               },
             },
           }}
