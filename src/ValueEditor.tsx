@@ -87,7 +87,7 @@ const ValueEditor: React.FC = () => {
               <option value="3">Mantid Imaging 2.8</option>
             </select>
           </Box>
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" disabled>
             Rerun with changes
           </Button>
         </Box>
