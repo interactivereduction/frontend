@@ -410,7 +410,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
   const openMinimalWindow = (reductionId: number): void => {
     const url = `/fia/value-editor/${reductionId}`;
     const windowName = 'ValueEditorWindow';
-    const features = 'width=600,height=800,resizable=no';
+    const features = 'width=1200,height=800,resizable=no';
     window.open(url, windowName, features);
   };
 

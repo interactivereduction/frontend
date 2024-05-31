@@ -19,7 +19,7 @@ const TabPanel = (props: TabPanelProps): JSX.Element => {
 
   return (
     <div role="tabpanel" hidden={value !== index} id={`tabpanel-${index}`} aria-labelledby={`tab-${index}`} {...other}>
-      {value === index && <Box sx={{ p: 3, height: 'calc(80vh - 48px - 48px - 24px)' }}>{children}</Box>}
+      {value === index && <Box sx={{ p: 3, height: 'calc(85vh - 48px - 48px - 24px)' }}>{children}</Box>}
     </div>
   );
 };
@@ -69,7 +69,7 @@ const ValueEditor: React.FC = () => {
   };
 
   return (
-    <Box sx={{ width: '100%', height: '90vh', overflow: 'hidden' }}>
+    <Box sx={{ width: '100%', height: '85vh', overflow: 'hidden' }}>
       <Box sx={{ p: 2, backgroundColor: theme.palette.background.default }}>
         <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -131,7 +131,7 @@ const ValueEditor: React.FC = () => {
           <Editor
             height="100%"
             defaultLanguage="python"
-            defaultValue={'# User script \n' + scriptValue}
+            value={'# User script \n' + scriptValue}
             theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
           />
         )}
