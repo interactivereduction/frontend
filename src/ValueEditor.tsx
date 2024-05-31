@@ -78,8 +78,6 @@ const ValueEditor: React.FC = () => {
               value={runnerVersion}
               onChange={handleRunnerVersionChange}
               style={{
-                color: theme.palette.primary.contrastText,
-                backgroundColor: theme.palette.primary.main,
                 padding: '8px',
                 borderRadius: '4px',
               }}
