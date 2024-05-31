@@ -244,8 +244,8 @@ const ReductionHistory: React.FC = () => {
 };
 
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
-  const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
 
   const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
@@ -407,8 +407,8 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     };
   };
 
-  const openMinimalWindow = (): void => {
-    const url = '/fia/value-editor';
+  const openMinimalWindow = (reductionId: number): void => {
+    const url = `/fia/value-editor/${reductionId}`;
     const windowName = 'ValueEditorWindow';
     const features = 'width=600,height=800,resizable=no';
     window.open(url, windowName, features);
@@ -498,7 +498,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   </Typography>
                   <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
                   <Box display="flex" justifyContent="right">
-                    <Button variant="contained" sx={{ marginRight: 1 }} onClick={openMinimalWindow}>
+                    <Button variant="contained" sx={{ marginRight: 1 }} onClick={() => openMinimalWindow(reduction.id)}>
                       Value editor
                     </Button>
                     <Tooltip title="Will be added in the future">

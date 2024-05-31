@@ -44,7 +44,7 @@ const App: FC = () => {
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />
           </Route>
-          <Route path="/value-editor">
+          <Route path="/value-editor/:reductionId">
             <ValueEditor />
           </Route>
         </Switch>

@@ -1,8 +1,9 @@
 // React components
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
 // Material UI components
-import { Box, Tabs, Tab, Typography, Button, useTheme } from '@mui/material';
+import { Box, Tabs, Tab, Typography, Button, useTheme, CircularProgress } from '@mui/material';
 
 // Monaco components
 import Editor from '@monaco-editor/react';
@@ -34,6 +35,30 @@ const ValueEditor: React.FC = () => {
   const theme = useTheme();
   const [value, setValue] = useState<number>(0);
   const [runnerVersion, setRunnerVersion] = useState<string>('1');
+  const { reductionId } = useParams<{ reductionId: string }>();
+  const [scriptValue, setScriptValue] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(true);
+  const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
+
+  const fetchReduction = useCallback(async (): Promise<void> => {
+    try {
+      setLoading(true);
+      const response = await fetch(`${fiaApiUrl}/reduction/${reductionId}`);
+      const data = await response.json();
+      console.log('Fetching reduction', data);
+      if (data && data.script && data.script.value) {
+        setScriptValue(data.script.value);
+      }
+    } catch (error) {
+      console.error('Error fetching reductions:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [fiaApiUrl, reductionId]);
+
+  useEffect(() => {
+    fetchReduction();
+  }, [fetchReduction]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number): void => {
     setValue(newValue);
@@ -42,17 +67,6 @@ const ValueEditor: React.FC = () => {
   const handleRunnerVersionChange = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setRunnerVersion(event.target.value);
   };
-
-  const fizzBuzzCode = `
-  for i in range(1, 101):
-    if i % 3 == 0 and i % 5 == 0:
-        print("FizzBuzz")
-    elif i % 3 == 0:
-        print("Fizz")
-    elif i % 5 == 0:
-        print("Buzz")
-    else:
-        print(i)`;
 
   return (
     <Box sx={{ width: '100%', height: '90vh', overflow: 'hidden' }}>
@@ -109,12 +123,20 @@ const ValueEditor: React.FC = () => {
       </Box>
 
       <TabPanel value={value} index={0}>
-        <Editor
-          height="100%"
-          defaultLanguage="python"
-          defaultValue={'# User script \n' + fizzBuzzCode}
-          theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
-        />
+        {/* Loading state necessary so that page contents don't load before
+        scriptValue is set */}
+        {loading ? (
+          <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+          </Box>
+        ) : (
+          <Editor
+            height="100%"
+            defaultLanguage="python"
+            defaultValue={'# User script \n' + scriptValue}
+            theme={theme.palette.mode === 'dark' ? 'vs-dark' : 'vs-light'}
+          />
+        )}
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Typography sx={{ color: theme.palette.text.primary, textAlign: 'center' }}>
