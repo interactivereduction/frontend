@@ -1,7 +1,6 @@
 // React components
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
 
 // Material UI components
 import {
@@ -24,8 +23,10 @@ import {
   TableHead,
   TablePagination,
   TableRow,
+  Theme,
   Tooltip,
   Typography,
+  useTheme,
 } from '@mui/material';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
@@ -61,6 +62,7 @@ interface Reduction {
     [key: string]: string | number | boolean | null;
   };
   reduction_outputs: string;
+  stacktrace: string;
   script: {
     value: string;
   };
@@ -243,8 +245,8 @@ const ReductionHistory: React.FC = () => {
 };
 
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
-  const [open, setOpen] = useState(false);
   const theme = useTheme();
+  const [open, setOpen] = useState(false);
   const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
 
   const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
@@ -349,26 +351,26 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
   const renderReductionStatus = (): JSX.Element => {
     if (reduction.reduction_state === 'ERROR') {
       return (
-        <Typography variant="subtitle1" style={{ color: 'red', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.error.dark, fontWeight: 'bold' }}>
           [ERROR] {reduction.reduction_status_message}
         </Typography>
       );
     } else if (reduction.reduction_state === 'SUCCESSFUL') {
       return (
-        <Typography variant="subtitle1" style={{ color: '#2e7d32', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.success.main, fontWeight: 'bold' }}>
           [SUCCESS] Reduction performed successfully
         </Typography>
       );
     } else if (reduction.reduction_state === 'NOT_STARTED') {
       return (
-        <Typography variant="subtitle1" style={{ color: 'gray', fontWeight: 'bold' }}>
+        <Typography variant="subtitle1" style={{ color: theme.palette.grey[700], fontWeight: 'bold' }}>
           [NOT STARTED] This reduction has not been started yet
         </Typography>
       );
     } else if (reduction.reduction_state === 'UNSUCCESSFUL') {
       return (
-        <Typography variant="subtitle1" style={{ color: '#ed6c02', fontWeight: 'bold' }}>
-          [NOT STARTED] {reduction.reduction_status_message}
+        <Typography variant="subtitle1" style={{ color: theme.palette.warning.main, fontWeight: 'bold' }}>
+          [UNSUCCESSFUL] {reduction.reduction_status_message}
         </Typography>
       );
     } else {
@@ -393,18 +395,39 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     backgroundColor:
       index % 2 === 0
         ? theme.palette.mode === 'light'
-          ? '#ececec'
-          : '#2d2d2d' // Conditionally set for even rows based on theme mode
-        : theme.palette.background.default, // Default for odd rows
+          ? '#f0f0f0' // Light mode, odd rows
+          : theme.palette.mode === 'dark'
+          ? '#2d2d2d' // Dark mode, odd rows
+          : '#000000' // High contrast mode,  odd rows
+        : theme.palette.background.default, // All even rows (default background color)
+  };
+
+  const hoverStyles = (theme: Theme, index: number): React.CSSProperties => {
+    return {
+      backgroundColor:
+        theme.palette.mode === 'light'
+          ? '#e0e0e0' // Light mode hover color
+          : theme.palette.mode === 'dark'
+          ? index % 2 === 0
+            ? '#4c4c4c' // Dark mode, even rows
+            : '#4a4a4a' // Dark mode, odd rows
+          : '#ffffff', // High contrast mode hover color
+    };
+  };
+
+  const openMinimalWindow = (reductionId: number): void => {
+    const url = `/fia/value-editor/${reductionId}`;
+    const windowName = 'ValueEditorWindow';
+    const features = 'width=1200,height=800,resizable=no';
+    window.open(url, windowName, features);
   };
 
   return (
     <>
       <TableRow
         sx={{
-          '& > *': { borderBottom: 'unset' },
           ...rowStyles,
-          '&:hover': { backgroundColor: theme.palette.action.hover },
+          '&:hover': hoverStyles(theme, index),
         }}
         onClick={() => setOpen(!open)}
       >
@@ -442,6 +465,10 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                     {reduction.reduction_state === 'NOT_STARTED' ? (
                       <Typography variant="body2" style={{ margin: 2 }}>
                         No output files to show
+                      </Typography>
+                    ) : reduction.reduction_state === 'UNSUCCESSFUL' || reduction.reduction_state === 'ERROR' ? (
+                      <Typography variant="body2" style={{ margin: 2, whiteSpace: 'pre-wrap' }}>
+                        {reduction.stacktrace}
                       </Typography>
                     ) : (
                       <Table size="small" aria-label="details">
@@ -483,14 +510,9 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
                   </Typography>
                   <Box sx={{ maxHeight: 140, overflowY: 'auto', marginBottom: 2 }}>{renderReductionInputs()}</Box>
                   <Box display="flex" justifyContent="right">
-                    <Tooltip title="Will be added in the future">
-                      <span>
-                        {/* Span is necessary because tooltip doesn't work directly on disabled elements */}
-                        <Button variant="contained" sx={{ marginRight: 1 }} disabled>
-                          Value editor
-                        </Button>
-                      </span>
-                    </Tooltip>
+                    <Button variant="contained" sx={{ marginRight: 1 }} onClick={() => openMinimalWindow(reduction.id)}>
+                      Value editor
+                    </Button>
                     <Tooltip title="Will be added in the future">
                       <span>
                         {/* Span is necessary because tooltip doesn't work directly on disabled elements */}

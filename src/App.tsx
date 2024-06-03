@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Instruments from './Instruments';
 import ReductionHistory from './ReductionHistory';
 import HomePage from './HomePage';
+import ValueEditor from './ValueEditor';
 import GlobalStyles from './GlobalStyles';
 
 const App: FC = () => {
@@ -42,6 +43,9 @@ const App: FC = () => {
           </Route>
           <Route path="/reduction-history/:instrumentName">
             <ReductionHistory />
+          </Route>
+          <Route path="/value-editor/:reductionId">
+            <ValueEditor />
           </Route>
         </Switch>
       </Router>
