@@ -163,14 +163,6 @@ const Instruments: React.FC = () => {
                     <Button
                       variant="contained"
                       component={RouterLink}
-                      to={`/data-viewer/${instrument.name.toUpperCase()}/1`}
-                      style={{ marginBottom: 14, outline: '1px solid white' }}
-                    >
-                      Data Viewer
-                    </Button>
-                    <Button
-                      variant="contained"
-                      component={RouterLink}
                       to={`/reduction-history/${instrument.name.toUpperCase()}`}
                       style={{ outline: '1px solid white' }}
                     >
