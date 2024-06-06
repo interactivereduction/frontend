@@ -114,11 +114,11 @@ const Instruments: React.FC = () => {
                     <Typography
                       variant="body2"
                       paragraph
-                      sx={{ flex: 2, marginRight: 2, color: theme.palette.text.primary }}
+                      sx={{ flex: 2, marginRight: 2, color: theme.palette.text.primary, textAlign: 'justify' }}
                     >
                       {instrument.description}
                     </Typography>
-                    <Box sx={{ flex: 1 }}>
+                    <Box sx={{ flex: 1, marginLeft: 4 }}>
                       <Typography variant="body2" sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
                         Scientists:
                       </Typography>
