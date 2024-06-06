@@ -176,7 +176,7 @@ export const instruments: InstrumentData[] = [
     id: 19,
     name: 'MARI',
     description:
-      'MARI is a chopper spectrometer with continuous detector bank coverage ranging from 3° to 134° degrees.',
+      'MARI is a chopper spectrometer with continuous detector bank coverage ranging from 3° to 134° degrees. MARI has a wide angular coverage and a wide energy range and good resolution making it ideal for the study of phonon densities of states in crystalline and disordered systems, and crystal field excitations in magnetic materials. MARI is the only chopper spectrometer at ISIS not to be equipped with a pixilated detector array using position sensitive detectors. This makes MARI the instrument of choice for studies of polycrystalline and powdered samples, and liquids. MARI also boasts the lowest instrumental background of the ISIS suite of chopper spectrometers, making the machine highly sensitive despite the relatively low incident neutron flux.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/MARI.aspx',
     scientists: ['Mohamed Aouane', 'Duc Le'],
