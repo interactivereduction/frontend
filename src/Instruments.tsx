@@ -13,16 +13,10 @@ const Instruments: React.FC = () => {
   const theme = useTheme();
   const [expandedIds, setExpandedIds] = React.useState<number[]>([]);
 
-  const handleExpandClick = (event: React.MouseEvent, id: number): void => {
-    event.stopPropagation();
-    setExpandedIds((prevExpandedIds) =>
-      prevExpandedIds.includes(id)
-        ? prevExpandedIds.filter((expandedId) => expandedId !== id)
-        : [...prevExpandedIds, id]
-    );
-  };
-
-  const handleCardClick = (id: number): void => {
+  const handleToggleExpand = (id: number, event?: React.MouseEvent): void => {
+    if (event) {
+      event.stopPropagation();
+    }
     setExpandedIds((prevExpandedIds) =>
       prevExpandedIds.includes(id)
         ? prevExpandedIds.filter((expandedId) => expandedId !== id)
@@ -40,7 +34,7 @@ const Instruments: React.FC = () => {
           <Box
             key={instrument.id}
             sx={{ marginBottom: 1, marginLeft: 2, marginRight: 2 }}
-            onClick={() => handleCardClick(instrument.id)}
+            onClick={() => handleToggleExpand(instrument.id)}
           >
             <Box
               sx={{
@@ -73,7 +67,7 @@ const Instruments: React.FC = () => {
                 <IconButton
                   aria-expanded={expandedIds.includes(instrument.id)}
                   aria-label="show more"
-                  onClick={(event) => handleExpandClick(event, instrument.id)}
+                  onClick={(event) => handleToggleExpand(instrument.id, event)}
                 >
                   <ExpandMoreIcon
                     style={{ transform: expandedIds.includes(instrument.id) ? 'rotate(180deg)' : 'none' }}
