@@ -46,8 +46,17 @@ const Instruments: React.FC = () => {
                   : theme.palette.background.paper,
               }}
             >
-              <Box display="flex" justifyContent="space-between" alignItems="center">
-                <Box>
+              <Box display="flex" alignItems="center">
+                <IconButton
+                  aria-expanded={expandedIds.includes(instrument.id)}
+                  aria-label="show more"
+                  onClick={(event) => handleToggleExpand(instrument.id, event)}
+                >
+                  <ExpandMoreIcon
+                    style={{ transform: expandedIds.includes(instrument.id) ? 'rotate(180deg)' : 'none' }}
+                  />
+                </IconButton>
+                <Box sx={{ marginLeft: 2 }}>
                   <Typography
                     variant="h6"
                     component="h1"
@@ -64,15 +73,6 @@ const Instruments: React.FC = () => {
                     {instrument.type}
                   </Typography>
                 </Box>
-                <IconButton
-                  aria-expanded={expandedIds.includes(instrument.id)}
-                  aria-label="show more"
-                  onClick={(event) => handleToggleExpand(instrument.id, event)}
-                >
-                  <ExpandMoreIcon
-                    style={{ transform: expandedIds.includes(instrument.id) ? 'rotate(180deg)' : 'none' }}
-                  />
-                </IconButton>
               </Box>
               <Collapse in={expandedIds.includes(instrument.id)} timeout="auto" unmountOnExit>
                 <Box marginTop={2}>
