@@ -32,7 +32,7 @@ export const instruments: InstrumentData[] = [
     id: 3,
     name: 'CHIPIR',
     description:
-      'Chipir is one of the first dedicated facilities outside of the US to look at how silicon microchips respond to cosmic neutron radiation. The instrument offers users the ability to perform electronics testing at highly accelerated rate with a measurement of just one hour being equivalent to exposing microchips to high-energy neutrons for hundreds to thousands of years in the real environment. Such accelerated atmospheric neutron testing is designed to mimic the real disruptions and failure, the so-called ‘single event effects’ experienced by electronics, and allow industry to develop strategies, designs and methods to mitigate their effects',
+      'Chipir is one of the first dedicated facilities outside of the US to look at how silicon microchips respond to cosmic neutron radiation. The instrument offers users the ability to perform electronics testing at highly accelerated rate with a measurement of just one hour being equivalent to exposing microchips to high-energy neutrons for hundreds to thousands of years in the real environment. Such accelerated atmospheric neutron testing is designed to mimic the real disruptions and failure, the so-called ‘single event effects’ experienced by electronics, and allow industry to develop strategies, designs and methods to mitigate their effects.',
     type: 'Chip irradiation',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/Chip-Irradiation-.aspx',
     scientists: ['Carlo Cazzaniga', 'Christopher Frost', 'Maria Kastriotou'],
@@ -41,7 +41,7 @@ export const instruments: InstrumentData[] = [
     id: 4,
     name: 'CHRONUS',
     description:
-      'CHRONUS is one of the suite of muon instruments at ISIS and was built by RIKEN. The spectrometer is located in Port 4 of the RIKEN-RAL facility. CHRONUS has 606 detectors and can be used for both zero field and longitudinal field experiments. Longitudinal fields of up to 3950 G can be applied making it similar to EMU. In addition the spectrometer can also be rotated allowing one to also perform high transverse field experiments, however this is still under development. There are a wide range of sample environment that ranges from 0.3 to 500K',
+      'CHRONUS is one of the suite of muon instruments at ISIS and was built by RIKEN. The spectrometer is located in Port 4 of the RIKEN-RAL facility. CHRONUS has 606 detectors and can be used for both zero field and longitudinal field experiments. Longitudinal fields of up to 3950 G can be applied making it similar to EMU. In addition the spectrometer can also be rotated allowing one to also perform high transverse field experiments, however this is still under development. There are a wide range of sample environment that ranges from 0.3 to 500K.',
     type: 'Muon spectrometer',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/CHRONUS.aspx',
     scientists: ['Adam Berlie', 'Francis Pratt', 'Isao Watanabe'],
@@ -176,7 +176,7 @@ export const instruments: InstrumentData[] = [
     id: 19,
     name: 'MARI',
     description:
-      'MARI is a chopper spectrometer with continuous detector bank coverage ranging from 3° to 134° degrees.',
+      'MARI is a chopper spectrometer with continuous detector bank coverage ranging from 3° to 134° degrees. MARI has a wide angular coverage and a wide energy range and good resolution making it ideal for the study of phonon densities of states in crystalline and disordered systems, and crystal field excitations in magnetic materials. MARI is the only chopper spectrometer at ISIS not to be equipped with a pixilated detector array using position sensitive detectors. This makes MARI the instrument of choice for studies of polycrystalline and powdered samples, and liquids. MARI also boasts the lowest instrumental background of the ISIS suite of chopper spectrometers, making the machine highly sensitive despite the relatively low incident neutron flux.',
     type: 'Neutron spectroscopy',
     infoPage: 'https://www.isis.stfc.ac.uk/Pages/MARI.aspx',
     scientists: ['Mohamed Aouane', 'Duc Le'],

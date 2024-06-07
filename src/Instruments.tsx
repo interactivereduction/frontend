@@ -3,96 +3,48 @@ import * as React from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 
 // Material UI components
-import {
-  Box,
-  Button,
-  Card,
-  CardContent,
-  IconButton,
-  Link,
-  List,
-  ListItem,
-  TableCell,
-  TableHead,
-  TableRow,
-  TableSortLabel,
-  Typography,
-  useTheme,
-} from '@mui/material';
+import { Box, Button, Collapse, IconButton, Link, List, ListItem, Typography, useTheme } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { styled } from '@mui/system';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 
 // Local data
-import { instruments, InstrumentData } from './InstrumentData';
-
-type Order = 'asc' | 'desc';
-
-function compare<Key extends keyof InstrumentData>(a: InstrumentData, b: InstrumentData, orderBy: Key): number {
-  if ((b[orderBy] as string) < (a[orderBy] as string)) {
-    return -1;
-  }
-  if ((b[orderBy] as string) > (a[orderBy] as string)) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator<Key extends keyof InstrumentData>(
-  order: Order,
-  orderBy: Key
-): (a: InstrumentData, b: InstrumentData) => number {
-  return order === 'asc' ? (a, b) => compare<Key>(a, b, orderBy) : (a, b) => -compare<Key>(a, b, orderBy);
-}
-
-function stableSort<T>(array: T[], comparator: (a: T, b: T) => number): T[] {
-  const stabilizedThis = array.map((el, index) => [el, index] as [T, number]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) return order;
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-export const ExpandableCard = styled(Card)<{ expanded: boolean }>(({ theme, expanded }) => ({
-  backgroundColor: expanded
-    ? theme.palette.mode === 'light'
-      ? '#dcdcdc' // expanded light mode
-      : '#12285c' // expanded dark mode
-    : theme.palette.mode === 'light'
-    ? '#ffffff' // unexpanded light mode
-    : '#23428d', // unexpanded dark mode
-  color: theme.palette.text.primary,
-  margin: '8px',
-}));
+import { instruments } from './InstrumentData';
 
 const Instruments: React.FC = () => {
   const theme = useTheme();
-  const [expandedId, setExpandedId] = React.useState<number | null>(null);
-  const [order, setOrder] = React.useState<Order>('desc');
-  const [orderBy, setOrderBy] = React.useState<keyof InstrumentData>('name');
+  const [expandedIds, setExpandedIds] = React.useState<number[]>([]);
+  const [favoriteIds, setFavoriteIds] = React.useState<number[]>([]);
 
-  const handleExpandClick = (id: number): void => {
-    setExpandedId(expandedId === id ? null : id);
+  const handleToggleExpand = (id: number, event?: React.MouseEvent): void => {
+    if (event) {
+      event.stopPropagation();
+    }
+    setExpandedIds((prevExpandedIds) =>
+      prevExpandedIds.includes(id)
+        ? prevExpandedIds.filter((expandedId) => expandedId !== id)
+        : [...prevExpandedIds, id]
+    );
   };
 
-  const handleSortRequest = (property: keyof InstrumentData): void => {
-    const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+  const handleToggleFavorite = (id: number, event: React.MouseEvent): void => {
+    event.stopPropagation();
+    setFavoriteIds((prevFavoriteIds) =>
+      prevFavoriteIds.includes(id)
+        ? prevFavoriteIds.filter((favoriteId) => favoriteId !== id)
+        : [...prevFavoriteIds, id]
+    );
   };
 
-  const styles = {
-    expandMoreIcon: (isExpanded: boolean) => ({
-      color: theme.palette.mode === 'light' ? '#333' : 'white',
-      fontSize: '2rem',
-      transform: isExpanded ? 'rotate(180deg)' : 'none',
-    }),
-    infoLink: {
-      marginTop: '10',
-      color: theme.palette.mode === 'light' ? '#0066cc' : 'lightblue',
-    },
-  };
+  const sortedInstruments = [...instruments].sort((a, b) => {
+    if (favoriteIds.includes(a.id) && !favoriteIds.includes(b.id)) {
+      return -1;
+    }
+    if (!favoriteIds.includes(a.id) && favoriteIds.includes(b.id)) {
+      return 1;
+    }
+    return 0;
+  });
 
   return (
     <>
@@ -100,110 +52,100 @@ const Instruments: React.FC = () => {
         ISIS instruments
       </Typography>
       <Box sx={{ paddingBottom: '2rem' }}>
-        <TableHead>
-          <TableRow>
-            <TableCell sx={{ paddingLeft: 4 }}>
-              <TableSortLabel
-                data-cy="sort-button"
-                sx={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
-                active={orderBy === 'name'}
-                direction={orderBy === 'name' ? order : 'asc'}
-                onClick={() => handleSortRequest('name')}
-              >
-                Name
-              </TableSortLabel>
-            </TableCell>
-            <TableCell sx={{ paddingLeft: 4 }}>
-              <TableSortLabel
-                sx={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase' }}
-                active={orderBy === 'type'}
-                direction={orderBy === 'type' ? order : 'asc'}
-                onClick={() => handleSortRequest('type')}
-              >
-                Type
-              </TableSortLabel>
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        {stableSort(instruments, getComparator(order, orderBy)).map((instrument) => (
+        {sortedInstruments.map((instrument) => (
           <Box
             key={instrument.id}
             sx={{ marginBottom: 1, marginLeft: 2, marginRight: 2 }}
-            onClick={() => handleExpandClick(instrument.id)}
+            onClick={() => handleToggleExpand(instrument.id)}
           >
-            <ExpandableCard expanded={expandedId === instrument.id} elevation={4}>
-              <CardContent
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  padding: '12px 16px',
-                  height: '36px',
-                }}
-              >
-                <Box>
-                  <Typography
-                    variant="h6"
-                    component="h1"
-                    style={{ fontSize: '1.2rem', fontWeight: 'bold', textTransform: 'uppercase', width: '15%' }}
+            <Box
+              sx={{
+                padding: '12px 16px',
+                border: `1px solid ${theme.palette.divider}`,
+                borderRadius: '4px',
+                backgroundColor: expandedIds.includes(instrument.id)
+                  ? theme.palette.action.hover
+                  : theme.palette.background.paper,
+              }}
+            >
+              <Box display="flex" alignItems="center" justifyContent="space-between">
+                <Box display="flex" alignItems="center">
+                  <IconButton
+                    aria-expanded={expandedIds.includes(instrument.id)}
+                    aria-label="show more"
+                    onClick={(event) => handleToggleExpand(instrument.id, event)}
                   >
-                    {instrument.name}
-                  </Typography>
-                  <Typography variant="body1">{instrument.type}</Typography>
-                </Box>
-                <IconButton aria-expanded={expandedId === instrument.id} aria-label="show more">
-                  <ExpandMoreIcon style={styles.expandMoreIcon(expandedId === instrument.id)} />
-                </IconButton>
-              </CardContent>
-              {expandedId === instrument.id && (
-                <CardContent
-                  style={{ padding: '6px 16px', display: 'flex', alignItems: 'flex-start', paddingBottom: '24px' }}
-                >
-                  <Box style={{ display: 'flex', flexDirection: 'column', marginRight: 20 }}>
-                    <Button
-                      variant="contained"
-                      component={RouterLink}
-                      to={`/data-viewer/${instrument.name.toUpperCase()}/1`}
-                      style={{ marginBottom: 14, outline: '1px solid white' }}
+                    <ExpandMoreIcon
+                      style={{ transform: expandedIds.includes(instrument.id) ? 'rotate(180deg)' : 'none' }}
+                    />
+                  </IconButton>
+                  <Box sx={{ marginLeft: 2 }}>
+                    <Typography
+                      variant="h6"
+                      component="h1"
+                      style={{
+                        fontSize: '1.2rem',
+                        fontWeight: 'bold',
+                        textTransform: 'uppercase',
+                        color: theme.palette.mode === 'dark' ? '#86b4ff' : theme.palette.primary.main,
+                      }}
                     >
-                      Data Viewer
-                    </Button>
+                      {instrument.name}
+                    </Typography>
+                    <Typography sx={{ color: theme.palette.text.primary }} variant="body1">
+                      {instrument.type}
+                    </Typography>
+                  </Box>
+                </Box>
+                <IconButton
+                  aria-label="add to favorites"
+                  onClick={(event) => handleToggleFavorite(instrument.id, event)}
+                >
+                  {favoriteIds.includes(instrument.id) ? (
+                    <StarIcon style={{ color: theme.palette.warning.main }} />
+                  ) : (
+                    <StarBorderIcon />
+                  )}
+                </IconButton>
+              </Box>
+              <Collapse in={expandedIds.includes(instrument.id)} timeout="auto" unmountOnExit>
+                <Box marginTop={2}>
+                  <Box display="flex" justifyContent="space-between" alignItems="flex-start">
+                    <Typography
+                      variant="body2"
+                      paragraph
+                      sx={{ flex: 2, marginRight: 2, color: theme.palette.text.primary, textAlign: 'justify' }}
+                    >
+                      {instrument.description}
+                    </Typography>
+                    <Box sx={{ flex: 1, marginLeft: 4 }}>
+                      <Typography variant="body2" sx={{ fontWeight: 'bold', color: theme.palette.text.primary }}>
+                        Scientists:
+                      </Typography>
+                      <List>
+                        {instrument.scientists.map((scientist) => (
+                          <ListItem key={scientist} style={{ padding: '0', color: theme.palette.text.primary }}>
+                            <Typography variant="body2">Dr. {scientist}</Typography>
+                          </ListItem>
+                        ))}
+                      </List>
+                    </Box>
+                  </Box>
+                  <Link href={instrument.infoPage} target="_blank" rel="noopener" underline="always">
+                    {instrument.infoPage}
+                  </Link>
+                  <Box marginTop={2}>
                     <Button
                       variant="contained"
                       component={RouterLink}
                       to={`/reduction-history/${instrument.name.toUpperCase()}`}
-                      style={{ outline: '1px solid white' }}
                     >
                       Reduction History
                     </Button>
                   </Box>
-                  <Box style={{ flex: '1.8', marginRight: 60 }}>
-                    <Typography variant="body2" paragraph style={{ textAlign: 'justify', marginBottom: 30 }}>
-                      {instrument.description}
-                    </Typography>
-                    <Link
-                      href={instrument.infoPage}
-                      target="_blank"
-                      rel="noopener"
-                      underline="always"
-                      style={styles.infoLink}
-                    >
-                      {instrument.infoPage}
-                    </Link>
-                  </Box>
-                  <Box style={{ flex: '1' }}>
-                    <Typography variant="body2">Scientists:</Typography>
-                    <List>
-                      {instrument.scientists.map((scientist) => (
-                        <ListItem key={scientist} style={{ padding: '0' }}>
-                          <Typography variant="body2">Dr. {scientist}</Typography>
-                        </ListItem>
-                      ))}
-                    </List>
-                  </Box>
-                </CardContent>
-              )}
-            </ExpandableCard>
+                </Box>
+              </Collapse>
+            </Box>
           </Box>
         ))}
       </Box>
