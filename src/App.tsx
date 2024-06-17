@@ -38,6 +38,9 @@ const App: FC = () => {
           <Route exact path="/">
             <HomePage />
           </Route>
+          <Route path="/healthz">
+            <p>ok</p>
+          </Route>
           <Route path="/instruments">
             <Instruments />
           </Route>
