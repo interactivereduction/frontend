@@ -7,9 +7,7 @@ ENV REACT_APP_FIA_REST_API_URL="/api"
 
 COPY . .
 
-
-
-RUN yarn install
+RUN yarn install --frozen-lockfile
 RUN yarn build
 
 # Stage 2: Serve
@@ -17,7 +15,7 @@ RUN yarn build
 FROM nginx:stable-alpine3.17-slim@sha256:0a8c5686d40beca3cf231e223668cf77c91344d731e7d6d34984e91a938e10f6
 
 COPY --from=build /app/build /usr/share/nginx/html
-
+COPY ./container/healthz /usr/share/nginx/html/healthz
 
 ENV REACT_APP_FIA_REST_API_URL="/api"
 
