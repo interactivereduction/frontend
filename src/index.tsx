@@ -64,8 +64,8 @@ createRoute(
   'Data help text', // help text renders a tooltip in the site tour for this link
   true // whether the link should be visible to unauthenticated users
 );
-createRoute('Reductions', 'Instruments', '/fia/instruments', 2, 'Data help text', false);
-createRoute('Reductions', 'Reduction history', '/fia/reduction-history/ALF', 3, 'Data help text', false);
+createRoute('Reductions', 'Instruments', '/fia/instruments', 2, 'Data help text', true);
+createRoute('Reductions', 'Reduction history', '/fia/reduction-history/ALF', 3, 'Data help text', true);
 
 // Single-SPA bootstrap methods have no idea what type of inputs may be
 // pushed down from the parent app
