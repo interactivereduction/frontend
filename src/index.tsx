@@ -62,7 +62,7 @@ createRoute(
   '/fia', // route the link should link to
   1, // how high up in the section should your link be - ascending order
   'Data help text', // help text renders a tooltip in the site tour for this link
-  false // whether the link should be visible to unauthenticated users
+  true // whether the link should be visible to unauthenticated users
 );
 createRoute('Reductions', 'Instruments', '/fia/instruments', 2, 'Data help text', false);
 createRoute('Reductions', 'Reduction history', '/fia/reduction-history/ALF', 3, 'Data help text', false);
