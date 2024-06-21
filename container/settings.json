@@ -54,8 +54,8 @@
       "content": "Click here to open or close the navigation menu"
     }
   ],
-  "auth-provider": null,
-  "authUrl": "",
+  "auth-provider": "jwt",
+  "authUrl": "/auth",
   "ui-strings": "res/default.json",
   "autoLogin": true,
   "ga-tracking-id": "UA-XXXX-Y",
