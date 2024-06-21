@@ -1,8 +1,8 @@
 {
   "title": "a cool title",
-  "logo": "",
+  "logo": "/fia-light-text-logo.png",
   "navigationDrawerLogo": {
-    "light": "",
+    "light": "/fia-light-text-logo.png",
     "dark": "",
     "altTxt": ""
   },
@@ -15,7 +15,7 @@
   "plugins": [
     {
       "name": "fia",
-      "src": "/f-i-a/main.js",
+      "src": "http://localhost:3001/main.js",
       "enable": true,
       "location": "main"
     }

@@ -12,7 +12,7 @@ export function createRoute(
   // Also, switching between light and dark doesn't alter the header bar
   // colour unless high contrast mode is also on, so for now only using the
   // light logo
-  const pluginUrl = process.env.REACT_APP_PLUGIN_URL;
+  const pluginUrl = import.meta.env.VITE_APP_PLUGIN_URL;
   const logoUrl = pluginUrl + logoLight;
   const routeAction = {
     type: 'scigateway:api:register_route',

@@ -70,7 +70,7 @@ interface Reduction {
 }
 
 const ReductionHistory: React.FC = () => {
-  const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
+  const fiaApiUrl = import.meta.env.VITE_APP_FIA_REST_API_URL;
   const history = useHistory();
   const theme = useTheme();
   const { instrumentName } = useParams<{ instrumentName: string }>();
@@ -247,7 +247,7 @@ const ReductionHistory: React.FC = () => {
 function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX.Element {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const fiaDataViewerUrl = process.env.REACT_APP_FIA_DATA_VIEWER_URL;
+  const fiaDataViewerUrl = import.meta.env.VITE_APP_FIA_DATA_VIEWER_URL;
 
   const ReductionStatusIcon = ({ state }: { state: string }): JSX.Element => {
     const getIconComponent = (): JSX.Element => {

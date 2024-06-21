@@ -38,7 +38,7 @@ const ValueEditor: React.FC = () => {
   const { reductionId } = useParams<{ reductionId: string }>();
   const [scriptValue, setScriptValue] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-  const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
+  const fiaApiUrl = import.meta.env.VITE_APP_FIA_REST_API_URL;
 
   const fetchReduction = useCallback(async (): Promise<void> => {
     try {

@@ -13,7 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "types":["vite/client"]
   },
   "include": ["src", "cypress/component/HomePage.cy.tsx"]
 }
