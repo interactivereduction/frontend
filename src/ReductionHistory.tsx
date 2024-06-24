@@ -1,6 +1,6 @@
 // React components
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 // Material UI components
 import {
@@ -12,8 +12,8 @@ import {
   Icon,
   IconButton,
   InputLabel,
-  Paper,
   MenuItem,
+  Paper,
   Select,
   SelectChangeEvent,
   Table,
@@ -288,8 +288,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     if (typeof fileNameWithExtension === 'undefined') {
       return '';
     }
-    const fileName = fileNameWithExtension.split('.')[0];
-    return fileName;
+    return fileNameWithExtension.split('.')[0];
   };
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
