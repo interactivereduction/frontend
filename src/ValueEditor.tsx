@@ -41,7 +41,7 @@ const ValueEditor: React.FC = () => {
   const fiaApiUrl = process.env.REACT_APP_FIA_REST_API_URL;
 
   const fetchReduction = useCallback(async (): Promise<void> => {
-    const token = localStorage.get('scigateway:token');
+    const token = localStorage.getItem('scigateway:token');
     try {
       setLoading(true);
       const response = await fetch(`${fiaApiUrl}/reduction/${reductionId}`, {
