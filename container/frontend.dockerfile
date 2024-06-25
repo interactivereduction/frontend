@@ -4,6 +4,7 @@ FROM node:lts-alpine3.19@sha256:ec0c413b1d84f3f7f67ec986ba885930c57b5318d2eb3abc
 WORKDIR /app
 
 ENV REACT_APP_FIA_REST_API_URL="/api"
+ENV REACT_APP_FIA_DATA_VIEWER_URL="/data-viewer"
 
 COPY . .
 
