@@ -20,6 +20,9 @@ updates:
       JS-packages:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "*react*"
+      
 
   - package-ecosystem: "docker"
     directory: "/"
