@@ -1,6 +1,6 @@
 // React components
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useHistory } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useHistory, useParams } from 'react-router-dom';
 
 // Material UI components
 import {
@@ -12,8 +12,8 @@ import {
   Icon,
   IconButton,
   InputLabel,
-  Paper,
   MenuItem,
+  Paper,
   Select,
   SelectChangeEvent,
   Table,
@@ -104,9 +104,13 @@ const ReductionHistory: React.FC = () => {
 
   const fetchReductions = useCallback(async (): Promise<void> => {
     try {
+      const token = localStorage.getItem('scigateway:token');
       const offset = currentPage * rowsPerPage;
       const query = `limit=${rowsPerPage}&offset=${offset}&order_by=${orderBy}&order_direction=${orderDirection}&include_runs=true`;
-      const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions?${query}`);
+      const response = await fetch(`${fiaApiUrl}/instrument/${selectedInstrument}/reductions?${query}`, {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      });
       const data = await response.json();
       setReductions(data);
     } catch (error) {
@@ -284,8 +288,7 @@ function Row({ reduction, index }: { reduction: Reduction; index: number }): JSX
     if (typeof fileNameWithExtension === 'undefined') {
       return '';
     }
-    const fileName = fileNameWithExtension.split('.')[0];
-    return fileName;
+    return fileNameWithExtension.split('.')[0];
   };
 
   const parseReductionOutputs = (): JSX.Element | JSX.Element[] | undefined => {
