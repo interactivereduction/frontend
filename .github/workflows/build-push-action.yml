@@ -43,7 +43,7 @@ jobs:
           context: ./container
           file: ./container/scigateway.dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway:auth-test${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway${{ github.sha }}
     
       - name: Checkout the Gitops repository
         uses: actions/checkout@v4
