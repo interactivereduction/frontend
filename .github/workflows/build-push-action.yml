@@ -31,7 +31,7 @@ jobs:
         with:
           file: ./container/frontend.dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/frontend:${{ github.sha }}
 
       - name: Build and push scigateway Docker image
         uses: docker/build-push-action@v6
@@ -40,7 +40,7 @@ jobs:
           context: ./container
           file: ./container/scigateway.dockerfile
           push: true
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway${{ github.sha }}
+          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}/scigateway:${{ github.sha }}
     
       - name: Checkout the Gitops repository
         uses: actions/checkout@v4
