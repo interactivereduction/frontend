@@ -85,7 +85,7 @@ When adding new depencies to [`package.json`](https://github.com/fiaisis/fronten
 
 Occassionally there are issues with package conflicts that require `node_modules` and `yarn.lock` to be deleted and the cache cleared. You can do this with the following command:
 
-```
+```bash
 rm -rf node_modules && yarn cache clean && rm -f yarn.lock && yarn install
 ```
 
