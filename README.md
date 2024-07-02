@@ -1,6 +1,6 @@
 # Flexible Interactive Automation frontend
 
-This repository is for the frontend web application side of [FIA](https://github.com/fiaisis) that allows users to view and manage runs and reductions performed by ISIS instruments. The frontend acts as a plugin for the [SciGateway](https://github.com/ral-facilities/scigateway) application and was made using Yarn, React, Typescript, and Material-UI. The project is in the early stages of development and is continuously being worked on.
+This repository is for the frontend web application side of [FIA](https://github.com/fiaisis) which allows users to view and manage runs and reductions performed by ISIS instruments. The frontend acts as a plugin for the [SciGateway](https://github.com/ral-facilities/scigateway) application and was made using Yarn, React, Typescript, and Material-UI. The project is in the early stages of development and is continuously being worked on.
 
 ## Starting development
 
@@ -40,6 +40,10 @@ A `dev-plugin-settings.json` file is also needed in SciGateway's `micro-frontend
 ```
 
 You will also want to delete the contents of SciGateway's [`res`](https://github.com/ral-facilities/scigateway/tree/develop/public/res) folder and copy over the contents from this repository's [`container`](https://github.com/fiaisis/frontend/tree/main/container) folder. This is mainly to overwrite [`default.json`](https://github.com/ral-facilities/scigateway/blob/develop/public/res/default.json) which deals with information within wep applications footer and help page.
+
+### Specifying environment variables
+
+For local development it is recommended you adjust the URLs for the `REST_API` and `DATA_VIEWER` in [`.env`](https://github.com/fiaisis/frontend/blob/main/.env) to point to the production `API` and `data viewer`.
 
 ## Available scripts
 
