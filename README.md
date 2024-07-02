@@ -12,7 +12,7 @@ With that done, you can now clone the FIA frontend repository.
 
 ### Setting up FIA as a plugin
 
-The frontend works by building the project and then running it through SciGateway as a plugin. To get this set-up you will want to create a `settings.json` file in SciGateway's public folder. Do this by simply duplicating [`settings.example.json`](https://github.com/ral-facilities/scigateway/blob/develop/public/settings.example.json), renaming it, then adding FIA as a plugin with what port to listen on:
+The frontend works by building the project and then running it through SciGateway as a plugin. To get this set-up you will want to create a `settings.json` file in SciGateway's `public` folder. Do this by simply duplicating [`settings.example.json`](https://github.com/ral-facilities/scigateway/blob/develop/public/settings.example.json), renaming it, then adding FIA as a plugin with what port to listen on:
 
 ```json
 // settings.json
