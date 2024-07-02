@@ -6,7 +6,7 @@ This repository is for the frontend web application side of [FIA](https://github
 
 ### Downloading prerequisites
 
-To get started developing for the frontend, first you will need to have [Node.js](https://nodejs.org/en/download/package-manager) and [Yarn](https://classic.yarnpkg.com/en/docs/install) installed on your machine. You will then want to clone the SciGateway repository. From now on stick to SciGateway's `develop` branch (which is the default branch) and pull from it regularly to keep up to date with changes.
+To get started developing for the frontend, first you will need to have [Node.js](https://nodejs.org/en/download/package-manager) and [Yarn](https://classic.yarnpkg.com/en/docs/install) installed on your machine. You will then want to clone the [SciGateway repository](https://github.com/ral-facilities/scigateway). From now on stick to SciGateway's `develop` branch (which is the default branch) and pull from it regularly to keep up to date with changes.
 
 ### Downloading the frontend
 
